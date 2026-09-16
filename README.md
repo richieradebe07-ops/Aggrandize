@@ -12,6 +12,7 @@ Plain HTML, CSS, and JavaScript — no build step or framework. This keeps the s
 .
 ├── index.html          # Home page
 ├── services.html        # Services overview
+├── pricing.html          # Pricing packages
 ├── about.html            # About the studio
 ├── contact.html          # Contact form
 ├── css/
