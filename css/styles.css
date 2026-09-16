@@ -3,13 +3,14 @@
    ========================================================================== */
 
 :root {
-  --color-bg: #0f1115;
-  --color-surface: #171a21;
-  --color-border: #262b35;
-  --color-text: #eef1f6;
-  --color-text-muted: #a2a9b8;
-  --color-accent: #4f7cff;
-  --color-accent-hover: #3d67e6;
+  --color-bg: #f7f4ec;
+  --color-surface: #ffffff;
+  --color-border: #e6dfc9;
+  --color-text: #1c1a16;
+  --color-text-muted: #746b57;
+  --color-accent: #a8802e;
+  --color-accent-hover: #8c6a22;
+  --font-heading: "Playfair Display", Georgia, "Times New Roman", serif;
   --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --max-width: 1120px;
 }
@@ -39,6 +40,13 @@ a {
   color: inherit;
 }
 
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+}
+
 .container {
   width: 100%;
   max-width: var(--max-width);
@@ -53,7 +61,7 @@ a {
   position: sticky;
   top: 0;
   z-index: 10;
-  background: rgba(15, 17, 21, 0.9);
+  background: rgba(247, 244, 236, 0.92);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--color-border);
 }
@@ -62,17 +70,31 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 0;
+  padding: 16px 0;
 }
 
 .nav__logo {
-  font-weight: 700;
-  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   text-decoration: none;
-  letter-spacing: -0.02em;
 }
 
-.nav__logo span {
+.nav__logo-mark {
+  width: 34px;
+  height: 16px;
+  color: var(--color-accent);
+}
+
+.nav__logo-text {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.nav__logo-text span {
   color: var(--color-accent);
 }
 
@@ -93,7 +115,7 @@ a {
 
 .nav__links a:hover,
 .nav__links a[aria-current="page"] {
-  color: var(--color-text);
+  color: var(--color-accent);
 }
 
 .nav__toggle {
@@ -115,7 +137,7 @@ a {
   border-radius: 8px;
   font-weight: 600;
   text-decoration: none;
-  transition: background 0.15s ease, transform 0.15s ease;
+  transition: background 0.15s ease, transform 0.15s ease, border-color 0.15s ease;
 }
 
 .btn--primary {
@@ -136,6 +158,7 @@ a {
 
 .btn--ghost:hover {
   border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 /* Hero
@@ -150,7 +173,7 @@ a {
   color: var(--color-accent);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   font-size: 0.85rem;
   margin-bottom: 12px;
 }
@@ -159,7 +182,7 @@ a {
   font-size: clamp(2.25rem, 4vw, 3.25rem);
   line-height: 1.15;
   margin: 0 0 20px;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
   max-width: 20ch;
 }
 
