@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Aggrandize Web Co.</title>
+  <meta name="description" content="Get in touch with Aggrandize Web Co. to start your website project." />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="nav__logo">Aggrandize<span>.</span></a>
+      <button class="nav__toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      <ul class="nav__links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html" aria-current="page">Contact</a></li>
+      </ul>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <p class="hero__eyebrow">Contact</p>
+        <h1>Let's talk about your website.</h1>
+        <p>Tell us a bit about your business and what you're looking for, and we'll get back to you within one business day.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <form id="contact-form" class="form">
+          <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div>
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div>
+            <label for="business">Business name</label>
+            <input type="text" id="business" name="business" />
+          </div>
+          <div>
+            <label for="message">What do you need help with?</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary">Send message</button>
+          <p class="form__status" role="status"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <span>&copy; <span id="year"></span> Aggrandize Web Co. — Pietermaritzburg, South Africa</span>
+      <span><a href="contact.html">Get in touch</a></span>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

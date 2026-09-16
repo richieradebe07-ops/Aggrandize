@@ -1,0 +1,10 @@
+{
+  "name": "aggrandize-web-co",
+  "version": "1.0.0",
+  "description": "Aggrandize Web Co. marketing site — a static HTML/CSS/JS website.",
+  "private": true,
+  "scripts": {
+    "dev": "npx serve ."
+  },
+  "license": "MIT"
+}
