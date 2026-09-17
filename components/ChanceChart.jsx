@@ -5,15 +5,31 @@ import { CHANCE_CHART } from "@/lib/content";
 
 // This chart is a persuasive illustration, not a data visualization — it
 // carries no numbers, percentages, or counts anywhere, in the UI or here in
-// the source. The two bar heights below are shared by every category on
-// purpose: the point is "before is short, after is tall," not a specific
-// figure per category. Treat these as layout constants, not data.
-const BEFORE_HEIGHT = "22%";
-const AFTER_HEIGHT = "88%";
-const BAR_TRANSITION_MS = 700;
-const GROUP_STAGGER_MS = 150;
+// the source. The line's start/end coordinates below are shared by every
+// category on purpose: the point is "before is low, after is high," not a
+// specific trajectory per category. Treat these as layout constants, not
+// data. The curve and terminal dots deliberately echo the brand flourish
+// (components/Flourish.jsx) — a thin rounded stroke rising to a small
+// circular terminal — rather than reading as a generic line chart.
+const VIEWBOX_WIDTH = 200;
+const VIEWBOX_HEIGHT = 120;
+const BEFORE_POINT = { x: 18, y: 96 };
+const AFTER_POINT = { x: 182, y: 20 };
+const LINE_PATH = `M${BEFORE_POINT.x},${BEFORE_POINT.y} C${VIEWBOX_WIDTH * 0.45},${BEFORE_POINT.y} ${VIEWBOX_WIDTH * 0.55},${AFTER_POINT.y} ${AFTER_POINT.x},${AFTER_POINT.y}`;
+const DRAW_TRANSITION_MS = 900;
+const DOT_TRANSITION_MS = 350;
+const GROUP_STAGGER_MS = 200;
 
-function BarPair({ label, groupIndex, visible }) {
+function LineTrend({ label, groupIndex, visible }) {
+  const pathRef = useRef(null);
+  const [length, setLength] = useState(0);
+
+  useEffect(() => {
+    if (pathRef.current) {
+      setLength(pathRef.current.getTotalLength());
+    }
+  }, []);
+
   const groupDelay = groupIndex * GROUP_STAGGER_MS;
 
   return (
@@ -22,37 +38,55 @@ function BarPair({ label, groupIndex, visible }) {
         {label}
       </p>
 
-      <div className="flex h-40 items-end gap-3 sm:h-52 sm:gap-5">
-        <div className="flex h-full flex-col items-center justify-end">
-          <div className="flex h-full w-9 items-end sm:w-11">
-            <div
-              className="w-full origin-bottom rounded-t bg-dormant transition-transform ease-out"
-              style={{
-                height: BEFORE_HEIGHT,
-                transform: visible ? "scaleY(1)" : "scaleY(0)",
-                transitionDuration: `${BAR_TRANSITION_MS}ms`,
-                transitionDelay: `${groupDelay}ms`,
-              }}
-            />
-          </div>
-          <span className="mt-3 text-[11px] font-medium uppercase tracking-wide text-ink/40">
+      <div className="w-full max-w-[220px]">
+        <svg
+          viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}
+          className="h-28 w-full sm:h-36"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            ref={pathRef}
+            d={LINE_PATH}
+            className="stroke-brass"
+            strokeWidth={2}
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            style={{
+              strokeDasharray: length,
+              strokeDashoffset: visible ? 0 : length,
+              transition: length
+                ? `stroke-dashoffset ${DRAW_TRANSITION_MS}ms ease-out ${groupDelay}ms`
+                : "none",
+            }}
+          />
+          <circle
+            cx={BEFORE_POINT.x}
+            cy={BEFORE_POINT.y}
+            r={5}
+            className="fill-dormant"
+            style={{
+              opacity: visible ? 1 : 0,
+              transition: `opacity ${DOT_TRANSITION_MS}ms ease-out ${groupDelay}ms`,
+            }}
+          />
+          <circle
+            cx={AFTER_POINT.x}
+            cy={AFTER_POINT.y}
+            r={5}
+            className="fill-brass"
+            style={{
+              opacity: visible ? 1 : 0,
+              transition: `opacity ${DOT_TRANSITION_MS}ms ease-out ${groupDelay + DRAW_TRANSITION_MS - DOT_TRANSITION_MS}ms`,
+            }}
+          />
+        </svg>
+
+        <div className="mt-1 flex justify-between">
+          <span className="text-[11px] font-medium uppercase tracking-wide text-ink/40">
             Before
           </span>
-        </div>
-
-        <div className="flex h-full flex-col items-center justify-end">
-          <div className="flex h-full w-9 items-end sm:w-11">
-            <div
-              className="w-full origin-bottom rounded-t bg-brass transition-transform ease-out"
-              style={{
-                height: AFTER_HEIGHT,
-                transform: visible ? "scaleY(1)" : "scaleY(0)",
-                transitionDuration: `${BAR_TRANSITION_MS}ms`,
-                transitionDelay: `${groupDelay + GROUP_STAGGER_MS}ms`,
-              }}
-            />
-          </div>
-          <span className="mt-3 text-[11px] font-medium uppercase tracking-wide text-brass/80">
+          <span className="text-[11px] font-medium uppercase tracking-wide text-brass/80">
             After
           </span>
         </div>
@@ -101,7 +135,7 @@ export default function ChanceChart() {
 
       <div className="mt-14 grid gap-12 sm:grid-cols-3 sm:gap-6">
         {CHANCE_CHART.categories.map((category, i) => (
-          <BarPair
+          <LineTrend
             key={category.label}
             label={category.label}
             groupIndex={i}
