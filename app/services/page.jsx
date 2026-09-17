@@ -42,7 +42,7 @@ export default function ServicesPage() {
                 pkg={pkg}
                 cta={
                   <Link
-                    href={`/contact?package=${pkg.id}`}
+                    href={`/get-started?package=${pkg.id}`}
                     className={`block w-full rounded-full px-6 py-3 text-center text-sm font-semibold transition-opacity hover:opacity-90 ${
                       pkg.highlight
                         ? "bg-ink text-ivory"

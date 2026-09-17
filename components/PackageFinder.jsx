@@ -47,9 +47,9 @@ export default function PackageFinder({ open, onClose }) {
     setStep((s) => s + 1);
   }
 
-  function goToContact() {
+  function goToGetStarted() {
     onClose();
-    router.push(`/contact?package=${recommended.id}`);
+    router.push(`/get-started?package=${recommended.id}`);
   }
 
   return (
@@ -144,10 +144,10 @@ export default function PackageFinder({ open, onClose }) {
 
             <button
               type="button"
-              onClick={goToContact}
+              onClick={goToGetStarted}
               className="mt-8 w-full rounded-full bg-ink px-6 py-3.5 text-center text-sm font-semibold text-ivory transition-opacity hover:opacity-90"
             >
-              Continue to Contact
+              Get Started
             </button>
             <button
               type="button"
