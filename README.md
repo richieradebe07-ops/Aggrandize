@@ -105,15 +105,17 @@ Copy `.env.example` to `.env.local` and fill in:
   three credential values once the PayFast merchant account is verified.
 - `NEXT_PUBLIC_SITE_URL` — absolute origin PayFast redirects back to; required in production.
 
-### Pricing/plan assumptions to confirm
+### Pricing
 
-`lib/content.js` (`PAYMENT_PLANS`, `ADD_ONS`) encodes a few numbers the brief
-didn't fully specify — worth a business-owner sanity check before launch:
+Add-on and payment plan numbers all live in `lib/content.js` (`ADD_ONS`,
+`PAYMENT_PLANS`) as firm figures, not ranges:
 
-- Add-on deposit calculations use the **low end** of each displayed price range.
-- **Three-Part Split** is modelled as three equal payments (⅓ now).
-- **Monthly Instalment** adds the stated 5% surcharge, split across 3 months,
-  with the first instalment collected today as the "deposit".
+- Add-ons: Logo Design R1,000, Copywriting R1,500, Extra Page R650.
+- **Three-Part Split** (E-Commerce only): 34% deposit now, 33% at the build
+  milestone, 33% on completion.
+- **Monthly Instalment** (Business/E-Commerce): fixed at 3 months, with a 5%
+  surcharge on the total; the first instalment is collected today as the
+  "deposit" through PayFast.
 
 ## Brand assets
 

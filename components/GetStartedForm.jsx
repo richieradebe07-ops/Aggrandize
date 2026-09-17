@@ -392,7 +392,7 @@ export default function GetStartedForm({ initialPackage, initialData }) {
             </div>
             {pricing.addOnsPrice > 0 && (
               <div className="flex justify-between">
-                <dt className="text-ink/60">Add-ons (from)</dt>
+                <dt className="text-ink/60">Add-ons</dt>
                 <dd className="text-ink">{formatCurrency(pricing.addOnsPrice)}</dd>
               </div>
             )}
@@ -415,8 +415,7 @@ export default function GetStartedForm({ initialPackage, initialData }) {
           </dl>
         )}
         <p className="mt-4 text-xs leading-relaxed text-ink/45">
-          Add-on prices shown are starting prices; final pricing is confirmed after we review
-          your brief. Paid securely via PayFast.
+          Paid securely via PayFast.
         </p>
       </aside>
     </form>
