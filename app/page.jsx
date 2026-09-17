@@ -5,6 +5,7 @@ import SectionDivider from "@/components/SectionDivider";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import ProjectCard from "@/components/ProjectCard";
 import AccordionItem from "@/components/AccordionItem";
+import ChanceChart from "@/components/ChanceChart";
 import { PROJECTS, TRUST_POINTS, FAQS } from "@/lib/content";
 
 export default function HomePage() {
@@ -12,6 +13,14 @@ export default function HomePage() {
     <>
       <FoundingBanner />
       <Hero />
+
+      <SectionDivider />
+
+      <section className="px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-content">
+          <ChanceChart />
+        </div>
+      </section>
 
       <SectionDivider />
 

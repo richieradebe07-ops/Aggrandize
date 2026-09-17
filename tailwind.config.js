@@ -11,6 +11,9 @@ module.exports = {
         ivory: "#FAF8F3",
         ink: "#1B1A17",
         brass: "#A9823C",
+        // Muted grey-ink tone for "before" states (e.g. ChanceChart) —
+        // deliberately understated next to brass, not a neutral gray.
+        dormant: "#8A8880",
       },
       fontFamily: {
         display: ["var(--font-playfair)", "serif"],
