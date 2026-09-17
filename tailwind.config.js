@@ -27,9 +27,23 @@ module.exports = {
           "0%": { opacity: "0", transform: "translateY(16px)" },
           "100%": { opacity: "1", transform: "translateY(0)" },
         },
+        // Same reveal, plus a blur-to-focus pass for a more modern, precise
+        // feel — opt in via RevealOnScroll's `variant="tech"` prop.
+        revealBlur: {
+          "0%": { opacity: "0", transform: "translateY(16px)", filter: "blur(8px)" },
+          "100%": { opacity: "1", transform: "translateY(0)", filter: "blur(0)" },
+        },
+        // Slow ambient drift for the hero's background glow — deliberately
+        // gentle, meant to be felt more than seen.
+        float: {
+          "0%, 100%": { transform: "translate(0, 0) scale(1)" },
+          "50%": { transform: "translate(14px, -18px) scale(1.06)" },
+        },
       },
       animation: {
         reveal: "reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards",
+        "reveal-blur": "revealBlur 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards",
+        float: "float 10s ease-in-out infinite",
       },
     },
   },

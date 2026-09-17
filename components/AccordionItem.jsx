@@ -12,11 +12,21 @@ export default function AccordionItem({ question, answer, defaultOpen = false })
         type="button"
         onClick={() => setOpen((v) => !v)}
         aria-expanded={open}
-        className="flex w-full items-center justify-between gap-4 py-5 text-left"
+        className="group flex w-full items-center justify-between gap-4 py-5 text-left"
       >
-        <span className="font-display text-lg text-ink">{question}</span>
+        <span className="flex items-center gap-3">
+          <span
+            className={`h-4 w-0.5 rounded-full bg-brass transition-all duration-300 ${
+              open ? "opacity-100" : "opacity-0"
+            }`}
+            aria-hidden="true"
+          />
+          <span className="font-display text-lg text-ink transition-colors group-hover:text-brass">
+            {question}
+          </span>
+        </span>
         <ChevronDownIcon
-          className={`h-4 w-4 flex-shrink-0 text-brass transition-transform duration-300 ${
+          className={`h-4 w-4 flex-shrink-0 text-brass transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
             open ? "rotate-180" : ""
           }`}
         />

@@ -18,3 +18,30 @@
   outline: 2px solid #a9823c;
   outline-offset: 2px;
 }
+
+/* One-shot diagonal light sweep on hover — used on primary CTAs. */
+.shine-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
+}
+
+.shine-sweep:hover::after {
+  left: 125%;
+}

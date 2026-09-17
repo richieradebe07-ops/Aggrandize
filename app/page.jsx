@@ -26,7 +26,11 @@ export default function HomePage() {
 
       <section id="work" className="scroll-mt-20 px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-content">
-          <RevealOnScroll as="div" className="mx-auto max-w-xl text-center">
+          <RevealOnScroll
+            as="div"
+            variant="tech"
+            className="mx-auto max-w-xl text-center"
+          >
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Recent work
             </h2>
@@ -38,7 +42,7 @@ export default function HomePage() {
 
           <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {PROJECTS.map((project, i) => (
-              <RevealOnScroll key={project.slug} delay={i * 100}>
+              <RevealOnScroll key={project.slug} delay={i * 100} variant="tech">
                 <ProjectCard project={project} />
               </RevealOnScroll>
             ))}
@@ -59,7 +63,7 @@ export default function HomePage() {
 
       <section className="bg-ink/[0.03] px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-content">
-          <RevealOnScroll className="mx-auto max-w-xl text-center">
+          <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Why work with an independent studio
             </h2>
@@ -71,7 +75,7 @@ export default function HomePage() {
 
           <div className="mt-12 grid gap-8 sm:grid-cols-2">
             {TRUST_POINTS.map((point, i) => (
-              <RevealOnScroll key={point.title} delay={i * 80}>
+              <RevealOnScroll key={point.title} delay={i * 80} variant="tech">
                 <div className="flex gap-4">
                   <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brass" />
                   <div>
@@ -93,7 +97,7 @@ export default function HomePage() {
 
       <section className="px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-2xl">
-          <RevealOnScroll className="text-center">
+          <RevealOnScroll variant="tech" className="text-center">
             <h2 className="font-display text-3xl text-ink sm:text-4xl">
               Common questions
             </h2>
