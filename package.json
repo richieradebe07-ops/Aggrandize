@@ -1,0 +1,24 @@
+{
+  "name": "aggrandize-web-co",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Aggrandize Web Co. marketing site — Next.js + Tailwind CSS.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "16.3.5",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "10.4.19",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.3.5",
+    "postcss": "8.5.28",
+    "tailwindcss": "3.4.4"
+  }
+}
