@@ -1,5 +1,7 @@
 import Link from "next/link";
 import SectionDivider from "@/components/SectionDivider";
+import PaymentSuccessCheck from "@/components/PaymentSuccessCheck";
+import RevealOnScroll from "@/components/RevealOnScroll";
 import { getSubmission } from "@/lib/submissions";
 
 export const metadata = { title: "Thank You" };
@@ -20,23 +22,26 @@ export default async function GetStartedSuccessPage({ searchParams }) {
   return (
     <section className="px-5 py-24 text-center sm:px-8 sm:py-32">
       <div className="mx-auto max-w-lg">
-        <h1 className="font-display text-4xl text-ink sm:text-5xl">Thank you</h1>
-        <SectionDivider className="my-6" />
-        {confirmed ? (
-          <p className="text-ink/70">
-            We&rsquo;ve received your deposit and brief. We&rsquo;ll be in touch within 1&ndash;2
-            business days to kick things off.
-          </p>
-        ) : (
-          <p className="text-ink/70">
-            Thanks — we&rsquo;re confirming your payment now. You&rsquo;ll receive a message from
-            us within 1&ndash;2 business days once it&rsquo;s through, or sooner if anything needs
-            your attention.
-          </p>
-        )}
+        <PaymentSuccessCheck />
+        <RevealOnScroll variant="tech">
+          <h1 className="mt-6 font-display text-4xl text-ink sm:text-5xl">Thank you</h1>
+          <SectionDivider className="my-6" />
+          {confirmed ? (
+            <p className="text-ink/70">
+              We&rsquo;ve received your deposit and brief. We&rsquo;ll be in touch within 1&ndash;2
+              business days to kick things off.
+            </p>
+          ) : (
+            <p className="text-ink/70">
+              Thanks — we&rsquo;re confirming your payment now. You&rsquo;ll receive a message from
+              us within 1&ndash;2 business days once it&rsquo;s through, or sooner if anything needs
+              your attention.
+            </p>
+          )}
+        </RevealOnScroll>
         <Link
           href="/"
-          className="mt-8 inline-block rounded-full bg-ink px-8 py-3 text-sm font-semibold text-ivory transition-opacity hover:opacity-90"
+          className="shine-sweep mt-8 inline-block rounded-full bg-ink px-8 py-3 text-sm font-semibold text-ivory transition-all duration-300 hover:-translate-y-0.5 hover:opacity-90"
         >
           Back to home
         </Link>

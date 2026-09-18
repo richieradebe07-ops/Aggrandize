@@ -10,6 +10,7 @@ export default function RevealOnScroll({
   delay = 0,
   as: Tag = "div",
   variant = "default",
+  ...rest
 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -50,6 +51,7 @@ export default function RevealOnScroll({
       ref={ref}
       className={`${visible ? revealClass : "opacity-0"} ${className}`}
       style={visible ? { animationDelay: `${delay}ms` } : undefined}
+      {...rest}
     >
       {children}
     </Tag>

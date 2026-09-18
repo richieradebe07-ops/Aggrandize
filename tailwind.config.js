@@ -39,11 +39,18 @@ module.exports = {
           "0%, 100%": { transform: "translate(0, 0) scale(1)" },
           "50%": { transform: "translate(14px, -18px) scale(1.06)" },
         },
+        // A brief brass flash — used on the Get Started running total to
+        // signal "this number just changed" without a number ticker.
+        flashHighlight: {
+          "0%": { backgroundColor: "rgba(169,130,60,0.35)" },
+          "100%": { backgroundColor: "rgba(169,130,60,0.1)" },
+        },
       },
       animation: {
         reveal: "reveal 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         "reveal-blur": "revealBlur 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards",
         float: "float 10s ease-in-out infinite",
+        "flash-highlight": "flashHighlight 900ms ease-out forwards",
       },
     },
   },

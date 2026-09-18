@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   PACKAGES,
@@ -72,6 +72,18 @@ export default function GetStartedForm({ initialPackage, initialData }) {
     [packageId, addOns, paymentPlan]
   );
 
+  // A brief brass flash on the deposit figure whenever it changes, so the
+  // "running total" reads as live rather than a static label. Re-keying the
+  // element restarts the CSS animation on every change.
+  const [depositFlashKey, setDepositFlashKey] = useState(0);
+  const prevDepositDueRef = useRef(pricing?.depositDue);
+  useEffect(() => {
+    if (pricing && prevDepositDueRef.current !== pricing.depositDue) {
+      prevDepositDueRef.current = pricing.depositDue;
+      setDepositFlashKey((k) => k + 1);
+    }
+  }, [pricing]);
+
   function toggleAddOn(id) {
     setAddOns((prev) => (prev.includes(id) ? prev.filter((a) => a !== id) : [...prev, id]));
   }
@@ -79,6 +91,19 @@ export default function GetStartedForm({ initialPackage, initialData }) {
   const requiredFieldsFilled =
     business.name.trim() && contact.name.trim() && contact.email.trim() && contact.phone.trim();
   const canSubmit = requiredFieldsFilled && agreedToLegal && status !== "submitting";
+
+  // Drives the progress bar in the sidebar — a quick "how close am I" cue
+  // through the required fields, not a strict step tracker.
+  const progressChecks = [
+    business.name.trim(),
+    contact.name.trim(),
+    contact.email.trim(),
+    contact.phone.trim(),
+    agreedToLegal,
+  ];
+  const progressPercent = Math.round(
+    (progressChecks.filter(Boolean).length / progressChecks.length) * 100
+  );
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -375,7 +400,7 @@ export default function GetStartedForm({ initialPackage, initialData }) {
         <button
           type="submit"
           disabled={!canSubmit}
-          className="w-full rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-ivory transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40 sm:w-auto sm:px-10"
+          className="shine-sweep w-full rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-ivory transition-all duration-300 hover:-translate-y-0.5 hover:opacity-90 disabled:cursor-not-allowed disabled:translate-y-0 disabled:opacity-40 sm:w-auto sm:px-10"
         >
           {status === "submitting" ? "Redirecting to payment…" : "Continue to Payment"}
         </button>
@@ -383,7 +408,23 @@ export default function GetStartedForm({ initialPackage, initialData }) {
 
       {/* Running total */}
       <aside className="h-fit rounded-2xl border border-ink/10 bg-white/60 p-6 lg:sticky lg:top-24">
-        <h3 className="font-display text-xl text-ink">Running total</h3>
+        <div className="flex items-center justify-between">
+          <h3 className="font-display text-xl text-ink">Running total</h3>
+          <span className="text-xs font-medium text-ink/40">{progressPercent}% ready</span>
+        </div>
+        <div
+          className="mt-2 h-1 w-full overflow-hidden rounded-full bg-ink/10"
+          role="progressbar"
+          aria-valuenow={progressPercent}
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-label="Brief completion"
+        >
+          <div
+            className="h-full rounded-full bg-brass transition-[width] duration-500 ease-out"
+            style={{ width: `${progressPercent}%` }}
+          />
+        </div>
         {pricing && (
           <dl className="mt-4 space-y-2 text-sm">
             <div className="flex justify-between">
@@ -406,7 +447,10 @@ export default function GetStartedForm({ initialPackage, initialData }) {
               <dt className="text-ink">Total</dt>
               <dd className="text-ink">{formatCurrency(pricing.total)}</dd>
             </div>
-            <div className="mt-3 rounded-lg bg-brass/10 px-3 py-2.5">
+            <div
+              key={depositFlashKey}
+              className="mt-3 rounded-lg bg-brass/10 px-3 py-2.5 animate-flash-highlight"
+            >
               <div className="flex justify-between font-semibold">
                 <dt className="text-ink">Due today</dt>
                 <dd className="text-brass">{formatCurrency(pricing.depositDue)}</dd>

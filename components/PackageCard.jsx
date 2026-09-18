@@ -1,10 +1,10 @@
 export default function PackageCard({ pkg, cta }) {
   return (
     <div
-      className={`relative flex flex-col rounded-2xl border p-8 ${
+      className={`relative flex flex-col rounded-2xl border p-8 transition-all duration-300 hover:-translate-y-1 ${
         pkg.highlight
-          ? "border-brass bg-white shadow-xl shadow-brass/10 sm:scale-105"
-          : "border-ink/10 bg-white/60"
+          ? "border-brass bg-white shadow-xl shadow-brass/10 hover:shadow-2xl hover:shadow-brass/20 sm:scale-105"
+          : "border-ink/10 bg-white/60 hover:shadow-lg hover:shadow-ink/5"
       }`}
     >
       {pkg.badge && (
