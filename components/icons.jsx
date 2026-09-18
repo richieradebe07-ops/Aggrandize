@@ -28,6 +28,23 @@ export function ChevronDownIcon({ className = "h-4 w-4" }) {
   );
 }
 
+export function ArrowUpRightIcon({ className = "h-4 w-4" }) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M6 14 14 6M7.5 6H14v6.5" />
+    </svg>
+  );
+}
+
 export function CloseIcon({ className = "h-5 w-5" }) {
   return (
     <svg

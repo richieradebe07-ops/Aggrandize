@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SectionDivider from "@/components/SectionDivider";
+import { ArrowUpRightIcon } from "@/components/icons";
 import { PROJECTS } from "@/lib/content";
 
 export function generateStaticParams() {
@@ -41,6 +42,22 @@ export default async function CaseStudyPage({ params }) {
           {project.name}
         </h1>
         <p className="mt-3 text-lg text-ink/60">{project.tagline}</p>
+
+        {project.liveUrl ? (
+          <a
+            href={project.liveUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-flex items-center gap-1.5 text-sm font-medium text-brass transition-opacity hover:opacity-80"
+          >
+            Visit Live Site
+            <ArrowUpRightIcon className="h-3.5 w-3.5" />
+          </a>
+        ) : (
+          <span className="mt-5 inline-block text-xs font-medium uppercase tracking-wide text-ink/40">
+            Launching Soon
+          </span>
+        )}
 
         <div className="mt-10 flex aspect-video items-center justify-center rounded-2xl bg-ink/5">
           <span className="font-display text-3xl text-ink/25">
