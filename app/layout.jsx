@@ -3,7 +3,9 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import AskQuestionWidget from "@/components/AskQuestionWidget";
 import CookieConsent from "@/components/CookieConsent";
+import SiteAnalytics from "@/components/SiteAnalytics";
 import { SITE } from "@/lib/content";
 
 const playfair = Playfair_Display({
@@ -36,17 +38,34 @@ export const metadata = {
     siteName: SITE.name,
     locale: "en_ZA",
     type: "website",
-    // TODO: add an /public/og-image.png (1200x630) once brand assets are final.
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE.name} — Refined presence for ambitious business.`,
+    description: SITE.valueProp,
   },
 };
 
+// Sets the `dark` class on <html> before first paint (reads a stored choice,
+// falling back to the OS preference) so there's no flash of the wrong theme
+// once React hydrates. Deliberately a plain inline script, not an effect —
+// an effect would only run after that first paint has already happened.
+const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem("aggrandize-theme");var d=t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d);}catch(e){}})();`;
+
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${workSans.variable}`}>
-      <body className="flex min-h-screen flex-col bg-ivory font-body text-ink antialiased">
+    <html
+      lang="en"
+      className={`${playfair.variable} ${workSans.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
+      <body className="flex min-h-screen flex-col bg-ivory font-body text-ink antialiased dark:bg-ink dark:text-ivory">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-ivory"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-ivory dark:focus:bg-ivory dark:focus:text-ink"
         >
           Skip to content
         </a>
@@ -57,6 +76,8 @@ export default function RootLayout({ children }) {
           </main>
           <Footer />
           <WhatsAppButton />
+          <AskQuestionWidget />
+          <SiteAnalytics />
         </CookieConsent>
       </body>
     </html>

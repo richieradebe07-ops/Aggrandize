@@ -9,6 +9,7 @@ import {
   calculatePricing,
 } from "@/lib/content";
 import ImageUploader from "./ImageUploader";
+import Button from "./Button";
 
 // Deliberately not Number.toLocaleString: Node's SSR pass and the browser
 // can have different ICU data for "en-ZA", producing different separators
@@ -165,16 +166,16 @@ export default function GetStartedForm({ initialPackage, initialData }) {
       <div className="space-y-10">
         {/* Package + add-ons */}
         <section>
-          <h2 className="font-display text-2xl text-ink">Your package</h2>
+          <h2 className="font-display text-2xl text-ink dark:text-ivory">Your package</h2>
           <div className="mt-4">
-            <label htmlFor="package" className="mb-1.5 block text-sm font-medium text-ink">
+            <label htmlFor="package" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
               Package
             </label>
             <select
               id="package"
               value={packageId}
               onChange={(e) => setPackageId(e.target.value)}
-              className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+              className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
             >
               {PACKAGES.map((pkg) => (
                 <option key={pkg.id} value={pkg.id}>
@@ -185,7 +186,7 @@ export default function GetStartedForm({ initialPackage, initialData }) {
           </div>
 
           <fieldset className="mt-5">
-            <legend className="mb-2 text-sm font-medium text-ink">Add-ons</legend>
+            <legend className="mb-2 text-sm font-medium text-ink dark:text-ivory">Add-ons</legend>
             <div className="space-y-2">
               {ADD_ONS.map((addOn) => {
                 const checked = addOns.includes(addOn.id);
@@ -193,7 +194,7 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                   <label
                     key={addOn.id}
                     className={`flex cursor-pointer items-center justify-between rounded-lg border px-4 py-3 text-sm transition-colors ${
-                      checked ? "border-brass bg-brass/5" : "border-ink/15 bg-white/50"
+                      checked ? "border-brass bg-brass/5" : "border-ink/15 bg-white/50 dark:border-ivory/20 dark:bg-ivory/5"
                     }`}
                   >
                     <span className="flex items-center gap-3">
@@ -205,7 +206,7 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                       />
                       {addOn.name}
                     </span>
-                    <span className="text-ink/50">{addOn.price}</span>
+                    <span className="text-ink/50 dark:text-ivory/50">{addOn.price}</span>
                   </label>
                 );
               })}
@@ -213,13 +214,13 @@ export default function GetStartedForm({ initialPackage, initialData }) {
           </fieldset>
 
           <fieldset className="mt-5">
-            <legend className="mb-2 text-sm font-medium text-ink">Payment plan</legend>
+            <legend className="mb-2 text-sm font-medium text-ink dark:text-ivory">Payment plan</legend>
             <div className="space-y-2">
               {availablePlans.map((plan) => (
                 <label
                   key={plan.id}
                   className={`flex cursor-pointer items-start gap-3 rounded-lg border px-4 py-3 text-sm transition-colors ${
-                    paymentPlan === plan.id ? "border-brass bg-brass/5" : "border-ink/15 bg-white/50"
+                    paymentPlan === plan.id ? "border-brass bg-brass/5" : "border-ink/15 bg-white/50 dark:border-ivory/20 dark:bg-ivory/5"
                   }`}
                 >
                   <input
@@ -230,8 +231,8 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                     className="mt-0.5 h-4 w-4 accent-brass"
                   />
                   <span>
-                    <span className="block font-medium text-ink">{plan.name}</span>
-                    <span className="block text-ink/50">{plan.description}</span>
+                    <span className="block font-medium text-ink dark:text-ivory">{plan.name}</span>
+                    <span className="block text-ink/50 dark:text-ivory/50">{plan.description}</span>
                   </span>
                 </label>
               ))}
@@ -241,10 +242,10 @@ export default function GetStartedForm({ initialPackage, initialData }) {
 
         {/* Business + contact */}
         <section>
-          <h2 className="font-display text-2xl text-ink">Your details</h2>
+          <h2 className="font-display text-2xl text-ink dark:text-ivory">Your details</h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             <div className="sm:col-span-2">
-              <label htmlFor="businessName" className="mb-1.5 block text-sm font-medium text-ink">
+              <label htmlFor="businessName" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
                 Business name
               </label>
               <input
@@ -252,11 +253,11 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                 required
                 value={business.name}
                 onChange={(e) => setBusiness({ name: e.target.value })}
-                className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+                className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
               />
             </div>
             <div>
-              <label htmlFor="contactName" className="mb-1.5 block text-sm font-medium text-ink">
+              <label htmlFor="contactName" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
                 Contact name
               </label>
               <input
@@ -264,11 +265,11 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                 required
                 value={contact.name}
                 onChange={(e) => setContact((c) => ({ ...c, name: e.target.value }))}
-                className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+                className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
               />
             </div>
             <div>
-              <label htmlFor="contactEmail" className="mb-1.5 block text-sm font-medium text-ink">
+              <label htmlFor="contactEmail" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
                 Email
               </label>
               <input
@@ -277,11 +278,11 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                 required
                 value={contact.email}
                 onChange={(e) => setContact((c) => ({ ...c, email: e.target.value }))}
-                className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+                className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
               />
             </div>
             <div className="sm:col-span-2">
-              <label htmlFor="contactPhone" className="mb-1.5 block text-sm font-medium text-ink">
+              <label htmlFor="contactPhone" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
                 Phone / WhatsApp
               </label>
               <input
@@ -290,7 +291,7 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                 required
                 value={contact.phone}
                 onChange={(e) => setContact((c) => ({ ...c, phone: e.target.value }))}
-                className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+                className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
               />
             </div>
           </div>
@@ -298,10 +299,10 @@ export default function GetStartedForm({ initialPackage, initialData }) {
 
         {/* Brief */}
         <section>
-          <h2 className="font-display text-2xl text-ink">Tell us about the site</h2>
+          <h2 className="font-display text-2xl text-ink dark:text-ivory">Tell us about the site</h2>
           <div className="mt-4 space-y-4">
             <div>
-              <label htmlFor="description" className="mb-1.5 block text-sm font-medium text-ink">
+              <label htmlFor="description" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
                 Describe what you&apos;re looking for
               </label>
               <textarea
@@ -309,13 +310,13 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                 rows={5}
                 value={brief.description}
                 onChange={(e) => setBrief((b) => ({ ...b, description: e.target.value }))}
-                className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+                className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
                 placeholder="What does your business do, and what should this site help it achieve?"
               />
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <label htmlFor="pagesNeeded" className="mb-1.5 block text-sm font-medium text-ink">
+                <label htmlFor="pagesNeeded" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
                   Pages needed
                 </label>
                 <input
@@ -323,13 +324,13 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                   value={brief.pagesNeeded}
                   onChange={(e) => setBrief((b) => ({ ...b, pagesNeeded: e.target.value }))}
                   placeholder="e.g. Home, About, Services, Contact"
-                  className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+                  className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
                 />
               </div>
               <div>
                 <label
                   htmlFor="productsOrServices"
-                  className="mb-1.5 block text-sm font-medium text-ink"
+                  className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory"
                 >
                   Products / services to list
                 </label>
@@ -339,11 +340,11 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                   onChange={(e) =>
                     setBrief((b) => ({ ...b, productsOrServices: e.target.value }))
                   }
-                  className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+                  className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
                 />
               </div>
               <div className="sm:col-span-2">
-                <label htmlFor="brandColors" className="mb-1.5 block text-sm font-medium text-ink">
+                <label htmlFor="brandColors" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
                   Existing brand colors or style preferences
                 </label>
                 <input
@@ -351,7 +352,7 @@ export default function GetStartedForm({ initialPackage, initialData }) {
                   value={brief.brandColors}
                   onChange={(e) => setBrief((b) => ({ ...b, brandColors: e.target.value }))}
                   placeholder="e.g. we already use navy and gold, or: no preference"
-                  className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+                  className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
                 />
               </div>
             </div>
@@ -361,8 +362,8 @@ export default function GetStartedForm({ initialPackage, initialData }) {
         </section>
 
         {/* Legal agreement */}
-        <section className="rounded-xl border border-ink/10 bg-ink/[0.03] p-5">
-          <label className="flex cursor-pointer items-start gap-3 text-sm text-ink/80">
+        <section className="rounded-xl border border-ink/10 bg-ink/[0.03] p-5 dark:border-ivory/10 dark:bg-ivory/[0.04]">
+          <label className="flex cursor-pointer items-start gap-3 text-sm text-ink/80 dark:text-ivory/80">
             <input
               type="checkbox"
               checked={agreedToLegal}
@@ -397,23 +398,19 @@ export default function GetStartedForm({ initialPackage, initialData }) {
           <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>
         )}
 
-        <button
-          type="submit"
-          disabled={!canSubmit}
-          className="shine-sweep w-full rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-ivory transition-all duration-300 hover:-translate-y-0.5 hover:opacity-90 disabled:cursor-not-allowed disabled:translate-y-0 disabled:opacity-40 sm:w-auto sm:px-10"
-        >
+        <Button type="submit" disabled={!canSubmit} className="w-full sm:w-auto sm:px-10">
           {status === "submitting" ? "Redirecting to payment…" : "Continue to Payment"}
-        </button>
+        </Button>
       </div>
 
       {/* Running total */}
-      <aside className="h-fit rounded-2xl border border-ink/10 bg-white/60 p-6 lg:sticky lg:top-24">
+      <aside className="h-fit rounded-2xl border border-ink/10 bg-white/60 p-6 dark:border-ivory/10 dark:bg-ivory/5 lg:sticky lg:top-24">
         <div className="flex items-center justify-between">
-          <h3 className="font-display text-xl text-ink">Running total</h3>
-          <span className="text-xs font-medium text-ink/40">{progressPercent}% ready</span>
+          <h3 className="font-display text-xl text-ink dark:text-ivory">Running total</h3>
+          <span className="text-xs font-medium text-ink/40 dark:text-ivory/40">{progressPercent}% ready</span>
         </div>
         <div
-          className="mt-2 h-1 w-full overflow-hidden rounded-full bg-ink/10"
+          className="mt-2 h-1 w-full overflow-hidden rounded-full bg-ink/10 dark:bg-ivory/10"
           role="progressbar"
           aria-valuenow={progressPercent}
           aria-valuemin={0}
@@ -428,37 +425,37 @@ export default function GetStartedForm({ initialPackage, initialData }) {
         {pricing && (
           <dl className="mt-4 space-y-2 text-sm">
             <div className="flex justify-between">
-              <dt className="text-ink/60">Package</dt>
-              <dd className="text-ink">{formatCurrency(pricing.packagePrice)}</dd>
+              <dt className="text-ink/60 dark:text-ivory/60">Package</dt>
+              <dd className="text-ink dark:text-ivory">{formatCurrency(pricing.packagePrice)}</dd>
             </div>
             {pricing.addOnsPrice > 0 && (
               <div className="flex justify-between">
-                <dt className="text-ink/60">Add-ons</dt>
-                <dd className="text-ink">{formatCurrency(pricing.addOnsPrice)}</dd>
+                <dt className="text-ink/60 dark:text-ivory/60">Add-ons</dt>
+                <dd className="text-ink dark:text-ivory">{formatCurrency(pricing.addOnsPrice)}</dd>
               </div>
             )}
             {pricing.surcharge > 0 && (
               <div className="flex justify-between">
-                <dt className="text-ink/60">Instalment surcharge (5%)</dt>
-                <dd className="text-ink">{formatCurrency(pricing.surcharge)}</dd>
+                <dt className="text-ink/60 dark:text-ivory/60">Instalment surcharge (5%)</dt>
+                <dd className="text-ink dark:text-ivory">{formatCurrency(pricing.surcharge)}</dd>
               </div>
             )}
-            <div className="flex justify-between border-t border-ink/10 pt-2 font-medium">
-              <dt className="text-ink">Total</dt>
-              <dd className="text-ink">{formatCurrency(pricing.total)}</dd>
+            <div className="flex justify-between border-t border-ink/10 pt-2 font-medium dark:border-ivory/10">
+              <dt className="text-ink dark:text-ivory">Total</dt>
+              <dd className="text-ink dark:text-ivory">{formatCurrency(pricing.total)}</dd>
             </div>
             <div
               key={depositFlashKey}
               className="mt-3 rounded-lg bg-brass/10 px-3 py-2.5 animate-flash-highlight"
             >
               <div className="flex justify-between font-semibold">
-                <dt className="text-ink">Due today</dt>
+                <dt className="text-ink dark:text-ivory">Due today</dt>
                 <dd className="text-brass">{formatCurrency(pricing.depositDue)}</dd>
               </div>
             </div>
           </dl>
         )}
-        <p className="mt-4 text-xs leading-relaxed text-ink/45">
+        <p className="mt-4 text-xs leading-relaxed text-ink/45 dark:text-ivory/45">
           Paid securely via PayFast.
         </p>
       </aside>

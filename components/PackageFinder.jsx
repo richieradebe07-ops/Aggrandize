@@ -8,6 +8,7 @@ import {
   FOUNDING_SPOTS_REMAINING,
 } from "@/lib/content";
 import { CloseIcon } from "./icons";
+import Button from "./Button";
 
 const TOTAL_STEPS = PACKAGE_FINDER_QUESTIONS.length;
 
@@ -62,12 +63,12 @@ export default function PackageFinder({ open, onClose }) {
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="relative w-full max-w-lg rounded-2xl bg-ivory p-8 shadow-2xl sm:p-10">
+      <div className="relative w-full max-w-lg rounded-2xl bg-ivory p-8 shadow-2xl dark:bg-ink sm:p-10">
         <button
           type="button"
           onClick={onClose}
           aria-label="Close package finder"
-          className="absolute right-5 top-5 text-ink/50 transition-colors hover:text-ink"
+          className="absolute right-5 top-5 text-ink/50 transition-colors hover:text-ink dark:text-ivory/50 dark:hover:text-ivory"
         >
           <CloseIcon />
         </button>
@@ -78,7 +79,7 @@ export default function PackageFinder({ open, onClose }) {
             <div
               key={q.id}
               className={`h-1 flex-1 rounded-full transition-colors ${
-                i <= step ? "bg-brass" : "bg-ink/10"
+                i <= step ? "bg-brass" : "bg-ink/10 dark:bg-ivory/10"
               }`}
             />
           ))}
@@ -86,10 +87,10 @@ export default function PackageFinder({ open, onClose }) {
 
         {!isResult ? (
           <div>
-            <p className="text-xs font-medium uppercase tracking-wide text-ink/40">
+            <p className="text-xs font-medium uppercase tracking-wide text-ink/40 dark:text-ivory/40">
               Question {step + 1} of {TOTAL_STEPS}
             </p>
-            <h2 className="mt-2 font-display text-2xl text-ink sm:text-3xl">
+            <h2 className="mt-2 font-display text-2xl text-ink dark:text-ivory sm:text-3xl">
               {currentQuestion.question}
             </h2>
             <div className="mt-8 grid gap-3">
@@ -98,7 +99,7 @@ export default function PackageFinder({ open, onClose }) {
                   key={option.value}
                   type="button"
                   onClick={() => selectAnswer(option.value)}
-                  className="rounded-xl border border-ink/15 px-5 py-4 text-left text-sm font-medium text-ink transition-colors hover:border-brass hover:bg-brass/5"
+                  className="rounded-xl border border-ink/15 px-5 py-4 text-left text-sm font-medium text-ink transition-colors hover:border-brass hover:bg-brass/5 dark:border-ivory/20 dark:text-ivory"
                 >
                   {option.label}
                 </button>
@@ -108,7 +109,7 @@ export default function PackageFinder({ open, onClose }) {
               <button
                 type="button"
                 onClick={() => setStep((s) => s - 1)}
-                className="mt-6 text-sm text-ink/50 underline underline-offset-4 hover:text-ink"
+                className="mt-6 text-sm text-ink/50 underline underline-offset-4 hover:text-ink dark:text-ivory/50 dark:hover:text-ivory"
               >
                 Back
               </button>
@@ -119,22 +120,22 @@ export default function PackageFinder({ open, onClose }) {
             <p className="text-xs font-medium uppercase tracking-wide text-brass">
               Recommended for you
             </p>
-            <h2 className="mt-2 font-display text-3xl text-ink">
+            <h2 className="mt-2 font-display text-3xl text-ink dark:text-ivory">
               {recommended.name}
             </h2>
-            <p className="mt-2 text-2xl text-ink/80">
+            <p className="mt-2 text-2xl text-ink/80 dark:text-ivory/80">
               {recommended.price}{" "}
-              <span className="text-sm text-ink/45">
+              <span className="text-sm text-ink/45 dark:text-ivory/45">
                 {recommended.priceNote}
               </span>
             </p>
-            <p className="mt-4 text-sm leading-relaxed text-ink/65">
+            <p className="mt-4 text-sm leading-relaxed text-ink/65 dark:text-ivory/65">
               {recommended.description}
             </p>
 
             {qualifiesForFounding && (
               <div className="mt-6 rounded-xl border border-brass/40 bg-brass/5 p-4">
-                <p className="text-sm font-medium text-ink">
+                <p className="text-sm font-medium text-ink dark:text-ivory">
                   You&rsquo;d qualify for the Founding Client offer —
                   15% off, or a free add-on, plus maintenance pricing locked
                   in for life.
@@ -142,17 +143,13 @@ export default function PackageFinder({ open, onClose }) {
               </div>
             )}
 
-            <button
-              type="button"
-              onClick={goToGetStarted}
-              className="mt-8 w-full rounded-full bg-ink px-6 py-3.5 text-center text-sm font-semibold text-ivory transition-opacity hover:opacity-90"
-            >
+            <Button onClick={goToGetStarted} className="mt-8 w-full">
               Get Started
-            </button>
+            </Button>
             <button
               type="button"
               onClick={() => setStep(0)}
-              className="mt-4 w-full text-center text-sm text-ink/50 underline underline-offset-4 hover:text-ink"
+              className="mt-4 w-full text-center text-sm text-ink/50 underline underline-offset-4 hover:text-ink dark:text-ivory/50 dark:hover:text-ivory"
             >
               Start over
             </button>

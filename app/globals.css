@@ -2,6 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Comma-separated RGB triplets (not hex) so inline styles can compose them
+   into rgba(var(--x), <alpha>) — used by AmbientBackdrop, whose dot-grid and
+   glow are inline gradients rather than Tailwind classes, so they can't take
+   a `dark:` variant directly. */
+:root {
+  --dot-rgb: 27, 26, 23;
+  --glow-rgb: 169, 130, 60;
+}
+
+.dark {
+  --dot-rgb: 250, 248, 243;
+  --glow-rgb: 169, 130, 60;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

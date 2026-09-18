@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SectionDivider from "@/components/SectionDivider";
+import Button from "@/components/Button";
 import { ArrowUpRightIcon } from "@/components/icons";
 import { PROJECTS } from "@/lib/content";
 
@@ -28,7 +29,7 @@ export default async function CaseStudyPage({ params }) {
       <div className="mx-auto max-w-2xl">
         <Link
           href="/work"
-          className="text-sm text-ink/50 underline underline-offset-4 hover:text-ink"
+          className="text-sm text-ink/50 underline underline-offset-4 hover:text-ink dark:text-ivory/50 dark:hover:text-ivory"
         >
           &larr; All work
         </Link>
@@ -38,10 +39,10 @@ export default async function CaseStudyPage({ params }) {
             In progress
           </span>
         )}
-        <h1 className="mt-3 font-display text-4xl text-ink sm:text-5xl">
+        <h1 className="mt-3 font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
           {project.name}
         </h1>
-        <p className="mt-3 text-lg text-ink/60">{project.tagline}</p>
+        <p className="mt-3 text-lg text-ink/60 dark:text-ivory/60">{project.tagline}</p>
 
         {project.liveUrl ? (
           <a
@@ -54,13 +55,13 @@ export default async function CaseStudyPage({ params }) {
             <ArrowUpRightIcon className="h-3.5 w-3.5" />
           </a>
         ) : (
-          <span className="mt-5 inline-block text-xs font-medium uppercase tracking-wide text-ink/40">
+          <span className="mt-5 inline-block text-xs font-medium uppercase tracking-wide text-ink/40 dark:text-ivory/40">
             Launching Soon
           </span>
         )}
 
-        <div className="mt-10 flex aspect-video items-center justify-center rounded-2xl bg-ink/5">
-          <span className="font-display text-3xl text-ink/25">
+        <div className="mt-10 flex aspect-video items-center justify-center rounded-2xl bg-ink/5 dark:bg-ivory/5">
+          <span className="font-display text-3xl text-ink/25 dark:text-ivory/25">
             {project.name}
           </span>
         </div>
@@ -69,31 +70,28 @@ export default async function CaseStudyPage({ params }) {
 
         <div className="space-y-10">
           <section>
-            <h2 className="font-display text-2xl text-ink">The problem</h2>
-            <p className="mt-3 leading-relaxed text-ink/70">{project.problem}</p>
+            <h2 className="font-display text-2xl text-ink dark:text-ivory">The problem</h2>
+            <p className="mt-3 leading-relaxed text-ink/70 dark:text-ivory/70">{project.problem}</p>
           </section>
           <section>
-            <h2 className="font-display text-2xl text-ink">What was built</h2>
-            <p className="mt-3 leading-relaxed text-ink/70">
+            <h2 className="font-display text-2xl text-ink dark:text-ivory">What was built</h2>
+            <p className="mt-3 leading-relaxed text-ink/70 dark:text-ivory/70">
               {project.whatWasBuilt}
             </p>
           </section>
           <section>
-            <h2 className="font-display text-2xl text-ink">The result</h2>
-            <p className="mt-3 leading-relaxed text-ink/70">{project.result}</p>
+            <h2 className="font-display text-2xl text-ink dark:text-ivory">The result</h2>
+            <p className="mt-3 leading-relaxed text-ink/70 dark:text-ivory/70">{project.result}</p>
           </section>
         </div>
 
-        <div className="mt-14 rounded-2xl border border-ink/10 bg-ink/[0.03] p-8 text-center">
-          <h3 className="font-display text-xl text-ink">
+        <div className="mt-14 rounded-2xl border border-ink/10 bg-ink/[0.03] p-8 text-center dark:border-ivory/10 dark:bg-ivory/[0.04]">
+          <h3 className="font-display text-xl text-ink dark:text-ivory">
             Want a site like this one?
           </h3>
-          <Link
-            href="/contact"
-            className="mt-4 inline-block rounded-full bg-ink px-8 py-3 text-sm font-semibold text-ivory transition-opacity hover:opacity-90"
-          >
+          <Button href="/contact" className="mt-4">
             Start a project
-          </Link>
+          </Button>
         </div>
       </div>
     </article>

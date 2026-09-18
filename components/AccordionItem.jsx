@@ -3,11 +3,19 @@
 import { useState } from "react";
 import { ChevronDownIcon } from "./icons";
 
+// AccordionItem — a single collapsible question/answer row (e.g. for an FAQ
+// list). Purely structural and copy-free: pass your own text as props. Safe
+// to copy into other projects as-is.
+//
+// Props:
+//   question     string. The always-visible row label.
+//   answer       string. The content revealed when expanded.
+//   defaultOpen  boolean (default false). Whether this item starts expanded.
 export default function AccordionItem({ question, answer, defaultOpen = false }) {
   const [open, setOpen] = useState(defaultOpen);
 
   return (
-    <div className="border-b border-ink/10">
+    <div className="border-b border-ink/10 dark:border-ivory/10">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -21,7 +29,7 @@ export default function AccordionItem({ question, answer, defaultOpen = false })
             }`}
             aria-hidden="true"
           />
-          <span className="font-display text-lg text-ink transition-colors group-hover:text-brass">
+          <span className="font-display text-lg text-ink transition-colors group-hover:text-brass dark:text-ivory">
             {question}
           </span>
         </span>
@@ -37,7 +45,7 @@ export default function AccordionItem({ question, answer, defaultOpen = false })
         }`}
       >
         <div className="overflow-hidden">
-          <p className="max-w-prose text-sm leading-relaxed text-ink/70">
+          <p className="max-w-prose text-sm leading-relaxed text-ink/70 dark:text-ivory/70">
             {answer}
           </p>
         </div>

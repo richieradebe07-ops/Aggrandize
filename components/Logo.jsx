@@ -36,14 +36,14 @@ export default function Logo({ size = "md", href = "/", className = "" }) {
     <div className={`flex flex-col items-center ${className}`}>
       <Flourish className={`${s.flourish} text-brass mb-1`} />
       <span
-        className={`font-display font-semibold text-ink leading-none ${s.name}`}
+        className={`font-display font-semibold text-ink leading-none dark:text-ivory ${s.name}`}
       >
         Aggrandize
       </span>
       <div className={`flex items-center ${s.gap} mt-1.5`}>
         <span className={`h-px bg-brass/60 ${s.rule}`} />
         <span
-          className={`font-body font-medium tracking-[0.3em] text-ink/70 ${s.tag}`}
+          className={`font-body font-medium tracking-[0.3em] text-ink/70 dark:text-ivory/70 ${s.tag}`}
         >
           WEB CO
         </span>

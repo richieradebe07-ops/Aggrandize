@@ -6,11 +6,15 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 import ProjectCard from "@/components/ProjectCard";
 import AccordionItem from "@/components/AccordionItem";
 import ChanceChart from "@/components/ChanceChart";
-import { PROJECTS, TRUST_POINTS, FAQS } from "@/lib/content";
+import FounderTeaser from "@/components/FounderTeaser";
+import TestimonialsCarousel from "@/components/TestimonialsCarousel";
+import LocalBusinessSchema from "@/components/LocalBusinessSchema";
+import { PROJECTS, TRUST_POINTS, FAQS, TESTIMONIALS } from "@/lib/content";
 
 export default function HomePage() {
   return (
     <>
+      <LocalBusinessSchema />
       <FoundingBanner />
       <Hero />
 
@@ -31,10 +35,10 @@ export default function HomePage() {
             variant="tech"
             className="mx-auto max-w-xl text-center"
           >
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
               Recent work
             </h2>
-            <p className="mt-3 text-ink/60">
+            <p className="mt-3 text-ink/60 dark:text-ivory/60">
               A look at what we&rsquo;ve built — with more case studies
               landing as each project goes live.
             </p>
@@ -51,7 +55,7 @@ export default function HomePage() {
           <div className="mt-10 text-center">
             <Link
               href="/work"
-              className="text-sm font-semibold text-ink underline decoration-brass/50 underline-offset-4 hover:text-brass"
+              className="text-sm font-semibold text-ink underline decoration-brass/50 underline-offset-4 hover:text-brass dark:text-ivory"
             >
               See all work
             </Link>
@@ -59,15 +63,28 @@ export default function HomePage() {
         </div>
       </section>
 
+      {TESTIMONIALS.length > 0 && (
+        <>
+          <SectionDivider />
+          <section className="px-5 py-16 sm:px-8 sm:py-24">
+            <div className="mx-auto max-w-content">
+              <RevealOnScroll variant="tech">
+                <TestimonialsCarousel testimonials={TESTIMONIALS} />
+              </RevealOnScroll>
+            </div>
+          </section>
+        </>
+      )}
+
       <SectionDivider />
 
-      <section className="bg-ink/[0.03] px-5 py-16 sm:px-8 sm:py-24">
+      <section className="bg-ink/[0.03] px-5 py-16 dark:bg-ivory/[0.04] sm:px-8 sm:py-24">
         <div className="mx-auto max-w-content">
           <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
               Why work with an independent studio
             </h2>
-            <p className="mt-3 text-ink/60">
+            <p className="mt-3 text-ink/60 dark:text-ivory/60">
               A big agency or a template builder can get you a website. Here&rsquo;s
               what a small, local studio gets you instead.
             </p>
@@ -79,10 +96,10 @@ export default function HomePage() {
                 <div className="flex gap-4">
                   <span className="mt-1 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-brass" />
                   <div>
-                    <h3 className="font-display text-lg text-ink">
+                    <h3 className="font-display text-lg text-ink dark:text-ivory">
                       {point.title}
                     </h3>
-                    <p className="mt-1.5 text-sm leading-relaxed text-ink/60">
+                    <p className="mt-1.5 text-sm leading-relaxed text-ink/60 dark:text-ivory/60">
                       {point.description}
                     </p>
                   </div>
@@ -96,9 +113,17 @@ export default function HomePage() {
       <SectionDivider />
 
       <section className="px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-content">
+          <FounderTeaser />
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      <section className="px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-2xl">
           <RevealOnScroll variant="tech" className="text-center">
-            <h2 className="font-display text-3xl text-ink sm:text-4xl">
+            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
               Common questions
             </h2>
           </RevealOnScroll>

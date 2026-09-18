@@ -5,19 +5,23 @@ Aggrandize Web Co. — a web design studio building fast, modern websites for sm
 ## Tech stack
 
 - [Next.js](https://nextjs.org) (App Router) + [Tailwind CSS](https://tailwindcss.com)
-- Deployed to [Vercel](https://vercel.com)
+- Deployed to [Vercel](https://vercel.com), with [`@vercel/analytics`](https://vercel.com/docs/analytics) (see below)
 - Fonts loaded via `next/font/google`: Playfair Display (headings) and Work Sans (body)
+- Dark mode via Tailwind's class strategy — see below
+- Server-side PDF generation (`pdfkit`) for the pricing download
 
 ## Project structure
 
 ```
 .
 ├── app/
-│   ├── layout.jsx          # Fonts, header/footer, WhatsApp FAB, cookie consent
+│   ├── layout.jsx          # Fonts, header/footer, WhatsApp FAB + ask widget, cookie consent, theme init script
 │   ├── page.jsx            # Homepage
+│   ├── opengraph-image.jsx, twitter-image.jsx  # Generated social share preview image (see below)
 │   ├── work/                # Portfolio grid + [slug] case studies
-│   ├── services/             # Services & Pricing
-│   ├── contact/               # General contact form
+│   ├── services/             # Services & Pricing (+ pricing PDF download link)
+│   ├── compare/               # Aggrandize vs. DIY builders vs. traditional agency
+│   ├── contact/                 # General contact form
 │   ├── get-started/            # Project brief + deposit checkout (see below)
 │   │   ├── page.jsx               # Brief form, package/add-on/plan selection
 │   │   ├── success/               # PayFast return_url
@@ -26,14 +30,24 @@ Aggrandize Web Co. — a web design studio building fast, modern websites for sm
 │   ├── about/, process/, blog/       # Phase 2 stub routes
 │   └── api/
 │       ├── get-started/           # Creates a submission, returns PayFast redirect fields
+│       ├── ask/                   # Backs the "Ask a question" widget (Resend notification)
+│       ├── pricing-pdf/           # Generates the pricing PDF from lib/content.js on request
 │       ├── blob-upload/           # Vercel Blob client-upload token endpoint
 │       └── payfast/notify/        # PayFast ITN webhook (source of truth for payment)
-├── components/              # Header, Footer, Logo, SectionDivider, PackageCard, etc.
+├── components/
+│   ├── Card.jsx, Button.jsx, AccordionItem.jsx, SectionDivider.jsx  # Reusable, copy-free
+│   │                                                                # design-system primitives —
+│   │                                                                # see "Component library" below
+│   ├── Header.jsx, Footer.jsx, Logo.jsx, ThemeToggle.jsx, TrustBadges.jsx, etc.
+│   ├── WhatsAppButton.jsx, AskQuestionWidget.jsx     # The two floating contact options
+│   ├── FounderTeaser.jsx, TestimonialsCarousel.jsx    # Homepage sections (see below)
+│   └── LocalBusinessSchema.jsx                          # JSON-LD, rendered on the homepage
 ├── lib/
 │   ├── content.js           # All real copy, pricing, and easily-edited constants
+│   ├── ogImageContent.jsx   # Shared JSX for the OG/Twitter preview image
 │   ├── payfast.js           # Signature generation + PayFast field building/validation
 │   ├── submissions.js       # Get Started submission storage (Vercel Blob-backed)
-│   └── email.js             # Submission notification email (Resend)
+│   └── email.js             # Submission + quick-question notification emails (Resend)
 └── public/
     └── favicon.svg
 ```
@@ -48,6 +62,20 @@ Nearly everything editable lives in `lib/content.js`:
 - `FAQS`, `TRUST_POINTS` — homepage copy.
 - `SITE` — WhatsApp number, email, slogan, value proposition.
 - `SOCIAL_LINKS` — Instagram/Facebook/LinkedIn slots exist in the header/footer but are inert (`href: "#"`) until each profile is live. Flip `live: true` and set the real URL when ready.
+- `COMPARISON_TABLE` — the `/compare` page's rows. The Aggrandize starting-price cell reads `getPackage("starter").price` directly rather than a hardcoded figure, and never mentions the Founding Client rate (temporary/limited) — keep it that way if you edit this.
+- `FOUNDER` — the homepage "Meet the founder" teaser. `name` is a placeholder (`[Your Name]`) — replace it, and swap the icon placeholder in `components/FounderTeaser.jsx` for a real photo, before launch.
+- `TESTIMONIALS` — empty (`[]`) until real client testimonials exist. Add `{ quote, clientName, businessName }` entries and the homepage carousel picks them up automatically; leaving it empty renders nothing (not a broken empty carousel).
+- `TRUST_BADGES` — the small "POPIA Compliant / Secure & SSL Protected / Proudly Pietermaritzburg" row shown in the footer and on the Get Started/Contact forms.
+
+## Dark mode
+
+Tailwind's class-based dark mode (`darkMode: "class"` in `tailwind.config.js`). A small inline script in `app/layout.jsx` applies a stored choice (or falls back to the OS preference) to `<html>` before first paint, so there's no flash of the wrong theme; `components/ThemeToggle.jsx` (in the header) flips it and persists the choice to `localStorage`.
+
+Most components just pair every `text-ink`/`bg-ivory`/`border-ink/10`-style class with a `dark:` variant. The one exception is `components/AmbientBackdrop.jsx`'s dot-grid and glow, which are inline-style gradients (can't take a `dark:` class) — those read `--dot-rgb`/`--glow-rgb` CSS custom properties defined per-theme in `app/globals.css` instead.
+
+## Component library
+
+`components/Card.jsx`, `Button.jsx`, `AccordionItem.jsx`, and `SectionDivider.jsx` are deliberately generic — no Aggrandize-specific copy, fully driven by props, each documented with a comment block at the top of its file. They're meant to be copyable as-is into a future client project as a starting design system (swap the brand colors in `tailwind.config.js` and `Flourish.jsx`'s path). Every other card/button in the app (`PackageCard`, `ProjectCard`, maintenance plan cards, every CTA) is built on top of these two.
 
 ## Get Started flow (project brief + deposit)
 
@@ -117,6 +145,22 @@ Add-on and payment plan numbers all live in `lib/content.js` (`ADD_ONS`,
   surcharge on the total; the first instalment is collected today as the
   "deposit" through PayFast.
 
+## Analytics
+
+`@vercel/analytics` is wired in via `components/SiteAnalytics.jsx`, mounted in the root layout. It only renders `<Analytics />` once the visitor has clicked "Accept" on the cookie banner (`useCookieConsent() === "accepted"`, from `components/CookieConsent.jsx`) — consistent with treating it as non-essential tracking under POPIA. No extra account setup needed since the project is already on Vercel.
+
+## "Ask a question" widget
+
+A smaller, more subdued floating button next to the WhatsApp one (`components/AskQuestionWidget.jsx`) opens a short name/email/question form for visitors who'd rather not use WhatsApp. It posts to `/api/ask`, which emails the studio via the same Resend setup as Get Started (see `lib/email.js`'s `sendQuickQuestionNotification`) — no submission storage, just a notification.
+
+## Pricing PDF
+
+`/services` links to `/api/pricing-pdf`, which generates a one-page PDF (via `pdfkit`) straight from `lib/content.js`'s `PACKAGES`/`ADD_ONS`/`MAINTENANCE_PLANS` on every request — there's no static file to fall out of sync, and it deliberately excludes the Founding Client offer. `next.config.js` has an `outputFileTracingIncludes` entry for pdfkit's bundled font-metric data, which its serverless bundle needs on Vercel.
+
+## Social share previews
+
+`app/opengraph-image.jsx` and `app/twitter-image.jsx` generate a branded (ivory/ink/brass) 1200×630 preview image via Next's `ImageResponse`, inherited by every route. They attempt to fetch the real Playfair Display font at build time for the wordmark (`lib/ogImageContent.jsx`'s `loadPlayfairFont`) and fall back to satori's default font if that fetch fails for any reason — passing an explicit empty `fonts: []` array instead of omitting the option entirely makes satori hard-fail the whole build, so don't "fix" the fallback back to that.
+
 ## Brand assets
 
 The logo (wordmark + ascending flourish + favicon) is currently recreated in code — `components/Logo.jsx`, `components/Flourish.jsx`, and `public/favicon.svg` — since no source files were available at build time. Swap these for the real SVG/PNG assets when provided; every other component that reuses the flourish motif (`components/SectionDivider.jsx`) references `Flourish.jsx`, so updating that one file updates the motif everywhere.
@@ -140,8 +184,9 @@ npm run lint    # eslint
 
 - **Contact form**: currently simulates submission client-side only. Wire `components/ContactForm.jsx`'s `handleSubmit` to a real endpoint (e.g. a serverless function or a form service) before launch.
 - **Legal pages**: `/privacy`, `/terms`, `/cookies` are structured with placeholder `[Placeholder]` copy, ready for the final POPIA-aligned text to be pasted in.
-- **Cookie consent**: gates non-essential cookies per POPIA. Check `getCookieConsent() === "accepted"` (from `components/CookieConsent.jsx`) before loading any analytics or third-party embeds.
-- **OG image**: add `public/og-image.png` (1200×630) and re-enable it in `app/layout.jsx`'s metadata once a brand image is ready.
+- **Cookie consent**: gates non-essential cookies per POPIA. Check `useCookieConsent() === "accepted"` (from `components/CookieConsent.jsx`) before loading any analytics or third-party embeds — see `components/SiteAnalytics.jsx` for the pattern.
+- **Founder teaser**: `FOUNDER.name` in `lib/content.js` is a placeholder (`[Your Name]`), and `components/FounderTeaser.jsx` uses a generic icon in place of a real photo — replace both before launch.
+- **OKUHLE's live link**: `lib/content.js`'s `liveUrl` for OKUHLE points at a temporary Vercel URL — swap it for `ohyokuhle.co.za` once that domain's DNS is finalized.
 - **Get Started / PayFast**: currently wired to PayFast's public sandbox — switch to live credentials (see above) once the merchant account is verified, and do at least one real end-to-end sandbox payment before launch to confirm the ITN webhook reaches your deployed URL.
 - **Resend**: sending from the shared `onboarding@resend.dev` works for testing but should move to a domain-verified sender before launch.
 

@@ -61,17 +61,17 @@ export default function ImageUploader({ submissionId, images, onChange }) {
 
   return (
     <div>
-      <label className="block text-sm font-medium text-ink">
+      <label className="block text-sm font-medium text-ink dark:text-ivory">
         Images{" "}
-        <span className="font-normal text-ink/50">
+        <span className="font-normal text-ink/50 dark:text-ivory/50">
           (logo if you have one, product photos, reference images — optional)
         </span>
       </label>
-      <p className="mt-1 text-xs text-ink/45">
+      <p className="mt-1 text-xs text-ink/45 dark:text-ivory/45">
         JPG, PNG, or WEBP. Up to {MAX_FILES} files, 5MB each.
       </p>
 
-      <label className="mt-3 flex cursor-pointer items-center justify-center rounded-lg border border-dashed border-ink/25 bg-white/50 px-4 py-6 text-sm text-ink/60 transition-colors hover:border-brass hover:text-brass">
+      <label className="mt-3 flex cursor-pointer items-center justify-center rounded-lg border border-dashed border-ink/25 bg-white/50 px-4 py-6 text-sm text-ink/60 transition-colors hover:border-brass hover:text-brass dark:border-ivory/25 dark:bg-ivory/5 dark:text-ivory/60">
         Click to choose images
         <input
           type="file"
@@ -90,7 +90,7 @@ export default function ImageUploader({ submissionId, images, onChange }) {
       {(images.length > 0 || uploading.length > 0) && (
         <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-4">
           {images.map((img) => (
-            <div key={img.url} className="group relative aspect-square overflow-hidden rounded-lg border border-ink/10">
+            <div key={img.url} className="group relative aspect-square overflow-hidden rounded-lg border border-ink/10 dark:border-ivory/10">
               {/* eslint-disable-next-line @next/next/no-img-element -- external, dynamically-uploaded Blob URLs; not worth configuring next/image remote patterns for user content */}
               <img src={img.url} alt={img.filename} className="h-full w-full object-cover" />
               <button
@@ -106,10 +106,10 @@ export default function ImageUploader({ submissionId, images, onChange }) {
           {uploading.map((u) => (
             <div
               key={u.id}
-              className="flex aspect-square flex-col items-center justify-center gap-1 rounded-lg border border-ink/10 bg-ink/5 p-2 text-center"
+              className="flex aspect-square flex-col items-center justify-center gap-1 rounded-lg border border-ink/10 bg-ink/5 p-2 text-center dark:border-ivory/10 dark:bg-ivory/5"
             >
-              <span className="truncate text-[10px] text-ink/50">{u.name}</span>
-              <div className="h-1 w-full overflow-hidden rounded-full bg-ink/10">
+              <span className="truncate text-[10px] text-ink/50 dark:text-ivory/50">{u.name}</span>
+              <div className="h-1 w-full overflow-hidden rounded-full bg-ink/10 dark:bg-ivory/10">
                 <div
                   className="h-full bg-brass transition-all"
                   style={{ width: `${u.progress}%` }}

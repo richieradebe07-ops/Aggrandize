@@ -34,7 +34,7 @@ function LineTrend({ label, groupIndex, visible }) {
 
   return (
     <div className="flex flex-col items-center">
-      <p className="mb-6 max-w-[18ch] text-center text-sm font-medium text-ink sm:text-base">
+      <p className="mb-6 max-w-[18ch] text-center text-sm font-medium text-ink dark:text-ivory sm:text-base">
         {label}
       </p>
 
@@ -83,7 +83,7 @@ function LineTrend({ label, groupIndex, visible }) {
         </svg>
 
         <div className="mt-1 flex justify-between">
-          <span className="text-[11px] font-medium uppercase tracking-wide text-ink/40">
+          <span className="text-[11px] font-medium uppercase tracking-wide text-ink/40 dark:text-ivory/40">
             Before
           </span>
           <span className="text-[11px] font-medium uppercase tracking-wide text-brass/80">
@@ -128,7 +128,7 @@ export default function ChanceChart() {
   return (
     <div ref={ref}>
       <div className="mx-auto max-w-xl text-center">
-        <h2 className="font-display text-3xl text-ink sm:text-4xl">
+        <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
           {CHANCE_CHART.heading}
         </h2>
       </div>
@@ -144,7 +144,7 @@ export default function ChanceChart() {
         ))}
       </div>
 
-      <p className="mx-auto mt-10 max-w-md text-center text-sm text-ink/50">
+      <p className="mx-auto mt-10 max-w-md text-center text-sm text-ink/50 dark:text-ivory/50">
         {CHANCE_CHART.subheading}
       </p>
     </div>
