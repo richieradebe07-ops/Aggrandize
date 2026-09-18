@@ -69,7 +69,7 @@ Nearly everything editable lives in `lib/content.js`:
 
 ## Dark mode
 
-Tailwind's class-based dark mode (`darkMode: "class"` in `tailwind.config.js`). A small inline script in `app/layout.jsx` applies a stored choice (or falls back to the OS preference) to `<html>` before first paint, so there's no flash of the wrong theme; `components/ThemeToggle.jsx` (in the header) flips it and persists the choice to `localStorage`.
+Tailwind's class-based dark mode (`darkMode: "class"` in `tailwind.config.js`). A small inline script in `app/layout.jsx` (from `lib/theme.js`) applies a stored choice (or falls back to the OS preference) to `<html>` before first paint, so there's no flash of the wrong theme. `components/ThemeToggle.jsx` (in the header) is a quick light/dark toggle; `/settings` also exposes an explicit Light/System/Dark control (`components/ThemeSettings.jsx`) via the same `lib/theme.js` helpers, so "System" is reachable even though the header toggle itself stays binary.
 
 Most components just pair every `text-ink`/`bg-ivory`/`border-ink/10`-style class with a `dark:` variant. The one exception is `components/AmbientBackdrop.jsx`'s dot-grid and glow, which are inline-style gradients (can't take a `dark:` class) — those read `--dot-rgb`/`--glow-rgb` CSS custom properties defined per-theme in `app/globals.css` instead.
 
@@ -125,8 +125,9 @@ a transaction) and when to graduate to a real database.
 
 Copy `.env.example` to `.env.local` and fill in:
 
-- `BLOB_READ_WRITE_TOKEN` — Vercel Blob store token (image uploads + submission storage).
-- `RESEND_API_KEY`, `RESEND_FROM_EMAIL` — for the submission notification email.
+- `BLOB_READ_WRITE_TOKEN` — Vercel Blob store token (image uploads, submission storage, and account storage — see "Accounts & settings" below).
+- `RESEND_API_KEY`, `RESEND_FROM_EMAIL` — for the submission notification email (and the sign-in magic-link email).
+- `AUTH_SECRET` — required for sign-in (see "Accounts & settings" below).
 - `PAYFAST_MODE`, `PAYFAST_MERCHANT_ID`, `PAYFAST_MERCHANT_KEY`, `PAYFAST_PASSPHRASE` —
   defaults to PayFast's public **sandbox** test credentials (`lib/payfast.js`) so
   the flow works out of the box for testing. Set `PAYFAST_MODE=live` and the
@@ -144,6 +145,37 @@ Add-on and payment plan numbers all live in `lib/content.js` (`ADD_ONS`,
 - **Monthly Instalment** (Business/E-Commerce): fixed at 3 months, with a 5%
   surcharge on the total; the first instalment is collected today as the
   "deposit" through PayFast.
+
+## Accounts & settings
+
+`/settings` gives site visitors passwordless sign-in (email magic link, no
+passwords stored) and a place to manage their own account:
+
+1. **Sign in** — enter an email at `/settings`; Auth.js (`next-auth` v5,
+   configured in `auth.js`) sends a sign-in link via the same Resend setup as
+   the rest of the app (`lib/email.js`'s `sendMagicLinkEmail`, wired in as a
+   custom `sendVerificationRequest` so the email is branded, not Auth.js's
+   default). Clicking the link signs the visitor in and returns them to
+   `/settings`.
+2. **Signed-in settings** — theme preference (Light/System/Dark, shared with
+   the header's quick toggle), name, a marketing-email opt-in, sign out, and
+   delete account. Profile edits/deletion go through `/api/account`
+   (`PATCH`/`DELETE`), matching the rest of the app's API-route mutation
+   pattern; sign-in/out use Auth.js's own `signIn`/`signOut` functions.
+
+Accounts are stored as private Vercel Blob JSON (`lib/authAdapter.js`) —
+same lightweight-persistence approach as `lib/submissions.js`, no separate
+database. Unlike submissions, this data is `access: "private"`: a public
+secondary email-index blob would let anyone enumerate account existence by
+guessing email addresses, so reading it requires `BLOB_READ_WRITE_TOKEN`.
+Sessions are stateless JWTs (`session: { strategy: "jwt" }` in `auth.js`), so
+no session records are stored at all.
+
+### Environment variables
+
+Requires `AUTH_SECRET` (see `.env.example` — generate with
+`openssl rand -base64 33`) in addition to the `BLOB_READ_WRITE_TOKEN` and
+`RESEND_API_KEY`/`RESEND_FROM_EMAIL` already used elsewhere in the app.
 
 ## Analytics
 

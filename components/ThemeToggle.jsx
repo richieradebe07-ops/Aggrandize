@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from "react";
 import { SunIcon, MoonIcon } from "./icons";
-
-const STORAGE_KEY = "aggrandize-theme";
+import { applyTheme } from "@/lib/theme";
 
 // Toggles the `dark` class on <html>, set up in tandem with the inline
 // init script in app/layout.jsx that applies the stored/OS preference
-// before first paint (so there's no flash of the wrong theme).
+// before first paint (so there's no flash of the wrong theme). This is the
+// quick binary toggle; the Settings page also offers an explicit "System"
+// option via the same lib/theme helpers.
 export default function ThemeToggle({ className = "" }) {
   const [isDark, setIsDark] = useState(false);
 
@@ -21,13 +22,7 @@ export default function ThemeToggle({ className = "" }) {
   function toggle() {
     const next = !isDark;
     setIsDark(next);
-    document.documentElement.classList.toggle("dark", next);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, next ? "dark" : "light");
-    } catch {
-      // localStorage unavailable (private mode etc.) — the choice just
-      // won't persist across visits.
-    }
+    applyTheme(next ? "dark" : "light");
   }
 
   return (

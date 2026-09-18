@@ -7,6 +7,8 @@ import AskQuestionWidget from "@/components/AskQuestionWidget";
 import CookieConsent from "@/components/CookieConsent";
 import SiteAnalytics from "@/components/SiteAnalytics";
 import { SITE } from "@/lib/content";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
+import { auth } from "@/auth";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -46,13 +48,9 @@ export const metadata = {
   },
 };
 
-// Sets the `dark` class on <html> before first paint (reads a stored choice,
-// falling back to the OS preference) so there's no flash of the wrong theme
-// once React hydrates. Deliberately a plain inline script, not an effect —
-// an effect would only run after that first paint has already happened.
-const THEME_INIT_SCRIPT = `(function(){try{var t=localStorage.getItem("aggrandize-theme");var d=t==="dark"||(!t&&window.matchMedia("(prefers-color-scheme: dark)").matches);document.documentElement.classList.toggle("dark",d);}catch(e){}})();`;
+export default async function RootLayout({ children }) {
+  const session = await auth();
 
-export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
@@ -70,7 +68,7 @@ export default function RootLayout({ children }) {
           Skip to content
         </a>
         <CookieConsent>
-          <Header />
+          <Header session={session} />
           <main id="main-content" className="flex-1">
             {children}
           </main>
