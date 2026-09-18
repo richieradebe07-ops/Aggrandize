@@ -8,6 +8,21 @@ import ThemeToggle from "./ThemeToggle";
 import { NAV_LINKS } from "@/lib/content";
 import { MenuIcon, CloseIcon, PersonIcon } from "./icons";
 
+function AccountButton({ session, className = "" }) {
+  const label = session?.user ? session.user.name || "Account" : "Sign in";
+
+  return (
+    <Link
+      href="/settings"
+      aria-label={label}
+      title={label}
+      className={`inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-ink/15 text-ink/70 transition-colors hover:border-brass hover:text-brass dark:border-ivory/20 dark:text-ivory/70 dark:hover:border-brass dark:hover:text-brass ${className}`}
+    >
+      <PersonIcon className="h-4 w-4" />
+    </Link>
+  );
+}
+
 export default function Header({ session }) {
   const [open, setOpen] = useState(false);
   const accountLabel = session?.user
@@ -29,18 +44,13 @@ export default function Header({ session }) {
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/settings"
-            className="inline-flex items-center gap-1.5 text-sm font-medium text-ink/80 transition-colors hover:text-brass dark:text-ivory/80"
-          >
-            <PersonIcon className="h-4 w-4" />
-            {accountLabel}
-          </Link>
           <WhatsAppButton variant="inline" />
+          <AccountButton session={session} />
           <ThemeToggle />
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
+          <AccountButton session={session} />
           <ThemeToggle />
           <button
             type="button"
