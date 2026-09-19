@@ -8,7 +8,6 @@ import CookieConsent from "@/components/CookieConsent";
 import SiteAnalytics from "@/components/SiteAnalytics";
 import { SITE } from "@/lib/content";
 import { THEME_INIT_SCRIPT } from "@/lib/theme";
-import { auth } from "@/auth";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -25,7 +24,7 @@ const workSans = Work_Sans({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://aggrandizewebco.co.za"),
+  metadataBase: new URL(SITE.url),
   title: {
     default: `${SITE.name} — Refined presence for ambitious business.`,
     template: `%s — ${SITE.name}`,
@@ -48,9 +47,7 @@ export const metadata = {
   },
 };
 
-export default async function RootLayout({ children }) {
-  const session = await auth();
-
+export default function RootLayout({ children }) {
   return (
     <html
       lang="en"
@@ -68,7 +65,7 @@ export default async function RootLayout({ children }) {
           Skip to content
         </a>
         <CookieConsent>
-          <Header session={session} />
+          <Header />
           <main id="main-content" className="flex-1">
             {children}
           </main>

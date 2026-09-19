@@ -9,9 +9,11 @@ const OPTIONS = [
   { value: "dark", label: "Dark" },
 ];
 
-// Explicit three-way theme control for the Settings page. The header's
-// ThemeToggle stays a quick binary light/dark toggle; this is the place to
-// pick "System" (follow the OS). Both read/write the same lib/theme storage.
+// Three-way Light/System/Dark control shown inside the header's settings
+// panel (components/SettingsPanel.jsx). "System" is the default — matches
+// the visitor's OS preference until they explicitly override it — and every
+// choice is applied instantly via lib/theme's class swap (no page reload)
+// and persisted to localStorage.
 export default function ThemeSettings() {
   const [value, setValue] = useState("system");
 

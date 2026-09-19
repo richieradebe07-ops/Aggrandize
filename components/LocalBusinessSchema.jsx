@@ -11,7 +11,7 @@ export default function LocalBusinessSchema() {
     description: SITE.valueProp,
     email: SITE.email,
     telephone: `+${SITE.whatsappNumber}`,
-    url: "https://aggrandizewebco.co.za",
+    url: SITE.url,
     address: {
       "@type": "PostalAddress",
       addressLocality: "Pietermaritzburg",

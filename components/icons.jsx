@@ -45,6 +45,24 @@ export function ArrowUpRightIcon({ className = "h-4 w-4" }) {
   );
 }
 
+export function GearIcon({ className = "h-4 w-4" }) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <circle cx="10" cy="10" r="2.5" />
+      <path d="M10 2.5v1.75M10 15.75v1.75M17.5 10h-1.75M4.25 10H2.5M15.3 4.7l-1.24 1.24M5.94 14.06l-1.24 1.24M15.3 15.3l-1.24-1.24M5.94 5.94 4.7 4.7" />
+    </svg>
+  );
+}
+
 export function SunIcon({ className = "h-4 w-4" }) {
   return (
     <svg

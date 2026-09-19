@@ -4,30 +4,12 @@ import { useState } from "react";
 import Link from "next/link";
 import Logo from "./Logo";
 import WhatsAppButton from "./WhatsAppButton";
-import ThemeToggle from "./ThemeToggle";
+import SettingsPanel from "./SettingsPanel";
 import { NAV_LINKS } from "@/lib/content";
-import { MenuIcon, CloseIcon, PersonIcon } from "./icons";
+import { MenuIcon, CloseIcon } from "./icons";
 
-function AccountButton({ session, className = "" }) {
-  const label = session?.user ? session.user.name || "Account" : "Sign in";
-
-  return (
-    <Link
-      href="/settings"
-      aria-label={label}
-      title={label}
-      className={`inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-ink/15 text-ink/70 transition-colors hover:border-brass hover:text-brass dark:border-ivory/20 dark:text-ivory/70 dark:hover:border-brass dark:hover:text-brass ${className}`}
-    >
-      <PersonIcon className="h-4 w-4" />
-    </Link>
-  );
-}
-
-export default function Header({ session }) {
+export default function Header() {
   const [open, setOpen] = useState(false);
-  const accountLabel = session?.user
-    ? session.user.name || "Account"
-    : "Sign in";
 
   return (
     <header className="sticky top-0 z-30 border-b border-ink/10 bg-ivory/90 backdrop-blur dark:border-ivory/10 dark:bg-ink/90">
@@ -45,13 +27,11 @@ export default function Header({ session }) {
             </Link>
           ))}
           <WhatsAppButton variant="inline" />
-          <AccountButton session={session} />
-          <ThemeToggle />
+          <SettingsPanel />
         </nav>
 
         <div className="flex items-center gap-2 md:hidden">
-          <AccountButton session={session} />
-          <ThemeToggle />
+          <SettingsPanel />
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -80,14 +60,6 @@ export default function Header({ session }) {
               {link.label}
             </Link>
           ))}
-          <Link
-            href="/settings"
-            onClick={() => setOpen(false)}
-            className="inline-flex items-center gap-1.5 text-base font-medium text-ink/85 dark:text-ivory/85"
-          >
-            <PersonIcon className="h-4 w-4" />
-            {accountLabel}
-          </Link>
           <WhatsAppButton variant="inline" />
         </nav>
       )}

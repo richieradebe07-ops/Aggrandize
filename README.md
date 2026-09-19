@@ -38,7 +38,7 @@ Aggrandize Web Co. — a web design studio building fast, modern websites for sm
 │   ├── Card.jsx, Button.jsx, AccordionItem.jsx, SectionDivider.jsx  # Reusable, copy-free
 │   │                                                                # design-system primitives —
 │   │                                                                # see "Component library" below
-│   ├── Header.jsx, Footer.jsx, Logo.jsx, ThemeToggle.jsx, TrustBadges.jsx, etc.
+│   ├── Header.jsx, Footer.jsx, Logo.jsx, SettingsPanel.jsx, TrustBadges.jsx, etc.
 │   ├── WhatsAppButton.jsx, AskQuestionWidget.jsx     # The two floating contact options
 │   ├── FounderTeaser.jsx, TestimonialsCarousel.jsx    # Homepage sections (see below)
 │   └── LocalBusinessSchema.jsx                          # JSON-LD, rendered on the homepage
@@ -69,7 +69,7 @@ Nearly everything editable lives in `lib/content.js`:
 
 ## Dark mode
 
-Tailwind's class-based dark mode (`darkMode: "class"` in `tailwind.config.js`). A small inline script in `app/layout.jsx` (from `lib/theme.js`) applies a stored choice (or falls back to the OS preference) to `<html>` before first paint, so there's no flash of the wrong theme. `components/ThemeToggle.jsx` (in the header) is a quick light/dark toggle; `/settings` also exposes an explicit Light/System/Dark control (`components/ThemeSettings.jsx`) via the same `lib/theme.js` helpers, so "System" is reachable even though the header toggle itself stays binary.
+Tailwind's class-based dark mode (`darkMode: "class"` in `tailwind.config.js`). A small inline script in `app/layout.jsx` (from `lib/theme.js`) applies a stored choice (or falls back to the OS preference) to `<html>` before first paint, so there's no flash of the wrong theme. The header's settings panel (see "Settings panel" below) exposes the Light/System/Dark control visitors use to override it.
 
 Most components just pair every `text-ink`/`bg-ivory`/`border-ink/10`-style class with a `dark:` variant. The one exception is `components/AmbientBackdrop.jsx`'s dot-grid and glow, which are inline-style gradients (can't take a `dark:` class) — those read `--dot-rgb`/`--glow-rgb` CSS custom properties defined per-theme in `app/globals.css` instead.
 
@@ -125,14 +125,16 @@ a transaction) and when to graduate to a real database.
 
 Copy `.env.example` to `.env.local` and fill in:
 
-- `BLOB_READ_WRITE_TOKEN` — Vercel Blob store token (image uploads, submission storage, and account storage — see "Accounts & settings" below).
-- `RESEND_API_KEY`, `RESEND_FROM_EMAIL` — for the submission notification email (and the sign-in magic-link email).
-- `AUTH_SECRET` — required for sign-in (see "Accounts & settings" below).
+- `BLOB_READ_WRITE_TOKEN` — Vercel Blob store token (image uploads + submission storage).
+- `RESEND_API_KEY`, `RESEND_FROM_EMAIL` — for the submission notification email.
 - `PAYFAST_MODE`, `PAYFAST_MERCHANT_ID`, `PAYFAST_MERCHANT_KEY`, `PAYFAST_PASSPHRASE` —
   defaults to PayFast's public **sandbox** test credentials (`lib/payfast.js`) so
   the flow works out of the box for testing. Set `PAYFAST_MODE=live` and the
   three credential values once the PayFast merchant account is verified.
-- `NEXT_PUBLIC_SITE_URL` — absolute origin PayFast redirects back to; required in production.
+- `NEXT_PUBLIC_SITE_URL` — the site's absolute production origin. PayFast
+  redirects back to it (required in production); it's also the single source
+  for `SITE.url` (`lib/content.js`), which `metadataBase` and the
+  LocalBusiness structured data read from — see "Site URL" below.
 
 ### Pricing
 
@@ -146,36 +148,32 @@ Add-on and payment plan numbers all live in `lib/content.js` (`ADD_ONS`,
   surcharge on the total; the first instalment is collected today as the
   "deposit" through PayFast.
 
-## Accounts & settings
+## Site URL
 
-`/settings` gives site visitors passwordless sign-in (email magic link, no
-passwords stored) and a place to manage their own account:
+`SITE.url` (`lib/content.js`) is the one place the production origin is
+hardcoded, read from `NEXT_PUBLIC_SITE_URL` with a fallback default.
+`metadataBase` (`app/layout.jsx`) and the LocalBusiness structured data
+(`components/LocalBusinessSchema.jsx`) both read from it, so a domain or
+deployment change is a one-line edit instead of a find-and-replace across
+the app. `app/api/get-started/route.js` has its own similar-looking
+`siteOrigin()` helper for PayFast callback URLs — that one is deliberately
+request-derived (with the same env var as an override) rather than a fixed
+constant, since PayFast needs to call back to whichever preview/production
+host actually served the request.
 
-1. **Sign in** — enter an email at `/settings`; Auth.js (`next-auth` v5,
-   configured in `auth.js`) sends a sign-in link via the same Resend setup as
-   the rest of the app (`lib/email.js`'s `sendMagicLinkEmail`, wired in as a
-   custom `sendVerificationRequest` so the email is branded, not Auth.js's
-   default). Clicking the link signs the visitor in and returns them to
-   `/settings`.
-2. **Signed-in settings** — theme preference (Light/System/Dark, shared with
-   the header's quick toggle), name, a marketing-email opt-in, sign out, and
-   delete account. Profile edits/deletion go through `/api/account`
-   (`PATCH`/`DELETE`), matching the rest of the app's API-route mutation
-   pattern; sign-in/out use Auth.js's own `signIn`/`signOut` functions.
+## Settings panel
 
-Accounts are stored as private Vercel Blob JSON (`lib/authAdapter.js`) —
-same lightweight-persistence approach as `lib/submissions.js`, no separate
-database. Unlike submissions, this data is `access: "private"`: a public
-secondary email-index blob would let anyone enumerate account existence by
-guessing email addresses, so reading it requires `BLOB_READ_WRITE_TOKEN`.
-Sessions are stateless JWTs (`session: { strategy: "jwt" }` in `auth.js`), so
-no session records are stored at all.
+A gear icon in the header (`components/SettingsPanel.jsx`) opens a small
+dropdown — no login or account system, just visitor-facing preferences:
 
-### Environment variables
-
-Requires `AUTH_SECRET` (see `.env.example` — generate with
-`openssl rand -base64 33`) in addition to the `BLOB_READ_WRITE_TOKEN` and
-`RESEND_API_KEY`/`RESEND_FROM_EMAIL` already used elsewhere in the app.
+- **Appearance** — a Light/System/Dark control (`components/ThemeSettings.jsx`).
+  "System" (the default) follows `prefers-color-scheme`; any explicit choice
+  is applied instantly via a `dark` class swap on `<html>` (`lib/theme.js`,
+  no page reload) and persisted to `localStorage` so it holds across visits.
+- **Manage cookie preferences** — reopens the existing cookie-consent banner
+  (`components/CookieConsent.jsx`) by dispatching the same `open-cookie-settings`
+  event the footer's "Cookie Settings" link already uses, rather than
+  duplicating any consent logic.
 
 ## Analytics
 
