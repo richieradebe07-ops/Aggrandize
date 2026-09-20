@@ -215,7 +215,7 @@ npm run lint    # eslint
 - **Contact form**: currently simulates submission client-side only. Wire `components/ContactForm.jsx`'s `handleSubmit` to a real endpoint (e.g. a serverless function or a form service) before launch.
 - **Legal pages**: `/privacy`, `/terms`, `/cookies` are structured with placeholder `[Placeholder]` copy, ready for the final POPIA-aligned text to be pasted in.
 - **Cookie consent**: gates non-essential cookies per POPIA. Check `useCookieConsent() === "accepted"` (from `components/CookieConsent.jsx`) before loading any analytics or third-party embeds — see `components/SiteAnalytics.jsx` for the pattern.
-- **Founder teaser**: `FOUNDER.name` in `lib/content.js` is a placeholder (`[Your Name]`), and `components/FounderTeaser.jsx` uses a generic icon in place of a real photo — replace both before launch.
+- **Founder teaser**: `FOUNDER.name` in `lib/content.js` is still a placeholder (`[Your Name]`) — replace before launch. The photo (`public/founder.jpg`, referenced via `FOUNDER.photo`) is real.
 - **OKUHLE's live link**: `lib/content.js`'s `liveUrl` for OKUHLE points at a temporary Vercel URL — swap it for `ohyokuhle.co.za` once that domain's DNS is finalized.
 - **Get Started / PayFast**: currently wired to PayFast's public sandbox — switch to live credentials (see above) once the merchant account is verified, and do at least one real end-to-end sandbox payment before launch to confirm the ITN webhook reaches your deployed URL.
 - **Resend**: sending from the shared `onboarding@resend.dev` works for testing but should move to a domain-verified sender before launch.

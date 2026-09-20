@@ -1,22 +1,22 @@
+import Image from "next/image";
 import RevealOnScroll from "./RevealOnScroll";
-import { PersonIcon } from "./icons";
 import { FOUNDER } from "@/lib/content";
 
 // A short stand-in for the full story the Phase 2 /about page will tell.
-// Swap the placeholder circle for a real photo (and FOUNDER.name in
-// lib/content.js) once available.
+// Swap FOUNDER.name in lib/content.js for the real name once available.
 export default function FounderTeaser() {
   return (
     <RevealOnScroll
       variant="tech"
       className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center sm:flex-row sm:items-start sm:text-left"
     >
-      <div
-        className="flex h-28 w-28 flex-shrink-0 items-center justify-center rounded-full bg-ink/5 text-ink/30 dark:bg-ivory/10 dark:text-ivory/30"
-        aria-hidden="true"
-      >
-        <PersonIcon className="h-10 w-10" />
-      </div>
+      <Image
+        src={FOUNDER.photo}
+        alt={FOUNDER.name !== "[Your Name]" ? FOUNDER.name : "Aggrandize's founder"}
+        width={112}
+        height={112}
+        className="h-28 w-28 flex-shrink-0 rounded-full object-cover ring-1 ring-ink/10 dark:ring-ivory/15"
+      />
       <div>
         <h2 className="font-display text-2xl text-ink dark:text-ivory">
           Meet the founder
