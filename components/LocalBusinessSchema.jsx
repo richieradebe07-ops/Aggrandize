@@ -1,4 +1,4 @@
-import { SITE } from "@/lib/content";
+import { SITE, SOCIAL_LINKS } from "@/lib/content";
 
 // schema.org LocalBusiness JSON-LD for local SEO — helps the site itself
 // rank for "web designer Pietermaritzburg"-style searches. Rendered once,
@@ -12,6 +12,9 @@ export default function LocalBusinessSchema() {
     email: SITE.email,
     telephone: `+${SITE.whatsappNumber}`,
     url: SITE.url,
+    // Reads straight from SOCIAL_LINKS (the same data the footer renders)
+    // so a new live profile only ever needs adding in one place.
+    sameAs: SOCIAL_LINKS.filter((s) => s.live).map((s) => s.href),
     address: {
       "@type": "PostalAddress",
       addressLocality: "Pietermaritzburg",

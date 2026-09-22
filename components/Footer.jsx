@@ -5,12 +5,11 @@ import Logo from "./Logo";
 import WhatsAppButton from "./WhatsAppButton";
 import TrustBadges from "./TrustBadges";
 import { NAV_LINKS, SITE, SOCIAL_LINKS } from "@/lib/content";
-import { InstagramIcon, FacebookIcon, LinkedInIcon } from "./icons";
+import { InstagramIcon, FacebookIcon } from "./icons";
 
 const SOCIAL_ICON = {
   Instagram: InstagramIcon,
   Facebook: FacebookIcon,
-  LinkedIn: LinkedInIcon,
 };
 
 const LEGAL_LINKS = [
@@ -76,30 +75,14 @@ export default function Footer() {
             <ul className="mt-4 flex gap-3">
               {SOCIAL_LINKS.map((social) => {
                 const Icon = SOCIAL_ICON[social.name];
-                // Social profiles aren't live yet — links point to "#" and
-                // are visually present but inert (aria-disabled) so nothing
-                // 404s once the site is public. Swap `href` + `live: true`
-                // in lib/content.js when each profile goes live.
                 return (
                   <li key={social.name}>
                     <a
-                      href={social.live ? social.href : "#"}
-                      aria-disabled={!social.live}
-                      aria-label={
-                        social.live
-                          ? social.name
-                          : `${social.name} — coming soon`
-                      }
-                      onClick={(e) => {
-                        if (!social.live) e.preventDefault();
-                      }}
-                      target={social.live ? "_blank" : undefined}
-                      rel={social.live ? "noopener noreferrer" : undefined}
-                      className={`flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition-colors dark:border-ivory/20 dark:text-ivory/60 ${
-                        social.live
-                          ? "hover:border-brass hover:text-brass"
-                          : "cursor-default opacity-40"
-                      }`}
+                      href={social.href}
+                      aria-label={social.ariaLabel}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition-colors hover:border-brass hover:text-brass dark:border-ivory/20 dark:text-ivory/60"
                     >
                       <Icon />
                     </a>
@@ -114,7 +97,7 @@ export default function Footer() {
 
         <div className="mt-8 flex flex-col gap-4 border-t border-ink/10 pt-6 text-xs text-ink/50 dark:border-ivory/10 dark:text-ivory/50 sm:flex-row sm:items-center sm:justify-between">
           <p>
-            &copy; {new Date().getFullYear()} {SITE.name}. All rights
+            &copy; {new Date().getFullYear()} {SITE.name} All rights
             reserved.
           </p>
           <div className="flex flex-wrap gap-x-5 gap-y-2">

@@ -268,22 +268,3 @@ export function FacebookIcon({ className = "h-5 w-5" }) {
     </svg>
   );
 }
-
-export function LinkedInIcon({ className = "h-5 w-5" }) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      className={className}
-      aria-hidden="true"
-    >
-      <rect x="3.5" y="3.5" width="17" height="17" rx="2.5" />
-      <path
-        d="M8 10.5v6M8 7.8v.01M12 16.5v-3.4c0-1.2.8-2.1 2-2.1s2 .9 2 2.1v3.4"
-        strokeLinecap="round"
-      />
-    </svg>
-  );
-}
