@@ -9,6 +9,8 @@ export default function RevealOnScroll({
   className = "",
   delay = 0,
   as: Tag = "div",
+  variant = "default",
+  ...rest
 }) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -42,11 +44,14 @@ export default function RevealOnScroll({
     return () => observer.disconnect();
   }, []);
 
+  const revealClass = variant === "tech" ? "animate-reveal-blur" : "animate-reveal";
+
   return (
     <Tag
       ref={ref}
-      className={`${visible ? "animate-reveal" : "opacity-0"} ${className}`}
+      className={`${visible ? revealClass : "opacity-0"} ${className}`}
       style={visible ? { animationDelay: `${delay}ms` } : undefined}
+      {...rest}
     >
       {children}
     </Tag>

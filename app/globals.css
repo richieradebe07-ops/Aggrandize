@@ -2,17 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Comma-separated RGB triplets (not hex) so inline styles can compose them
+   into rgba(var(--x), <alpha>) — used by AmbientBackdrop, whose dot-grid and
+   glow are inline gradients rather than Tailwind classes, so they can't take
+   a `dark:` variant directly. */
+:root {
+  --dot-rgb: 27, 26, 23;
+  --glow-rgb: 169, 130, 60;
+}
+
+.dark {
+  --dot-rgb: 250, 248, 243;
+  --glow-rgb: 169, 130, 60;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
     transition-duration: 0.001ms !important;
+    transition-delay: 0s !important;
   }
 }
 
 :focus-visible {
   outline: 2px solid #a9823c;
   outline-offset: 2px;
+}
+
+/* One-shot diagonal light sweep on hover — used on primary CTAs. */
+.shine-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-sweep::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-20deg);
+  transition: left 0.7s ease;
+}
+
+.shine-sweep:hover::after {
+  left: 125%;
 }

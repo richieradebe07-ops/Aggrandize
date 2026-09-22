@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Button from "./Button";
 import { PACKAGES, SITE } from "@/lib/content";
 
 // No backend is wired up yet — this simulates submission locally so the UI
@@ -32,8 +33,8 @@ export default function ContactForm({ initialPackage = "" }) {
   if (status === "sent") {
     return (
       <div className="rounded-2xl border border-brass/30 bg-brass/5 p-8 text-center">
-        <h3 className="font-display text-2xl text-ink">Message sent</h3>
-        <p className="mt-2 text-sm text-ink/65">
+        <h3 className="font-display text-2xl text-ink dark:text-ivory">Message sent</h3>
+        <p className="mt-2 text-sm text-ink/65 dark:text-ivory/65">
           Thanks, {values.name.split(" ")[0] || "there"} — we&rsquo;ll be in
           touch shortly. If it&rsquo;s urgent, message us directly on
           WhatsApp.
@@ -45,7 +46,7 @@ export default function ContactForm({ initialPackage = "" }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
       <div>
-        <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-ink">
+        <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
           Name
         </label>
         <input
@@ -55,14 +56,14 @@ export default function ContactForm({ initialPackage = "" }) {
           required
           value={values.name}
           onChange={update("name")}
-          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
         />
       </div>
 
       <div>
         <label
           htmlFor="business"
-          className="mb-1.5 block text-sm font-medium text-ink"
+          className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory"
         >
           Business Name
         </label>
@@ -72,14 +73,14 @@ export default function ContactForm({ initialPackage = "" }) {
           type="text"
           value={values.business}
           onChange={update("business")}
-          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
         />
       </div>
 
       <div>
         <label
           htmlFor="package"
-          className="mb-1.5 block text-sm font-medium text-ink"
+          className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory"
         >
           Package interested in
         </label>
@@ -88,7 +89,7 @@ export default function ContactForm({ initialPackage = "" }) {
           name="package"
           value={values.package}
           onChange={update("package")}
-          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
         >
           <option value="">Not sure yet</option>
           {PACKAGES.map((pkg) => (
@@ -104,7 +105,7 @@ export default function ContactForm({ initialPackage = "" }) {
       <div>
         <label
           htmlFor="message"
-          className="mb-1.5 block text-sm font-medium text-ink"
+          className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory"
         >
           Message
         </label>
@@ -115,11 +116,11 @@ export default function ContactForm({ initialPackage = "" }) {
           required
           value={values.message}
           onChange={update("message")}
-          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass"
+          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
         />
       </div>
 
-      <p className="text-xs leading-relaxed text-ink/50">
+      <p className="text-xs leading-relaxed text-ink/50 dark:text-ivory/50">
         We only use the details you share here to respond to your enquiry.
         See our{" "}
         <Link href="/privacy" className="underline hover:text-brass">
@@ -128,15 +129,11 @@ export default function ContactForm({ initialPackage = "" }) {
         for how your information is handled.
       </p>
 
-      <button
-        type="submit"
-        disabled={status === "submitting"}
-        className="w-full rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-ivory transition-opacity hover:opacity-90 disabled:opacity-60 sm:w-auto sm:px-10"
-      >
+      <Button type="submit" disabled={status === "submitting"} className="w-full sm:w-auto sm:px-10">
         {status === "submitting" ? "Sending…" : "Send message"}
-      </button>
+      </Button>
 
-      <p className="text-xs text-ink/40">
+      <p className="text-xs text-ink/40 dark:text-ivory/40">
         Prefer email? Write to{" "}
         <a href={`mailto:${SITE.email}`} className="underline hover:text-brass">
           {SITE.email}

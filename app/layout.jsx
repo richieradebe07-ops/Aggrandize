@@ -3,8 +3,11 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import AskQuestionWidget from "@/components/AskQuestionWidget";
 import CookieConsent from "@/components/CookieConsent";
+import SiteAnalytics from "@/components/SiteAnalytics";
 import { SITE } from "@/lib/content";
+import { THEME_INIT_SCRIPT } from "@/lib/theme";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -21,7 +24,7 @@ const workSans = Work_Sans({
 });
 
 export const metadata = {
-  metadataBase: new URL("https://aggrandizewebco.co.za"),
+  metadataBase: new URL(SITE.url),
   title: {
     default: `${SITE.name} — Refined presence for ambitious business.`,
     template: `%s — ${SITE.name}`,
@@ -36,17 +39,28 @@ export const metadata = {
     siteName: SITE.name,
     locale: "en_ZA",
     type: "website",
-    // TODO: add an /public/og-image.png (1200x630) once brand assets are final.
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: `${SITE.name} — Refined presence for ambitious business.`,
+    description: SITE.valueProp,
   },
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${workSans.variable}`}>
-      <body className="flex min-h-screen flex-col bg-ivory font-body text-ink antialiased">
+    <html
+      lang="en"
+      className={`${playfair.variable} ${workSans.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_INIT_SCRIPT }} />
+      </head>
+      <body className="flex min-h-screen flex-col bg-ivory font-body text-ink antialiased dark:bg-ink dark:text-ivory">
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-ivory"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-ink focus:px-4 focus:py-2 focus:text-ivory dark:focus:bg-ivory dark:focus:text-ink"
         >
           Skip to content
         </a>
@@ -57,6 +71,8 @@ export default function RootLayout({ children }) {
           </main>
           <Footer />
           <WhatsAppButton />
+          <AskQuestionWidget />
+          <SiteAnalytics />
         </CookieConsent>
       </body>
     </html>
