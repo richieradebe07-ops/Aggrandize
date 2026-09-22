@@ -13,6 +13,7 @@ export default async function GetStartedPage({ searchParams }) {
   const params = (await searchParams) || {};
   const packageParam = Array.isArray(params.package) ? params.package[0] : params.package;
   const resumeId = Array.isArray(params.resume) ? params.resume[0] : params.resume;
+  const foundingParam = Array.isArray(params.founding) ? params.founding[0] : params.founding;
 
   let initialData = null;
   if (resumeId) {
@@ -35,7 +36,11 @@ export default async function GetStartedPage({ searchParams }) {
         </RevealOnScroll>
         <SectionDivider className="my-8" />
 
-        <GetStartedForm initialPackage={packageParam} initialData={initialData} />
+        <GetStartedForm
+          initialPackage={packageParam}
+          initialData={initialData}
+          initialFoundingIntent={foundingParam === "1"}
+        />
 
         <TrustBadges className="mt-12 justify-center" />
       </div>

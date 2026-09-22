@@ -5,6 +5,7 @@ import Logo from "./Logo";
 import WhatsAppButton from "./WhatsAppButton";
 import TrustBadges from "./TrustBadges";
 import { NAV_LINKS, SITE, SOCIAL_LINKS } from "@/lib/content";
+import { COMPANY, REGISTRATION_NUMBER_IS_PLACEHOLDER } from "@/lib/company";
 import { InstagramIcon, FacebookIcon } from "./icons";
 
 const SOCIAL_ICON = {
@@ -15,8 +16,22 @@ const SOCIAL_ICON = {
 const LEGAL_LINKS = [
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/terms", label: "Terms" },
+  { href: "/refunds", label: "Refund Policy" },
   { href: "/cookies", label: "Cookie Policy" },
+  { href: "/legal", label: "Company Information" },
 ];
+
+// "{legalName} · {legalStatus} · Reg. no. {registrationNumber} · {address}"
+// — the reg. no. segment drops out on its own once a real number replaces
+// the placeholder in lib/company.js (nothing here needs to change).
+const COMPANY_LINE = [
+  COMPANY.legalName,
+  COMPANY.legalStatus,
+  REGISTRATION_NUMBER_IS_PLACEHOLDER ? null : `Reg. no. ${COMPANY.registrationNumber}`,
+  COMPANY.physicalAddress,
+]
+  .filter(Boolean)
+  .join(" · ");
 
 export default function Footer() {
   return (
@@ -95,7 +110,11 @@ export default function Footer() {
 
         <TrustBadges className="mt-12 border-t border-ink/10 pt-8 dark:border-ivory/10" />
 
-        <div className="mt-8 flex flex-col gap-4 border-t border-ink/10 pt-6 text-xs text-ink/50 dark:border-ivory/10 dark:text-ivory/50 sm:flex-row sm:items-center sm:justify-between">
+        <p className="mt-8 border-t border-ink/10 pt-6 text-xs text-ink/45 dark:border-ivory/10 dark:text-ivory/45">
+          {COMPANY_LINE}
+        </p>
+
+        <div className="mt-4 flex flex-col gap-4 text-xs text-ink/50 dark:text-ivory/50 sm:flex-row sm:items-center sm:justify-between">
           <p>
             &copy; {new Date().getFullYear()} {SITE.name} All rights
             reserved.
