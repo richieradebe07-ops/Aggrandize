@@ -4,9 +4,10 @@ import {
   ADD_ONS,
   getAvailablePaymentPlans,
   calculatePricing,
-  LEGAL_VERSIONS,
+  FOUNDING_SPOTS_REMAINING,
   SITE,
 } from "@/lib/content";
+import { COMPANY } from "@/lib/company";
 import { createSubmission } from "@/lib/submissions";
 import { buildPaymentFields, PAYFAST_PROCESS_URL } from "@/lib/payfast";
 
@@ -39,6 +40,8 @@ export async function POST(request) {
     brief = {},
     images = [],
     agreedToLegal,
+    foundingOffer = null,
+    freeAddOnId = null,
   } = payload || {};
 
   // --- Server-side validation. Never trust client-calculated pricing or an
@@ -57,13 +60,28 @@ export async function POST(request) {
     return badRequest("Contact name, email, and phone are required.");
   }
   if (agreedToLegal !== true) {
-    return badRequest("You must agree to the Privacy Policy and Terms & Conditions.");
+    return badRequest(
+      "You must agree to the Terms & Conditions, Refund Policy, and Privacy Policy."
+    );
   }
   if (!Array.isArray(images) || images.length > 10) {
     return badRequest("Invalid images.");
   }
+  if (foundingOffer !== null && !["discount", "addon"].includes(foundingOffer)) {
+    return badRequest("Invalid founding offer.");
+  }
+  // Never trust the client on whether the offer is even still available —
+  // recheck the same constant the homepage banner and Get Started page read.
+  const appliedFoundingOffer = FOUNDING_SPOTS_REMAINING > 0 ? foundingOffer : null;
+  const appliedFreeAddOnId = appliedFoundingOffer === "addon" ? freeAddOnId : null;
 
-  const pricing = calculatePricing({ packageId, addOnIds: addOns, paymentPlanId: paymentPlan });
+  const pricing = calculatePricing({
+    packageId,
+    addOnIds: addOns,
+    paymentPlanId: paymentPlan,
+    foundingOffer: appliedFoundingOffer,
+    freeAddOnId: appliedFreeAddOnId,
+  });
   if (!pricing) return badRequest("Could not calculate pricing.");
 
   try {
@@ -72,6 +90,9 @@ export async function POST(request) {
       addOns,
       paymentPlan,
       pricing,
+      foundingOffer: appliedFoundingOffer
+        ? { type: appliedFoundingOffer, freeAddOnId: appliedFreeAddOnId }
+        : null,
       business: { name: business.name },
       contact: { name: contact.name, email: contact.email, phone: contact.phone },
       brief: {
@@ -88,8 +109,8 @@ export async function POST(request) {
       })),
       consent: {
         agreedAt: new Date().toISOString(),
-        privacyVersion: LEGAL_VERSIONS.privacy,
-        termsVersion: LEGAL_VERSIONS.terms,
+        policyVersion: COMPANY.policyVersion,
+        policiesLastUpdated: COMPANY.policiesLastUpdated,
         ip: request.headers.get("x-forwarded-for") || null,
       },
     });

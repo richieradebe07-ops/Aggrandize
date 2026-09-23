@@ -54,9 +54,18 @@ Aggrandize Web Co. — a web design studio building fast, modern websites for sm
 
 ## Editing content
 
-Nearly everything editable lives in `lib/content.js`:
+Nearly everything editable lives in `lib/content.js`, with one exception —
+`lib/company.js` holds the legally-required company details (legal
+name/status, registration number, physical address, Information Officer,
+policy version/date) that `/privacy`, `/terms`, `/cookies`, `/refunds`,
+`/legal`, and the footer's company line all read from. See the comments in
+that file for how `registrationNumber` and the street-address portion of
+`physicalAddress` are placeholders that upgrade automatically (no other
+code changes needed) once real values are filled in.
 
-- `FOUNDING_SPOTS_REMAINING` — the "X of 5 Founding Client spots remaining" banner. No backend; just update the number.
+`lib/content.js` itself:
+
+- `FOUNDING_SPOTS_REMAINING` — the single number gating the homepage banner, the Services page's Founding Client section (including whether its "Claim your spot" button renders at all), and whether the Founding Client offer choice appears in the Get Started checkout. No backend; just update the number down to 0 once spots are gone and all three hide automatically.
 - `PACKAGES`, `ADD_ONS`, `MAINTENANCE_PLANS` — pricing and package details.
 - `PROJECTS` — case studies shown on the homepage and `/work`. Replace the placeholder entries (OKUHLE, Braai & Bake, RL Paws Co) as each project is ready.
 - `FAQS`, `TRUST_POINTS` — homepage copy.
@@ -87,10 +96,12 @@ lead to `/get-started`, which replaces what used to be a plain contact form:
    included, but click-to-choose, JPG/PNG/WEBP, up to 10 files at 5MB each).
    A running total and today's deposit amount update live.
 2. **Legal agreement** — a required, unchecked-by-default checkbox linking to
-   `/privacy` and `/terms` (opened in a new tab) gates the submit button.
-   The exact `LEGAL_VERSIONS` (in `lib/content.js`) the client agreed to, plus
-   a timestamp and IP, are recorded with the submission as proof of consent —
-   the same principle as the cookie consent banner.
+   `/terms`, `/refunds`, and `/privacy` (each opened in a new tab) gates the
+   submit button. The exact `policyVersion`/`policiesLastUpdated` (in
+   `lib/company.js` — the single source every legal page reads from) the
+   client agreed to, plus a timestamp and IP, are recorded with the
+   submission as proof of consent — the same principle as the cookie
+   consent banner.
 3. **Payment (PayFast)** — submitting POSTs the brief to `/api/get-started`,
    which validates everything server-side, computes the deposit amount itself
    (never trusts the client's math), stores the submission, and returns a set
@@ -111,6 +122,20 @@ phase.
 If a client cancels at PayFast, they land on `/get-started/cancelled` with a
 "Resume checkout" link back to `/get-started?resume={id}`, which reloads
 their saved draft (including already-uploaded images) — nothing is lost.
+
+### Founding Client offer at checkout
+
+While `FOUNDING_SPOTS_REMAINING > 0`, the brief form shows a "Founding
+Client offer" choice: 15% off the package price, or one add-on made free
+(picked from a dropdown). Landing on `/get-started?founding=1` (what
+"Claim your spot" links to) pre-selects the discount option; either can
+still be changed or turned off. Both options are computed by the same
+`calculatePricing()` (`lib/content.js`) the client form and the server
+share, so the two can't disagree — the server also re-checks
+`FOUNDING_SPOTS_REMAINING` itself rather than trusting the client's request
+body on whether the offer is even still available. The chosen option (and,
+for the free-add-on path, which add-on) is stored on the submission and
+included in the paid-deposit notification email.
 
 ### Storage choice
 
@@ -213,9 +238,8 @@ npm run lint    # eslint
 ## Notes / known gaps for launch
 
 - **Contact form**: currently simulates submission client-side only. Wire `components/ContactForm.jsx`'s `handleSubmit` to a real endpoint (e.g. a serverless function or a form service) before launch.
-- **Legal pages**: `/privacy`, `/terms`, `/cookies` are structured with placeholder `[Placeholder]` copy, ready for the final POPIA-aligned text to be pasted in.
-- **Cookie consent**: gates non-essential cookies per POPIA. Check `useCookieConsent() === "accepted"` (from `components/CookieConsent.jsx`) before loading any analytics or third-party embeds — see `components/SiteAnalytics.jsx` for the pattern.
-- **Founder teaser**: `FOUNDER.name` in `lib/content.js` is still a placeholder (`[Your Name]`) — replace before launch. The photo (`public/founder.jpg`, referenced via `FOUNDER.photo`) is real.
+- **Legal pages**: `/privacy`, `/terms`, `/cookies`, `/refunds`, and `/legal` (Company Information) all have real, final copy, reading company details from `lib/company.js`. Two fields there are still placeholders pending real values: `registrationNumber` (the business isn't a registered company yet, so the copy correctly describes it as a sole proprietorship until this is filled in) and the street-level part of `physicalAddress` (falls back to just city/province/country until then). Fill both in once available — everything that reads from them updates automatically.
+- **Cookie consent**: gates non-essential cookies per POPIA. Check `useCookieConsent() === "accepted"` (from `components/CookieConsent.jsx`) before loading any analytics or third-party embeds — see `components/SiteAnalytics.jsx` for the pattern. Vercel Web Analytics itself is cookieless (confirmed against the shipped `@vercel/analytics` package — no `document.cookie`/`localStorage`/`sessionStorage` calls anywhere in it); this consent gate is a belt-and-braces choice, not one the analytics package requires.
 - **OKUHLE's live link**: `lib/content.js`'s `liveUrl` for OKUHLE points at a temporary Vercel URL — swap it for `ohyokuhle.co.za` once that domain's DNS is finalized.
 - **Get Started / PayFast**: currently wired to PayFast's public sandbox — switch to live credentials (see above) once the merchant account is verified, and do at least one real end-to-end sandbox payment before launch to confirm the ITN webhook reaches your deployed URL.
 - **Resend**: sending from the shared `onboarding@resend.dev` works for testing but should move to a domain-verified sender before launch.

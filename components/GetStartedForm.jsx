@@ -7,6 +7,8 @@ import {
   ADD_ONS,
   getAvailablePaymentPlans,
   calculatePricing,
+  FOUNDING_OFFER,
+  FOUNDING_SPOTS_REMAINING,
 } from "@/lib/content";
 import ImageUploader from "./ImageUploader";
 import Button from "./Button";
@@ -25,7 +27,7 @@ function newSubmissionId() {
   return `sub-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
-export default function GetStartedForm({ initialPackage, initialData }) {
+export default function GetStartedForm({ initialPackage, initialData, initialFoundingIntent }) {
   const [submissionId] = useState(() => initialData?.id || newSubmissionId());
 
   const [packageId, setPackageId] = useState(
@@ -35,6 +37,19 @@ export default function GetStartedForm({ initialPackage, initialData }) {
   const availablePlans = useMemo(() => getAvailablePaymentPlans(packageId), [packageId]);
   const [paymentPlan, setPaymentPlan] = useState(
     initialData?.paymentPlan || availablePlans[0]?.id || "standard"
+  );
+
+  const foundingOfferAvailable = FOUNDING_SPOTS_REMAINING > 0;
+  // Arriving via the homepage/services "Claim your spot" link (?founding=1)
+  // pre-selects the simpler of the two offers; either can still be changed
+  // or turned off below.
+  const [foundingOffer, setFoundingOffer] = useState(() => {
+    if (!foundingOfferAvailable) return null;
+    if (initialData?.foundingOffer?.type) return initialData.foundingOffer.type;
+    return initialFoundingIntent ? "discount" : null;
+  });
+  const [freeAddOnId, setFreeAddOnId] = useState(
+    initialData?.foundingOffer?.freeAddOnId || ADD_ONS[0]?.id || null
   );
 
   const [business, setBusiness] = useState({ name: initialData?.business?.name || "" });
@@ -69,8 +84,15 @@ export default function GetStartedForm({ initialPackage, initialData }) {
   }
 
   const pricing = useMemo(
-    () => calculatePricing({ packageId, addOnIds: addOns, paymentPlanId: paymentPlan }),
-    [packageId, addOns, paymentPlan]
+    () =>
+      calculatePricing({
+        packageId,
+        addOnIds: addOns,
+        paymentPlanId: paymentPlan,
+        foundingOffer,
+        freeAddOnId,
+      }),
+    [packageId, addOns, paymentPlan, foundingOffer, freeAddOnId]
   );
 
   // A brief brass flash on the deposit figure whenever it changes, so the
@@ -122,6 +144,8 @@ export default function GetStartedForm({ initialPackage, initialData }) {
           package: packageId,
           addOns,
           paymentPlan,
+          foundingOffer,
+          freeAddOnId: foundingOffer === "addon" ? freeAddOnId : null,
           business,
           contact,
           brief,
@@ -212,6 +236,62 @@ export default function GetStartedForm({ initialPackage, initialData }) {
               })}
             </div>
           </fieldset>
+
+          {foundingOfferAvailable && (
+            <fieldset className="mt-5 rounded-lg border border-brass/40 bg-brass/5 p-4">
+              <legend className="mb-2 px-1 text-sm font-medium text-brass">
+                {FOUNDING_OFFER.title} — {FOUNDING_SPOTS_REMAINING} spots left
+              </legend>
+              <div className="space-y-2">
+                {[
+                  { value: null, label: "No thanks" },
+                  { value: "discount", label: "15% off my package price" },
+                  { value: "addon", label: "One free add-on of my choice" },
+                ].map((option) => (
+                  <label
+                    key={option.label}
+                    className={`flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 text-sm transition-colors ${
+                      foundingOffer === option.value
+                        ? "border-brass bg-white dark:bg-ink/40"
+                        : "border-ink/15 bg-white/50 dark:border-ivory/20 dark:bg-ivory/5"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="foundingOffer"
+                      checked={foundingOffer === option.value}
+                      onChange={() => setFoundingOffer(option.value)}
+                      className="h-4 w-4 accent-brass"
+                    />
+                    {option.label}
+                  </label>
+                ))}
+              </div>
+
+              {foundingOffer === "addon" && (
+                <div className="mt-3">
+                  <label
+                    htmlFor="freeAddOn"
+                    className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory"
+                  >
+                    Which add-on?
+                  </label>
+                  <select
+                    id="freeAddOn"
+                    value={freeAddOnId || ""}
+                    onChange={(e) => setFreeAddOnId(e.target.value)}
+                    className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
+                  >
+                    {ADD_ONS.map((addOn) => (
+                      <option key={addOn.id} value={addOn.id}>
+                        {addOn.name} ({addOn.price})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </fieldset>
+          )}
 
           <fieldset className="mt-5">
             <legend className="mb-2 text-sm font-medium text-ink dark:text-ivory">Payment plan</legend>
@@ -373,21 +453,30 @@ export default function GetStartedForm({ initialPackage, initialData }) {
             <span>
               I have read and agree to the{" "}
               <Link
-                href="/privacy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:text-brass"
-              >
-                Privacy Policy
-              </Link>{" "}
-              and{" "}
-              <Link
                 href="/terms"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:text-brass"
               >
                 Terms & Conditions
+              </Link>
+              ,{" "}
+              <Link
+                href="/refunds"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-brass"
+              >
+                Refund Policy
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline hover:text-brass"
+              >
+                Privacy Policy
               </Link>
               .
             </span>
@@ -432,6 +521,12 @@ export default function GetStartedForm({ initialPackage, initialData }) {
               <div className="flex justify-between">
                 <dt className="text-ink/60 dark:text-ivory/60">Add-ons</dt>
                 <dd className="text-ink dark:text-ivory">{formatCurrency(pricing.addOnsPrice)}</dd>
+              </div>
+            )}
+            {pricing.foundingDiscount > 0 && (
+              <div className="flex justify-between">
+                <dt className="text-brass">Founding Client offer</dt>
+                <dd className="text-brass">-{formatCurrency(pricing.foundingDiscount)}</dd>
               </div>
             )}
             {pricing.surcharge > 0 && (

@@ -169,9 +169,11 @@ export default function ServicesPage() {
               </li>
             ))}
           </ul>
-          <Button href="/contact" className="mt-8">
-            Claim your spot
-          </Button>
+          {FOUNDING_SPOTS_REMAINING > 0 && (
+            <Button href="/get-started?founding=1" className="mt-8">
+              Claim your spot
+            </Button>
+          )}
         </RevealOnScroll>
       </div>
     </div>

@@ -1,52 +1,60 @@
 import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { SITE } from "@/lib/content";
+import { COMPANY } from "@/lib/company";
 
 export const metadata = {
   title: "Cookie Policy",
   description: `How ${SITE.name} uses cookies, in line with POPIA.`,
 };
 
-// Placeholder structure only — final POPIA-aligned copy to be pasted in.
 export default function CookiePolicyPage() {
   return (
-    <LegalPage title="Cookie Policy" lastUpdated="[date]">
-      <LegalSection heading="1. What are cookies">
+    <LegalPage
+      title="Cookie Policy"
+      lastUpdated={COMPANY.policiesLastUpdated}
+      version={COMPANY.policyVersion}
+    >
+      <LegalSection heading="1. What cookies are">
         <p>
-          [Placeholder] A short explanation of what cookies are and how
-          they&apos;re used on this site.
+          Cookies and similar technologies (such as your browser&rsquo;s local storage) are small
+          pieces of data stored on your device, used to make a site work and to understand how
+          it&rsquo;s used.
         </p>
       </LegalSection>
 
-      <LegalSection heading="2. Essential cookies">
+      <LegalSection heading="2. Strictly necessary (always on)">
+        <ul className="list-disc space-y-2 pl-5">
+          <li>
+            Cookie consent preference (local storage): remembers whether you accepted or declined
+            non-essential cookies
+          </li>
+          <li>
+            Theme preference (local storage): remembers light or dark mode, if you chose one
+          </li>
+        </ul>
+        <p>These are needed for the site to work and don&rsquo;t require consent.</p>
+      </LegalSection>
+
+      <LegalSection heading="3. Analytics (only with your consent)">
         <p>
-          [Placeholder] List of strictly necessary cookies that don&apos;t
-          require consent (e.g. the cookie that remembers your consent
-          choice itself).
+          We use Vercel Web Analytics to understand, in aggregate, which pages are visited and on
+          which devices. It loads only after you click Accept. It does not place tracking cookies
+          and does not identify you personally.
         </p>
       </LegalSection>
 
-      <LegalSection heading="3. Non-essential cookies">
+      <LegalSection heading="4. Third-party links">
         <p>
-          [Placeholder] List of any analytics, marketing, or embedded
-          third-party cookies, which only load after you accept them via
-          the cookie banner.
+          Clicking through to WhatsApp, Facebook, Instagram, or PayFast takes you to their sites,
+          where their own cookie policies apply.
         </p>
       </LegalSection>
 
-      <LegalSection heading="4. Managing your preference">
+      <LegalSection heading="5. Managing your preference">
         <p>
-          You can change your cookie preference at any time using the
-          &ldquo;Cookie Settings&rdquo; link in the footer of this site.
-        </p>
-      </LegalSection>
-
-      <LegalSection heading="5. Contact us">
-        <p>
-          Questions about this policy can be sent to{" "}
-          <a href={`mailto:${SITE.email}`} className="underline hover:text-brass">
-            {SITE.email}
-          </a>
-          .
+          Change your choice at any time using &ldquo;Cookie Settings&rdquo; in the footer or the
+          settings panel. You can also block or delete cookies in your browser, but blocking
+          strictly necessary ones may stop parts of the site from working.
         </p>
       </LegalSection>
     </LegalPage>
