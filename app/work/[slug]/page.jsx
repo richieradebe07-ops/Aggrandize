@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SectionDivider from "@/components/SectionDivider";
@@ -39,6 +40,19 @@ export default async function CaseStudyPage({ params }) {
             In progress
           </span>
         )}
+
+        {project.logo && (
+          <div className="mt-6 flex h-14 w-14 items-center justify-center rounded-xl border border-ink/10 bg-white p-2.5 dark:border-ivory/10">
+            <Image
+              src={project.logo}
+              alt={`${project.name} logo`}
+              width={40}
+              height={40}
+              className="h-full w-full object-contain"
+            />
+          </div>
+        )}
+
         <h1 className="mt-3 font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
           {project.name}
         </h1>
