@@ -5,16 +5,18 @@ import Link from "next/link";
 import Button from "./Button";
 import { PACKAGES, SITE } from "@/lib/content";
 
-// No backend is wired up yet — this simulates submission locally so the UI
-// and validation are ready to connect to a real endpoint (e.g. a serverless
-// function or a form service) later. Swap handleSubmit's body for a real
-// fetch() call when that's ready.
+// Posts to /api/contact, which emails the studio (reply-to the enquirer's
+// own address) — no submission storage, just a notification, same pattern
+// as the "Ask a question" widget.
 export default function ContactForm({ initialPackage = "" }) {
-  const [status, setStatus] = useState("idle"); // idle | submitting | sent
+  const [status, setStatus] = useState("idle"); // idle | submitting | sent | error
+  const [errorMessage, setErrorMessage] = useState("");
   const [values, setValues] = useState({
     name: "",
     business: "",
     package: initialPackage,
+    email: "",
+    phone: "",
     message: "",
   });
 
@@ -25,9 +27,21 @@ export default function ContactForm({ initialPackage = "" }) {
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus("submitting");
-    // TODO: wire this up to a real submission endpoint.
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    setStatus("sent");
+    setErrorMessage("");
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || "Something went wrong. Please try again.");
+      setStatus("sent");
+    } catch (err) {
+      setStatus("error");
+      setErrorMessage(err.message || "Something went wrong. Please try again.");
+    }
   }
 
   if (status === "sent") {
@@ -73,6 +87,35 @@ export default function ContactForm({ initialPackage = "" }) {
           type="text"
           value={values.business}
           onChange={update("business")}
+          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="email" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
+          Email
+        </label>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          required
+          value={values.email}
+          onChange={update("email")}
+          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="phone" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
+          Phone / WhatsApp
+        </label>
+        <input
+          id="phone"
+          name="phone"
+          type="tel"
+          value={values.phone}
+          onChange={update("phone")}
           className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
         />
       </div>
@@ -128,6 +171,10 @@ export default function ContactForm({ initialPackage = "" }) {
         </Link>{" "}
         for how your information is handled.
       </p>
+
+      {errorMessage && (
+        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">{errorMessage}</p>
+      )}
 
       <Button type="submit" disabled={status === "submitting"} className="w-full sm:w-auto sm:px-10">
         {status === "submitting" ? "Sending…" : "Send message"}

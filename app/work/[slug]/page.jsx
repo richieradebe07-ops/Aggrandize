@@ -83,6 +83,18 @@ export default async function CaseStudyPage({ params }) {
             <h2 className="font-display text-2xl text-ink dark:text-ivory">The result</h2>
             <p className="mt-3 leading-relaxed text-ink/70 dark:text-ivory/70">{project.result}</p>
           </section>
+
+          {project.testimonial?.quote && (
+            <section>
+              <blockquote className="border-l-2 border-brass pl-5 font-display text-xl italic leading-relaxed text-ink dark:text-ivory">
+                &ldquo;{project.testimonial.quote}&rdquo;
+              </blockquote>
+              <p className="mt-3 text-sm text-ink/50 dark:text-ivory/50">
+                {project.testimonial.clientName}
+                {project.testimonial.businessName ? `, ${project.testimonial.businessName}` : ""}
+              </p>
+            </section>
+          )}
         </div>
 
         <div className="mt-14 rounded-2xl border border-ink/10 bg-ink/[0.03] p-8 text-center dark:border-ivory/10 dark:bg-ivory/[0.04]">

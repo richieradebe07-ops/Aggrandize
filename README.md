@@ -175,16 +175,24 @@ Add-on and payment plan numbers all live in `lib/content.js` (`ADD_ONS`,
 
 ## Site URL
 
-`SITE.url` (`lib/content.js`) is the one place the production origin is
-hardcoded, read from `NEXT_PUBLIC_SITE_URL` with a fallback default.
-`metadataBase` (`app/layout.jsx`) and the LocalBusiness structured data
-(`components/LocalBusinessSchema.jsx`) both read from it, so a domain or
-deployment change is a one-line edit instead of a find-and-replace across
-the app. `app/api/get-started/route.js` has its own similar-looking
-`siteOrigin()` helper for PayFast callback URLs — that one is deliberately
-request-derived (with the same env var as an override) rather than a fixed
-constant, since PayFast needs to call back to whichever preview/production
-host actually served the request.
+`SITE.url` (`lib/content.js`) is the one place the production origin
+lives — `metadataBase` (`app/layout.jsx`), OG/Twitter image resolution, and
+the LocalBusiness structured data (`components/LocalBusinessSchema.jsx`)
+all read from it, so a domain or deployment change is a one-line edit
+instead of a find-and-replace across the app. No domain is hardcoded as a
+fallback: `next.config.js` resolves `NEXT_PUBLIC_SITE_URL` once at build
+time — an explicit value (`.env.example`) always wins; otherwise it falls
+back to Vercel's own `VERCEL_PROJECT_PRODUCTION_URL` (the production domain
+already assigned to whichever of this repo's Vercel projects built the
+deployment — e.g. `aggrandize.vercel.app`), then to `localhost` for local
+dev. Once a custom domain is connected, set `NEXT_PUBLIC_SITE_URL`
+explicitly in that project's Vercel settings — no code change needed.
+
+`app/api/get-started/route.js` has its own similar-looking `siteOrigin()`
+helper for PayFast callback URLs — that one is deliberately request-derived
+(with the same env var as an override) rather than a fixed constant, since
+PayFast needs to call back to whichever preview/production host actually
+served the request.
 
 ## Settings panel
 
@@ -237,7 +245,7 @@ npm run lint    # eslint
 
 ## Notes / known gaps for launch
 
-- **Contact form**: currently simulates submission client-side only. Wire `components/ContactForm.jsx`'s `handleSubmit` to a real endpoint (e.g. a serverless function or a form service) before launch.
+- **Contact form**: posts to `/api/contact` (name, business, package, email, phone, message), which emails `aggrandizewebco@gmail.com` with reply-to set to the enquirer's address — same no-storage notification pattern as `/api/ask`.
 - **Legal pages**: `/privacy`, `/terms`, `/cookies`, `/refunds`, and `/legal` (Company Information) all have real, final copy, reading company details from `lib/company.js`. Two fields there are still placeholders pending real values: `registrationNumber` (the business isn't a registered company yet, so the copy correctly describes it as a sole proprietorship until this is filled in) and the street-level part of `physicalAddress` (falls back to just city/province/country until then). Fill both in once available — everything that reads from them updates automatically.
 - **Cookie consent**: gates non-essential cookies per POPIA. Check `useCookieConsent() === "accepted"` (from `components/CookieConsent.jsx`) before loading any analytics or third-party embeds — see `components/SiteAnalytics.jsx` for the pattern. Vercel Web Analytics itself is cookieless (confirmed against the shipped `@vercel/analytics` package — no `document.cookie`/`localStorage`/`sessionStorage` calls anywhere in it); this consent gate is a belt-and-braces choice, not one the analytics package requires.
 - **OKUHLE's live link**: `lib/content.js`'s `liveUrl` for OKUHLE points at a temporary Vercel URL — swap it for `ohyokuhle.co.za` once that domain's DNS is finalized.
