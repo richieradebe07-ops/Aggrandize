@@ -86,13 +86,21 @@ export default function ServicesPage() {
                 pkg={pkg}
                 detailed
                 cta={
-                  <Button
-                    href={`/get-started?package=${pkg.id}`}
-                    variant={pkg.highlight ? "primary" : "secondary"}
-                    className="w-full"
-                  >
-                    Get started
-                  </Button>
+                  <div className="space-y-2">
+                    <Button
+                      href={`/get-started?package=${pkg.id}`}
+                      variant={pkg.highlight ? "primary" : "secondary"}
+                      className="w-full"
+                    >
+                      Get started
+                    </Button>
+                    <Link
+                      href={`/pay?plan=${pkg.id}`}
+                      className="block text-center text-xs font-medium text-ink/50 underline hover:text-brass dark:text-ivory/50"
+                    >
+                      Pay deposit
+                    </Link>
+                  </div>
                 }
               />
             </RevealOnScroll>

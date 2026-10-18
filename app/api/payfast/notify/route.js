@@ -1,6 +1,13 @@
 import {
   verifyItnSignature,
   validateWithPayfast,
+  isKnownPayfastIp,
+  isPayReference,
+  parsePayReference,
+  verifyPayAmount,
+  isLinkReference,
+  parseLinkReference,
+  verifyLinkAmount,
   PAYFAST_MERCHANT_ID,
 } from "@/lib/payfast";
 import {
@@ -8,7 +15,9 @@ import {
   updateSubmission,
   getSubmissionBlobUrl,
 } from "@/lib/submissions";
-import { sendSubmissionNotification } from "@/lib/email";
+import { sendSubmissionNotification, sendPaymentNotification } from "@/lib/email";
+import { wasPayItnProcessed, markPayItnProcessed } from "@/lib/payIdempotency";
+import { getPackage } from "@/lib/content";
 
 const AMOUNT_TOLERANCE = 0.05; // rands, to absorb float rounding
 
@@ -42,12 +51,36 @@ export async function POST(request) {
     return new Response("Invalid signature", { status: 200 });
   }
 
+  // Logged-only, non-blocking — see lib/payfast.js's isKnownPayfastIp
+  // comment for why a mismatch here doesn't reject the notification by
+  // itself. The signature check above and validateWithPayfast() below are
+  // the actual authentication boundary.
+  const sourceIp = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();
+  if (!isKnownPayfastIp(sourceIp)) {
+    console.warn(
+      `PayFast ITN: source IP ${sourceIp || "(unknown)"} is outside the known PayFast ranges — ` +
+        "allowing based on signature + validate() instead. Verify PAYFAST_IP_RANGES in " +
+        "lib/payfast.js against developers.payfast.co.za if this persists."
+    );
+  }
+
   const validated = await validateWithPayfast(rawBody);
   if (!validated) {
     console.error("PayFast ITN: server-side validation failed", itn.m_payment_id);
     return new Response("Validation failed", { status: 200 });
   }
 
+  // --- Stateless /pay flow (deposit/final-balance payments, app/pay) ---
+  if (isPayReference(itn.m_payment_id)) {
+    return handlePayItn(itn);
+  }
+
+  // --- Custom-quote payment links (app/pay/[token]) ---
+  if (isLinkReference(itn.m_payment_id)) {
+    return handleLinkItn(itn);
+  }
+
+  // --- Get Started brief flow (unchanged) ---
   const submission = await getSubmission(itn.m_payment_id);
   if (!submission) {
     console.error("PayFast ITN: unknown submission", itn.m_payment_id);
@@ -103,6 +136,119 @@ export async function POST(request) {
     if (result.sent) {
       await updateSubmission(submission.id, { notified: true });
     }
+  }
+
+  return new Response("OK", { status: 200 });
+}
+
+// Handles ITNs for the stateless /pay flow (deposit/final-balance
+// payments, app/pay) — no database, see lib/payfast.js's
+// buildPayReference comment for the design: the plan and payment type are
+// encoded in m_payment_id (itself covered by the signature check already
+// done by the time this runs), and the amount is re-derived independently
+// from lib/content.js rather than trusted from any stored record.
+async function handlePayItn(itn) {
+  const ref = parsePayReference(itn.m_payment_id);
+  if (!ref) {
+    console.error("PayFast ITN: unparseable pay reference", itn.m_payment_id);
+    return new Response("Unparseable reference", { status: 200 });
+  }
+
+  if (itn.payment_status !== "COMPLETE") {
+    console.log(
+      `PayFast ITN: non-complete status for ${itn.m_payment_id}: ${itn.payment_status}`
+    );
+    return new Response("Recorded non-complete status", { status: 200 });
+  }
+
+  // Idempotency — PayFast can retry a notification; a second COMPLETE ITN
+  // for the same payment must not send a second receipt/alert. Best-effort
+  // only (see lib/payIdempotency.js for the trade-off that implies).
+  if (itn.pf_payment_id && wasPayItnProcessed(itn.pf_payment_id)) {
+    return new Response("Already processed", { status: 200 });
+  }
+
+  const amountGross = parseFloat(itn.amount_gross);
+  const { valid, expectedAmount } = verifyPayAmount({
+    packageId: ref.packageId,
+    paymentType: ref.paymentType,
+    amountGross,
+  });
+  if (!valid) {
+    console.error(
+      `PayFast ITN: /pay amount mismatch for ${itn.m_payment_id} — expected ${expectedAmount}, got ${amountGross}`
+    );
+    return new Response("Amount mismatch", { status: 200 });
+  }
+
+  const pkg = getPackage(ref.packageId);
+  const result = await sendPaymentNotification({
+    name: itn.name_first ? `${itn.name_first} ${itn.name_last || ""}`.trim() : "",
+    email: itn.email_address || "",
+    packageName: pkg?.name || ref.packageId,
+    paymentType: ref.paymentType,
+    amount: amountGross,
+    reference: itn.m_payment_id,
+    pfPaymentId: itn.pf_payment_id,
+  });
+
+  // Only mark this idempotent once the critical (owner) alert actually
+  // sent — mirrors the Get Started flow's `notified` guard above, so a
+  // transient email failure doesn't silently swallow a legitimate PayFast
+  // retry that would otherwise try again.
+  if (result.sent && itn.pf_payment_id) {
+    markPayItnProcessed(itn.pf_payment_id);
+  }
+
+  return new Response("OK", { status: 200 });
+}
+
+// Handles ITNs for custom-quote payment links (app/pay/[token]) — same
+// no-database, re-derive-don't-trust approach as handlePayItn above, but
+// looking the expected amount up in lib/paymentLinks.js by token instead
+// of recomputing it from a package price.
+async function handleLinkItn(itn) {
+  const ref = parseLinkReference(itn.m_payment_id);
+  if (!ref) {
+    console.error("PayFast ITN: unparseable link reference", itn.m_payment_id);
+    return new Response("Unparseable reference", { status: 200 });
+  }
+
+  if (itn.payment_status !== "COMPLETE") {
+    console.log(
+      `PayFast ITN: non-complete status for ${itn.m_payment_id}: ${itn.payment_status}`
+    );
+    return new Response("Recorded non-complete status", { status: 200 });
+  }
+
+  if (itn.pf_payment_id && wasPayItnProcessed(itn.pf_payment_id)) {
+    return new Response("Already processed", { status: 200 });
+  }
+
+  const amountGross = parseFloat(itn.amount_gross);
+  const { valid, expectedAmount, link } = verifyLinkAmount({
+    token: ref.token,
+    amountGross,
+  });
+  if (!valid || !link) {
+    console.error(
+      `PayFast ITN: payment-link amount mismatch for ${itn.m_payment_id} — expected ${expectedAmount}, got ${amountGross}`
+    );
+    return new Response("Amount mismatch", { status: 200 });
+  }
+
+  const result = await sendPaymentNotification({
+    name: itn.name_first ? `${itn.name_first} ${itn.name_last || ""}`.trim() : link.clientName,
+    email: itn.email_address || "",
+    packageName: link.description,
+    paymentType: "custom",
+    amount: amountGross,
+    reference: itn.m_payment_id,
+    pfPaymentId: itn.pf_payment_id,
+  });
+
+  if (result.sent && itn.pf_payment_id) {
+    markPayItnProcessed(itn.pf_payment_id);
   }
 
   return new Response("OK", { status: 200 });

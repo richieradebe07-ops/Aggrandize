@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import Button from "./Button";
 import AmbientBackdrop from "./AmbientBackdrop";
 import WhatsAppButton from "./WhatsAppButton";
@@ -117,6 +118,12 @@ function PlanSlide({ pkg }) {
         >
           Get this plan
         </Button>
+        <Link
+          href={`/pay?plan=${pkg.id}`}
+          className="text-xs font-medium text-ink/50 underline hover:text-brass dark:text-ivory/50"
+        >
+          Pay deposit
+        </Link>
         <p className="text-xs text-ink/50 dark:text-ivory/50">
           Quick question first?{" "}
           <WhatsAppButton variant="inline" className="text-xs" />
