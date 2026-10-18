@@ -1,8 +1,10 @@
-import { SITE, SOCIAL_LINKS } from "@/lib/content";
+import { SITE, SOCIAL_LINKS, LOCAL_AREAS } from "@/lib/content";
 
 // schema.org LocalBusiness JSON-LD for local SEO — helps the site itself
 // rank for "web designer Pietermaritzburg"-style searches. Rendered once,
-// on the homepage.
+// on the homepage — the single source of this data, so name/phone/email/
+// areaServed can't drift out of sync with what the footer, local landing
+// pages (app/web-design/[area]/page.jsx), and contact details show.
 export default function LocalBusinessSchema() {
   const schema = {
     "@context": "https://schema.org",
@@ -21,7 +23,9 @@ export default function LocalBusinessSchema() {
       addressRegion: "KwaZulu-Natal",
       addressCountry: "ZA",
     },
-    areaServed: "Pietermaritzburg, South Africa",
+    // Matches the local landing pages 1:1 — every area named there is
+    // listed here too.
+    areaServed: LOCAL_AREAS.map((area) => `${area.name}, South Africa`),
     priceRange: "R",
   };
 

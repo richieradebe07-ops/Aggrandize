@@ -1,4 +1,4 @@
-import { SITE, PROJECTS } from "@/lib/content";
+import { SITE, PROJECTS, LOCAL_AREAS } from "@/lib/content";
 
 // Static marketing routes only — transactional pages (get-started/success,
 // get-started/cancelled) are deliberately excluded via robots.js/metadata
@@ -39,5 +39,12 @@ export default function sitemap() {
     priority: 0.6,
   }));
 
-  return [...staticEntries, ...projectEntries];
+  const localAreaEntries = LOCAL_AREAS.map((area) => ({
+    url: `${base}/web-design/${area.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
+
+  return [...staticEntries, ...projectEntries, ...localAreaEntries];
 }

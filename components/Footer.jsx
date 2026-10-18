@@ -4,7 +4,7 @@ import Link from "next/link";
 import Logo from "./Logo";
 import WhatsAppButton from "./WhatsAppButton";
 import TrustBadges from "./TrustBadges";
-import { NAV_LINKS, SITE, SOCIAL_LINKS } from "@/lib/content";
+import { NAV_LINKS, SITE, SOCIAL_LINKS, LOCAL_AREAS } from "@/lib/content";
 import { COMPANY, REGISTRATION_NUMBER_IS_PLACEHOLDER } from "@/lib/company";
 import { InstagramIcon, FacebookIcon } from "./icons";
 
@@ -108,7 +108,25 @@ export default function Footer() {
           </div>
         </div>
 
-        <TrustBadges className="mt-12 border-t border-ink/10 pt-8 dark:border-ivory/10" />
+        <div className="mt-10 border-t border-ink/10 pt-8 dark:border-ivory/10">
+          <h3 className="font-body text-sm font-semibold uppercase tracking-wide text-ink/50 dark:text-ivory/50">
+            Areas we serve
+          </h3>
+          <ul className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+            {LOCAL_AREAS.map((area) => (
+              <li key={area.slug}>
+                <Link
+                  href={`/web-design/${area.slug}`}
+                  className="text-sm text-ink/70 transition-colors hover:text-brass dark:text-ivory/70"
+                >
+                  {area.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <TrustBadges className="mt-8 border-t border-ink/10 pt-8 dark:border-ivory/10" />
 
         <p className="mt-8 border-t border-ink/10 pt-6 text-xs text-ink/45 dark:border-ivory/10 dark:text-ivory/45">
           {COMPANY_LINE}
