@@ -13,6 +13,7 @@ import {
   CompressIcon,
 } from "./icons";
 import { PACKAGES, HOW_IT_WORKS, SITE } from "@/lib/content";
+import { useQuoteForm } from "./QuoteFormProvider";
 
 // Expands a package's own `features` list for comparison purposes only —
 // the E-Commerce package's feature list literally says "Everything in
@@ -69,6 +70,7 @@ function IntroSlide() {
 }
 
 function PlanSlide({ pkg }) {
+  const { openQuoteForm } = useQuoteForm();
   return (
     <div className={`flex flex-1 flex-col ${SLIDE_MIN_HEIGHT}`}>
       <div className="text-center">
@@ -101,7 +103,7 @@ function PlanSlide({ pkg }) {
 
       <div className="mt-6 flex justify-center">
         <Button
-          href={`/get-started?package=${pkg.id}`}
+          onClick={() => openQuoteForm({ packageId: pkg.id })}
           variant={pkg.highlight ? "primary" : "secondary"}
         >
           Get this plan
@@ -198,6 +200,7 @@ function HowItWorksSlide() {
 }
 
 function FinalCtaSlide() {
+  const { openQuoteForm } = useQuoteForm();
   return (
     <div
       className={`flex flex-1 flex-col items-center justify-center text-center ${SLIDE_MIN_HEIGHT}`}
@@ -209,7 +212,7 @@ function FinalCtaSlide() {
         Tell us about your business and we&rsquo;ll point you to the right plan.
       </p>
       <div className="mx-auto mt-8 flex w-full max-w-sm flex-col gap-4 sm:flex-row">
-        <Button href="/contact" className="flex-1">
+        <Button onClick={() => openQuoteForm({})} className="flex-1">
           Request a quote
         </Button>
         <WhatsAppButton variant="button" className="flex-1" />

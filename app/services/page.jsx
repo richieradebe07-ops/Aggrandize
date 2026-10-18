@@ -6,6 +6,8 @@ import AmbientBackdrop from "@/components/AmbientBackdrop";
 import Card from "@/components/Card";
 import Button from "@/components/Button";
 import PlansWalkthrough from "@/components/PlansWalkthrough";
+import QuoteFormProvider from "@/components/QuoteFormProvider";
+import EmbeddedQuoteForm from "@/components/EmbeddedQuoteForm";
 import { DownloadIcon } from "@/components/icons";
 import {
   PACKAGES,
@@ -27,41 +29,48 @@ export const metadata = pageMetadata({
 export default function ServicesPage() {
   return (
     <div className="px-5 py-16 sm:px-8 sm:py-24">
-      <div className="mx-auto max-w-content">
-        <div className="relative overflow-hidden rounded-3xl py-8">
-          <AmbientBackdrop />
-          <RevealOnScroll
-            variant="tech"
-            className="relative z-10 mx-auto max-w-xl text-center"
-          >
-            <h1 className="font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
-              Services & Pricing
-            </h1>
-            <p className="mt-4 text-ink/60 dark:text-ivory/60">
-              Straightforward packages with no hidden fees. Not sure which one
-              fits?{" "}
-              <Link href="/#work" className="underline hover:text-brass">
-                See our work
-              </Link>{" "}
-              or get in touch and we&rsquo;ll help you decide.
-            </p>
-            <a
-              href="/api/pricing-pdf"
-              className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-brass hover:opacity-80"
+      <QuoteFormProvider>
+        <div className="mx-auto max-w-content">
+          <div className="relative overflow-hidden rounded-3xl py-8">
+            <AmbientBackdrop />
+            <RevealOnScroll
+              variant="tech"
+              className="relative z-10 mx-auto max-w-xl text-center"
             >
-              <DownloadIcon className="h-4 w-4" />
-              Download our pricing (PDF)
-            </a>
+              <h1 className="font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
+                Services & Pricing
+              </h1>
+              <p className="mt-4 text-ink/60 dark:text-ivory/60">
+                Straightforward packages with no hidden fees. Not sure which one
+                fits?{" "}
+                <Link href="/#work" className="underline hover:text-brass">
+                  See our work
+                </Link>{" "}
+                or get in touch and we&rsquo;ll help you decide.
+              </p>
+              <a
+                href="/api/pricing-pdf"
+                className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-brass hover:opacity-80"
+              >
+                <DownloadIcon className="h-4 w-4" />
+                Download our pricing (PDF)
+              </a>
+            </RevealOnScroll>
+          </div>
+
+          <RevealOnScroll variant="tech" className="mt-14">
+            <PlansWalkthrough />
           </RevealOnScroll>
-        </div>
 
-        <RevealOnScroll variant="tech" className="mt-14">
-          <PlansWalkthrough />
-        </RevealOnScroll>
+          <SectionDivider className="my-16" />
 
-        <SectionDivider className="my-16" />
+          <RevealOnScroll variant="tech">
+            <EmbeddedQuoteForm />
+          </RevealOnScroll>
 
-        <div className="grid gap-8 sm:grid-cols-3">
+          <SectionDivider className="my-16" />
+
+          <div className="grid gap-8 sm:grid-cols-3">
           {PACKAGES.map((pkg, i) => (
             <RevealOnScroll key={pkg.id} delay={i * 100} variant="tech">
               <PackageCard
@@ -184,7 +193,8 @@ export default function ServicesPage() {
             </Button>
           )}
         </RevealOnScroll>
-      </div>
+        </div>
+      </QuoteFormProvider>
     </div>
   );
 }
