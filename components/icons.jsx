@@ -268,3 +268,104 @@ export function FacebookIcon({ className = "h-5 w-5" }) {
     </svg>
   );
 }
+
+export function CheckIcon({ className = "h-4 w-4" }) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M4 10.5 8 14.5 16 5.5" />
+    </svg>
+  );
+}
+
+export function MinusIcon({ className = "h-4 w-4" }) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M5 10h10" />
+    </svg>
+  );
+}
+
+export function ArrowLeftIcon({ className = "h-5 w-5" }) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M12.5 4.5 6 11l6.5 6.5" />
+    </svg>
+  );
+}
+
+export function ArrowRightIcon({ className = "h-5 w-5" }) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M7.5 4.5 14 11l-6.5 6.5" />
+    </svg>
+  );
+}
+
+export function ExpandIcon({ className = "h-4 w-4" }) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M7.5 2.5h-3a2 2 0 0 0-2 2v3M12.5 2.5h3a2 2 0 0 1 2 2v3M7.5 17.5h-3a2 2 0 0 1-2-2v-3M12.5 17.5h3a2 2 0 0 0 2-2v-3" />
+    </svg>
+  );
+}
+
+export function CompressIcon({ className = "h-4 w-4" }) {
+  return (
+    <svg
+      viewBox="0 0 20 20"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M8 2.5v3a2 2 0 0 1-2 2h-3M12 2.5v3a2 2 0 0 0 2 2h3M8 17.5v-3a2 2 0 0 0-2-2h-3M12 17.5v-3a2 2 0 0 1 2-2h3" />
+    </svg>
+  );
+}

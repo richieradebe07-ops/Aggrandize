@@ -5,6 +5,7 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 import AmbientBackdrop from "@/components/AmbientBackdrop";
 import Card from "@/components/Card";
 import Button from "@/components/Button";
+import PlansWalkthrough from "@/components/PlansWalkthrough";
 import { DownloadIcon } from "@/components/icons";
 import {
   PACKAGES,
@@ -54,7 +55,13 @@ export default function ServicesPage() {
           </RevealOnScroll>
         </div>
 
-        <div className="mt-14 grid gap-8 sm:grid-cols-3">
+        <RevealOnScroll variant="tech" className="mt-14">
+          <PlansWalkthrough />
+        </RevealOnScroll>
+
+        <SectionDivider className="my-16" />
+
+        <div className="grid gap-8 sm:grid-cols-3">
           {PACKAGES.map((pkg, i) => (
             <RevealOnScroll key={pkg.id} delay={i * 100} variant="tech">
               <PackageCard
