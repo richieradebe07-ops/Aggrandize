@@ -9,6 +9,8 @@ import AccordionItem from "@/components/AccordionItem";
 import ChanceChart from "@/components/ChanceChart";
 import FounderTeaser from "@/components/FounderTeaser";
 import SpeedProof from "@/components/SpeedProof";
+import CarePlanSection from "@/components/CarePlanSection";
+import IndustryShowcase from "@/components/IndustryShowcase";
 import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import FAQSchema from "@/components/FAQSchema";
@@ -159,6 +161,24 @@ export default function HomePage() {
         </div>
       </section>
 
+      <SectionDivider />
+
+      <section className="px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-content">
+          <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
+            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+              See it in your industry
+            </h2>
+            <p className="mt-3 text-ink/60 dark:text-ivory/60">
+              A look at what a site could look like for a business like yours.
+            </p>
+          </RevealOnScroll>
+          <RevealOnScroll variant="tech" delay={100} className="mt-10">
+            <IndustryShowcase />
+          </RevealOnScroll>
+        </div>
+      </section>
+
       {TESTIMONIALS.length > 0 && (
         <>
           <SectionDivider />
@@ -252,6 +272,25 @@ export default function HomePage() {
               />
             ))}
           </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      <section className="px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-content">
+          <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
+            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+              Keep it running smoothly
+            </h2>
+            <p className="mt-3 text-ink/60 dark:text-ivory/60">
+              A website is never really &ldquo;done&rdquo; — small updates keep it working for
+              you.
+            </p>
+          </RevealOnScroll>
+          <RevealOnScroll variant="tech" delay={100} className="mt-10">
+            <CarePlanSection />
+          </RevealOnScroll>
         </div>
       </section>
 

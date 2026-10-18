@@ -130,7 +130,12 @@ export default function ServicesPage() {
 
         <SectionDivider className="my-16" />
 
-        <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
+        <RevealOnScroll
+          variant="tech"
+          as="div"
+          id="maintenance"
+          className="mx-auto max-w-xl scroll-mt-24 text-center"
+        >
           <h2 className="font-display text-3xl text-ink dark:text-ivory">
             Maintenance & Updates
           </h2>
