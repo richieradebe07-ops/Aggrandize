@@ -14,7 +14,8 @@ export default function AskQuestionWidget() {
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState("idle"); // idle | submitting | sent | error
   const [errorMessage, setErrorMessage] = useState("");
-  const [values, setValues] = useState({ name: "", email: "", question: "" });
+  // `company` is a honeypot — see the hidden field below and /api/ask.
+  const [values, setValues] = useState({ name: "", email: "", question: "", company: "" });
   const bannerVisible = useCookieBannerVisible();
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export default function AskQuestionWidget() {
     setTimeout(() => {
       setStatus("idle");
       setErrorMessage("");
-      setValues({ name: "", email: "", question: "" });
+      setValues({ name: "", email: "", question: "", company: "" });
     }, 200);
   }
 
@@ -102,6 +103,20 @@ export default function AskQuestionWidget() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Honeypot — hidden from sighted and keyboard users, left
+                    for bots that blindly fill every field. */}
+                <div className="absolute left-[-9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+                  <label htmlFor="ask-company">Company</label>
+                  <input
+                    id="ask-company"
+                    name="company"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={values.company}
+                    onChange={update("company")}
+                  />
+                </div>
                 <div>
                   <h3 className="font-display text-xl text-ink dark:text-ivory">Ask a question</h3>
                   <p className="mt-1 text-sm text-ink/60 dark:text-ivory/60">

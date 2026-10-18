@@ -3,11 +3,13 @@ import SectionDivider from "@/components/SectionDivider";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import TrustBadges from "@/components/TrustBadges";
 import { getSubmission } from "@/lib/submissions";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Get Started",
   description: "Brief your project and secure your spot with a deposit.",
-};
+  path: "/get-started",
+});
 
 export default async function GetStartedPage({ searchParams }) {
   const params = (await searchParams) || {};

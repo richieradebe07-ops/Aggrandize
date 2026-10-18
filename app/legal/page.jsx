@@ -2,11 +2,13 @@ import Link from "next/link";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { SITE } from "@/lib/content";
 import { COMPANY, REGISTRATION_NUMBER_IS_PLACEHOLDER } from "@/lib/company";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Company Information",
   description: `Company and contact details for ${SITE.name}, as required by the Electronic Communications and Transactions Act.`,
-};
+  path: "/legal",
+});
 
 const POLICY_LINKS = [
   { href: "/terms", label: "Terms & Conditions" },

@@ -3,8 +3,16 @@ import PaymentSuccessCheck from "@/components/PaymentSuccessCheck";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import Button from "@/components/Button";
 import { getSubmission } from "@/lib/submissions";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = { title: "Thank You" };
+export const metadata = {
+  ...pageMetadata({
+    title: "Thank You",
+    description: "Your deposit and project brief have been received.",
+    path: "/get-started/success",
+  }),
+  robots: { index: false, follow: false },
+};
 
 // PayFast redirects the client's browser here after payment, but a browser
 // redirect is not proof of payment — it can be reached without ever paying.

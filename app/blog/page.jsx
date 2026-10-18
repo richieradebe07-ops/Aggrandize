@@ -1,9 +1,11 @@
 import SectionDivider from "@/components/SectionDivider";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Blog",
   description: "Notes on web design and small business from Aggrandize Web Co.",
-};
+  path: "/blog",
+});
 
 // Phase 2 — route reserved, no content yet.
 export default function BlogPage() {

@@ -1,9 +1,11 @@
 import SectionDivider from "@/components/SectionDivider";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "About",
   description: "The story behind Aggrandize Web Co.",
-};
+  path: "/about",
+});
 
 // Phase 2 — route reserved, content to follow (founder story,
 // Pietermaritzburg roots, the meaning behind "Aggrandize").

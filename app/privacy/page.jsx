@@ -2,11 +2,13 @@ import Link from "next/link";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { SITE } from "@/lib/content";
 import { COMPANY } from "@/lib/company";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Privacy Policy",
   description: `How ${SITE.name} collects, uses, and protects personal information, in line with POPIA.`,
-};
+  path: "/privacy",
+});
 
 export default function PrivacyPolicyPage() {
   return (

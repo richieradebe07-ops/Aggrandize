@@ -1,11 +1,13 @@
 import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { SITE } from "@/lib/content";
 import { COMPANY } from "@/lib/company";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Refund & Cancellation Policy",
   description: `Refund and cancellation terms for ${SITE.name} projects and maintenance plans.`,
-};
+  path: "/refunds",
+});
 
 export default function RefundPolicyPage() {
   return (

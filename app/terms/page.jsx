@@ -2,12 +2,14 @@ import Link from "next/link";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { SITE } from "@/lib/content";
 import { COMPANY } from "@/lib/company";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Terms",
   // SITE.name already ends in a period ("...Co."); don't add a second one.
   description: `Terms of service for ${SITE.name}`,
-};
+  path: "/terms",
+});
 
 export default function TermsPage() {
   return (

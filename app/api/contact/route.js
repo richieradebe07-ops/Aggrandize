@@ -17,7 +17,14 @@ export async function POST(request) {
     return badRequest("Invalid JSON body.");
   }
 
-  const { name, business, package: packageId, email, phone, message } = payload || {};
+  const { name, business, package: packageId, email, phone, message, company } = payload || {};
+
+  // Honeypot: real visitors never see or fill this field (see
+  // ContactForm.jsx) — a filled value means a bot. Report success without
+  // actually sending anything, so the bot has no signal to adapt on.
+  if (typeof company === "string" && company.trim()) {
+    return NextResponse.json({ ok: true });
+  }
 
   if (!name || typeof name !== "string" || !name.trim()) {
     return badRequest("Name is required.");

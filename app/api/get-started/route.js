@@ -42,7 +42,15 @@ export async function POST(request) {
     agreedToLegal,
     foundingOffer = null,
     freeAddOnId = null,
+    company,
   } = payload || {};
+
+  // Honeypot: real visitors never see or fill this field (see
+  // GetStartedForm.jsx) — a filled value means a bot. Report success
+  // without actually creating a submission or redirecting to payment.
+  if (typeof company === "string" && company.trim()) {
+    return NextResponse.json({ submissionId: id, actionUrl: null, paymentFields: {} });
+  }
 
   // --- Server-side validation. Never trust client-calculated pricing or an
   // unchecked consent box that only looked checked in the browser. ---

@@ -18,6 +18,10 @@ export default function ContactForm({ initialPackage = "" }) {
     email: "",
     phone: "",
     message: "",
+    // Honeypot: real visitors never see or fill this field (see the
+    // visually-hidden input below), so a filled value means a bot. Checked
+    // server-side in /api/contact.
+    company: "",
   });
 
   function update(field) {
@@ -59,6 +63,22 @@ export default function ContactForm({ initialPackage = "" }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Honeypot — hidden from sighted and keyboard users, left for bots
+          that blindly fill every field. Not display:none/visibility:hidden,
+          which some bots skip; off-screen positioning instead. */}
+      <div className="absolute left-[-9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+        <label htmlFor="company">Company</label>
+        <input
+          id="company"
+          name="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={values.company}
+          onChange={update("company")}
+        />
+      </div>
+
       <div>
         <label htmlFor="name" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
           Name

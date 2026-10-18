@@ -2,8 +2,16 @@ import SectionDivider from "@/components/SectionDivider";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import Button from "@/components/Button";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = { title: "Payment Cancelled" };
+export const metadata = {
+  ...pageMetadata({
+    title: "Payment Cancelled",
+    description: "No charge was made — resume your saved brief any time.",
+    path: "/get-started/cancelled",
+  }),
+  robots: { index: false, follow: false },
+};
 
 export default async function GetStartedCancelledPage({ searchParams }) {
   const params = (await searchParams) || {};

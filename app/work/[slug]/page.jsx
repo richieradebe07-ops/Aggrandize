@@ -5,6 +5,7 @@ import SectionDivider from "@/components/SectionDivider";
 import Button from "@/components/Button";
 import { ArrowUpRightIcon } from "@/components/icons";
 import { PROJECTS } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
 export function generateStaticParams() {
   return PROJECTS.map((project) => ({ slug: project.slug }));
@@ -14,10 +15,11 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const project = PROJECTS.find((p) => p.slug === slug);
   if (!project) return {};
-  return {
+  return pageMetadata({
     title: project.name,
     description: project.summary,
-  };
+    path: `/work/${project.slug}`,
+  });
 }
 
 export default async function CaseStudyPage({ params }) {

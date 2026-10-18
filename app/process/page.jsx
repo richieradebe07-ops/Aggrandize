@@ -1,9 +1,11 @@
 import SectionDivider from "@/components/SectionDivider";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Our Process",
   description: "How a project with Aggrandize Web Co. goes from enquiry to launch.",
-};
+  path: "/process",
+});
 
 // Phase 2 — route reserved for a visual step-by-step:
 // enquiry → proposal → deposit → build → launch.

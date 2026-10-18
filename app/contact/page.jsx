@@ -2,11 +2,13 @@ import ContactForm from "@/components/ContactForm";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import TrustBadges from "@/components/TrustBadges";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Contact",
   description: "Get in touch with Aggrandize Web Co. to start your project.",
-};
+  path: "/contact",
+});
 
 export default async function ContactPage({ searchParams }) {
   const resolvedSearchParams = await searchParams;

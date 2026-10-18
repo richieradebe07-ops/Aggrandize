@@ -14,12 +14,14 @@ import {
   FOUNDING_OFFER,
   FOUNDING_SPOTS_REMAINING,
 } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Services & Pricing",
   description:
     "Website packages, add-ons, and maintenance plans from Aggrandize Web Co.",
-};
+  path: "/services",
+});
 
 export default function ServicesPage() {
   return (

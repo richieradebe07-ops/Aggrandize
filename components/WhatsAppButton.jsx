@@ -7,7 +7,7 @@ import Button from "./Button";
 
 // Persistent floating action button, present on every page via the root
 // layout. Also usable inline (e.g. in the header or contact page) via `variant`.
-export default function WhatsAppButton({ variant = "floating", message }) {
+export default function WhatsAppButton({ variant = "floating", message, className = "" }) {
   const href = whatsappLink(
     message || `Hi Aggrandize Web Co., I'd like to find out more.`
   );
@@ -46,7 +46,7 @@ export default function WhatsAppButton({ variant = "floating", message }) {
   }
 
   return (
-    <Button href={href} external variant="secondary">
+    <Button href={href} external variant="secondary" className={className}>
       <WhatsAppIcon className="h-4 w-4" />
       Message us on WhatsApp
     </Button>

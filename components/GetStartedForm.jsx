@@ -66,6 +66,8 @@ export default function GetStartedForm({ initialPackage, initialData, initialFou
   });
   const [images, setImages] = useState(initialData?.images || []);
   const [agreedToLegal, setAgreedToLegal] = useState(false);
+  // Honeypot — see the hidden field below and /api/get-started.
+  const [honeypot, setHoneypot] = useState("");
 
   const [status, setStatus] = useState("idle"); // idle | submitting | error
   const [errorMessage, setErrorMessage] = useState("");
@@ -151,6 +153,7 @@ export default function GetStartedForm({ initialPackage, initialData, initialFou
           brief,
           images,
           agreedToLegal,
+          company: honeypot,
         }),
       });
 
@@ -186,7 +189,21 @@ export default function GetStartedForm({ initialPackage, initialData, initialFou
   }
 
   return (
-    <form onSubmit={handleSubmit} className="mt-10 grid gap-10 lg:grid-cols-[1fr_320px]">
+    <form onSubmit={handleSubmit} className="relative mt-10 grid gap-10 lg:grid-cols-[1fr_320px]">
+      {/* Honeypot — hidden from sighted and keyboard users, left for bots
+          that blindly fill every field. */}
+      <div className="absolute left-[-9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
+        <label htmlFor="gs-company">Company</label>
+        <input
+          id="gs-company"
+          name="company"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={honeypot}
+          onChange={(e) => setHoneypot(e.target.value)}
+        />
+      </div>
       <div className="space-y-10">
         {/* Package + add-ons */}
         <section>

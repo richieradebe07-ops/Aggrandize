@@ -1,11 +1,13 @@
 import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { SITE } from "@/lib/content";
 import { COMPANY } from "@/lib/company";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Cookie Policy",
   description: `How ${SITE.name} uses cookies, in line with POPIA.`,
-};
+  path: "/cookies",
+});
 
 export default function CookiePolicyPage() {
   return (

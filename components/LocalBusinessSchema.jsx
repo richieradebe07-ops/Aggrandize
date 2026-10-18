@@ -6,7 +6,7 @@ import { SITE, SOCIAL_LINKS } from "@/lib/content";
 export default function LocalBusinessSchema() {
   const schema = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": ["LocalBusiness", "ProfessionalService"],
     name: SITE.name,
     description: SITE.valueProp,
     email: SITE.email,
