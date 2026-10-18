@@ -3,12 +3,14 @@ import RevealOnScroll from "@/components/RevealOnScroll";
 import AmbientBackdrop from "@/components/AmbientBackdrop";
 import CompareCTA from "@/components/CompareCTA";
 import { COMPARISON_TABLE } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata = {
+export const metadata = pageMetadata({
   title: "Compare",
   description:
     "How Aggrandize Web Co. compares to DIY website builders and traditional web agencies.",
-};
+  path: "/compare",
+});
 
 export default function ComparePage() {
   return (
@@ -78,6 +80,10 @@ export default function ComparePage() {
             </tbody>
           </table>
         </RevealOnScroll>
+
+        <p className="mx-auto mt-6 max-w-2xl text-center text-xs text-ink/40 dark:text-ivory/40">
+          {COMPARISON_TABLE.note}
+        </p>
 
         <SectionDivider className="my-16" />
 
