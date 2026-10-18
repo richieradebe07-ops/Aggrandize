@@ -41,6 +41,20 @@ const nextConfig = {
     return [
       { source: "/work/braai-and-bake", destination: "/work", permanent: true },
       { source: "/work/rl-paws-co", destination: "/work", permanent: true },
+      // Vercel's own default project domain serves the exact same
+      // deployment as the real www domain (it's just another alias), so
+      // anyone who lands on it directly (an old bookmark, a stale shared
+      // link) sees the site at the wrong host — the page's own canonical/
+      // og:url tags already say www.aggrandizeweb.co.za (set via
+      // metadataBase in app/layout.jsx), but that doesn't change what's in
+      // the address bar or what a crawler fetches *from*. This sends that
+      // traffic straight to the canonical domain instead.
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "aggrandize.vercel.app" }],
+        destination: "https://www.aggrandizeweb.co.za/:path*",
+        permanent: true,
+      },
     ];
   },
 };

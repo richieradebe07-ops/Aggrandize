@@ -1,3 +1,4 @@
+import Link from "next/link";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
 import { SITE } from "@/lib/content";
 import { COMPANY } from "@/lib/company";
@@ -47,7 +48,12 @@ export default function RefundPolicyPage() {
         <p>
           Cancel any time with 30 days&rsquo; written notice. Payments already made for the current
           month aren&rsquo;t refunded. Annual prepayments are refunded pro rata for full unused
-          months.
+          months. Unused monthly content edits aren&rsquo;t refunded or credited if you cancel
+          mid-month &mdash; see our{" "}
+          <Link href="/terms" className="underline hover:text-brass">
+            Terms & Conditions
+          </Link>{" "}
+          for what counts as an edit.
         </p>
       </LegalSection>
 

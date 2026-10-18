@@ -5,6 +5,7 @@ import SectionDivider from "@/components/SectionDivider";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import ProjectCard from "@/components/ProjectCard";
 import PackageCard from "@/components/PackageCard";
+import PayDepositLink from "@/components/PayDepositLink";
 import AccordionItem from "@/components/AccordionItem";
 import ChanceChart from "@/components/ChanceChart";
 import FounderTeaser from "@/components/FounderTeaser";
@@ -145,12 +146,7 @@ export default function HomePage() {
                       >
                         Get started
                       </Button>
-                      <Link
-                        href={`/pay?plan=${pkg.id}`}
-                        className="block text-center text-xs font-medium text-ink/50 underline hover:text-brass dark:text-ivory/50"
-                      >
-                        Pay deposit
-                      </Link>
+                      <PayDepositLink packageId={pkg.id} className="block" />
                     </div>
                   }
                 />

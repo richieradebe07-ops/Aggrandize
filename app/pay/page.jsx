@@ -1,8 +1,9 @@
 import PayForm from "@/components/PayForm";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import PayFastTestBanner from "@/components/PayFastTestBanner";
+import PaymentsComingSoon from "@/components/PaymentsComingSoon";
 import { LockIcon } from "@/components/icons";
-import { PAYFAST_MODE } from "@/lib/payfast";
+import { PAYFAST_MODE, PAYMENTS_ENABLED } from "@/lib/payfast";
 import { PACKAGES } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 
@@ -13,6 +14,14 @@ export const metadata = pageMetadata({
 });
 
 export default async function PayPage({ searchParams }) {
+  if (!PAYMENTS_ENABLED) {
+    return (
+      <section className="px-5 py-24 sm:px-8 sm:py-32">
+        <PaymentsComingSoon />
+      </section>
+    );
+  }
+
   const resolvedSearchParams = (await searchParams) || {};
   const planParam = Array.isArray(resolvedSearchParams.plan)
     ? resolvedSearchParams.plan[0]

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PackageCard from "@/components/PackageCard";
+import PayDepositLink from "@/components/PayDepositLink";
 import SectionDivider from "@/components/SectionDivider";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import AmbientBackdrop from "@/components/AmbientBackdrop";
@@ -15,6 +16,8 @@ import {
   ADD_ONS,
   MAINTENANCE_PLANS,
   MAINTENANCE_NOTE,
+  MAINTENANCE_TERMS,
+  SMALL_EDIT_DEFINITION,
   FOUNDING_OFFER,
   FOUNDING_SPOTS_REMAINING,
   PRICING_PROMISE,
@@ -94,12 +97,7 @@ export default function ServicesPage() {
                     >
                       Get started
                     </Button>
-                    <Link
-                      href={`/pay?plan=${pkg.id}`}
-                      className="block text-center text-xs font-medium text-ink/50 underline hover:text-brass dark:text-ivory/50"
-                    >
-                      Pay deposit
-                    </Link>
+                    <PayDepositLink packageId={pkg.id} className="block" />
                   </div>
                 }
               />
@@ -180,8 +178,14 @@ export default function ServicesPage() {
             </RevealOnScroll>
           ))}
         </div>
-        <p className="mt-6 text-center text-sm text-ink/50 dark:text-ivory/50">
+        <p className="mx-auto mt-6 max-w-lg text-center text-sm font-semibold text-brass">
+          {MAINTENANCE_TERMS}
+        </p>
+        <p className="mt-2 text-center text-sm text-ink/50 dark:text-ivory/50">
           {MAINTENANCE_NOTE}
+        </p>
+        <p className="mx-auto mt-4 max-w-2xl text-center text-xs leading-relaxed text-ink/45 dark:text-ivory/45">
+          {SMALL_EDIT_DEFINITION}
         </p>
 
         <SectionDivider className="my-16" />

@@ -2,10 +2,11 @@ import { notFound } from "next/navigation";
 import SectionDivider from "@/components/SectionDivider";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import PayFastTestBanner from "@/components/PayFastTestBanner";
+import PaymentsComingSoon from "@/components/PaymentsComingSoon";
 import PaymentLinkCheckout from "@/components/PaymentLinkCheckout";
 import { LockIcon } from "@/components/icons";
 import { getPaymentLink } from "@/lib/paymentLinks";
-import { PAYFAST_MODE } from "@/lib/payfast";
+import { PAYFAST_MODE, PAYMENTS_ENABLED } from "@/lib/payfast";
 
 // Deliberately no generateStaticParams here — same reasoning as
 // app/status/[token]/page.jsx: this stays server-rendered per request so
@@ -26,6 +27,18 @@ export default async function PaymentLinkPage({ params }) {
   const { token } = await params;
   const link = getPaymentLink(token);
   if (!link) notFound();
+
+  if (!PAYMENTS_ENABLED) {
+    return (
+      <section className="px-5 py-24 sm:px-8 sm:py-32">
+        <PaymentsComingSoon
+          message="Online payments are opening soon. Get in touch and we’ll arrange payment directly."
+          ctaHref="/contact"
+          ctaLabel="Contact us"
+        />
+      </section>
+    );
+  }
 
   return (
     <section className="px-5 py-16 sm:px-8 sm:py-24">

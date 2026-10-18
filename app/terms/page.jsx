@@ -1,6 +1,12 @@
 import Link from "next/link";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
-import { SITE, PACKAGES, NOT_INCLUDED } from "@/lib/content";
+import {
+  SITE,
+  PACKAGES,
+  NOT_INCLUDED,
+  MAINTENANCE_PLANS,
+  SMALL_EDIT_DEFINITION,
+} from "@/lib/content";
 import { COMPANY } from "@/lib/company";
 import { pageMetadata } from "@/lib/seo";
 
@@ -48,6 +54,15 @@ export default function TermsPage() {
             <li key={item}>{item}</li>
           ))}
         </ul>
+        <p>
+          Domain registration fees are paid separately to the domain registrar, not to us.
+          Ongoing hosting and domain management after launch are included in every maintenance
+          plan &mdash; see{" "}
+          <Link href="/services#maintenance" className="underline hover:text-brass">
+            Maintenance & Updates
+          </Link>
+          .
+        </p>
       </LegalSection>
 
       <LegalSection heading="4. Payment">
@@ -124,9 +139,21 @@ export default function TermsPage() {
       <LegalSection heading="9. Maintenance plans">
         <p>
           Maintenance plans are billed monthly (or annually if prepaid) and continue until
-          cancelled. Either party can cancel with 30 days&rsquo; written notice. Unused monthly
-          edits don&rsquo;t roll over. The Founding Client locked-in rate applies for as long as
-          the plan stays active without a break.
+          cancelled. Either party can cancel with 30 days&rsquo; written notice.
+        </p>
+        <p>{SMALL_EDIT_DEFINITION}</p>
+        <p>
+          Response targets by tier:{" "}
+          {MAINTENANCE_PLANS.map((plan, i) => (
+            <span key={plan.id}>
+              {plan.name} &mdash; {plan.responseTime}
+              {i < MAINTENANCE_PLANS.length - 1 ? "; " : "."}
+            </span>
+          ))}
+        </p>
+        <p>
+          The Founding Client locked-in rate applies for as long as the plan stays active
+          without a break.
         </p>
       </LegalSection>
 
