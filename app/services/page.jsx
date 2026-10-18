@@ -8,6 +8,7 @@ import Button from "@/components/Button";
 import PlansWalkthrough from "@/components/PlansWalkthrough";
 import QuoteFormProvider from "@/components/QuoteFormProvider";
 import EmbeddedQuoteForm from "@/components/EmbeddedQuoteForm";
+import FreeMockupOffer from "@/components/FreeMockupOffer";
 import { DownloadIcon } from "@/components/icons";
 import {
   PACKAGES,
@@ -16,6 +17,7 @@ import {
   MAINTENANCE_NOTE,
   FOUNDING_OFFER,
   FOUNDING_SPOTS_REMAINING,
+  PRICING_PROMISE,
 } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 
@@ -70,11 +72,19 @@ export default function ServicesPage() {
 
           <SectionDivider className="my-16" />
 
-          <div className="grid gap-8 sm:grid-cols-3">
+          <RevealOnScroll variant="tech" className="mx-auto flex max-w-xl items-center justify-center gap-2 text-center">
+            <span className="h-1.5 w-1.5 rounded-full bg-brass" aria-hidden="true" />
+            <p className="text-sm font-semibold uppercase tracking-wide text-brass">
+              {PRICING_PROMISE}
+            </p>
+          </RevealOnScroll>
+
+          <div className="mt-10 grid gap-8 sm:grid-cols-3">
           {PACKAGES.map((pkg, i) => (
             <RevealOnScroll key={pkg.id} delay={i * 100} variant="tech">
               <PackageCard
                 pkg={pkg}
+                detailed
                 cta={
                   <Button
                     href={`/get-started?package=${pkg.id}`}
@@ -88,6 +98,12 @@ export default function ServicesPage() {
             </RevealOnScroll>
           ))}
         </div>
+
+        <SectionDivider className="my-16" />
+
+        <RevealOnScroll variant="tech">
+          <FreeMockupOffer />
+        </RevealOnScroll>
 
         <SectionDivider className="my-16" />
 

@@ -1,16 +1,32 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { SITE, whatsappLink } from "@/lib/content";
 import { WhatsAppIcon } from "./icons";
 import { useCookieBannerVisible } from "./CookieConsent";
 import Button from "./Button";
 
+// Page-adaptive default messages for the floating button specifically —
+// an explicit `message` prop (e.g. a specific plan, from PlansWalkthrough
+// or FreeMockupOffer) always wins over this. Matched by prefix so a
+// dynamic route like /work/okuhle still gets the /work message.
+const PAGE_MESSAGES = [
+  { prefix: "/services", message: "Hi, I'm looking at your pricing plans and had a question." },
+  { prefix: "/compare", message: "Hi, I'm comparing options for a new website and had a question." },
+  { prefix: "/work", message: "Hi, I saw your work and wanted to find out more." },
+  { prefix: "/get-started", message: "Hi, I'm partway through briefing a project and had a question." },
+];
+const DEFAULT_MESSAGE = "Hi Aggrandize Web Co., I'd like to find out more.";
+
+function pageAdaptiveMessage(pathname) {
+  return PAGE_MESSAGES.find((entry) => pathname?.startsWith(entry.prefix))?.message || DEFAULT_MESSAGE;
+}
+
 // Persistent floating action button, present on every page via the root
 // layout. Also usable inline (e.g. in the header or contact page) via `variant`.
 export default function WhatsAppButton({ variant = "floating", message, className = "" }) {
-  const href = whatsappLink(
-    message || `Hi Aggrandize Web Co., I'd like to find out more.`
-  );
+  const pathname = usePathname();
+  const href = whatsappLink(message || pageAdaptiveMessage(pathname));
   // Lift above the cookie-consent banner while it's on screen so the two
   // fixed, bottom-anchored elements don't overlap.
   const bannerVisible = useCookieBannerVisible();

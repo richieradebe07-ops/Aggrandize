@@ -1,6 +1,6 @@
 import Link from "next/link";
 import LegalPage, { LegalSection } from "@/components/LegalPage";
-import { SITE } from "@/lib/content";
+import { SITE, PACKAGES, NOT_INCLUDED } from "@/lib/content";
 import { COMPANY } from "@/lib/company";
 import { pageMetadata } from "@/lib/seo";
 
@@ -42,12 +42,12 @@ export default function TermsPage() {
       </LegalSection>
 
       <LegalSection heading="3. What's not included">
-        <p>
-          Unless stated in your package or quote, prices don&rsquo;t include: domain name
-          registration, third-party subscriptions or platform fees (for example Shopify, paid
-          plugins, or premium fonts), stock photography, or ongoing hosting after launch (available
-          through a maintenance plan).
-        </p>
+        <p>Unless stated in your package or quote, prices don&rsquo;t include:</p>
+        <ul className="list-disc space-y-1 pl-5">
+          {NOT_INCLUDED.map((item) => (
+            <li key={item}>{item}</li>
+          ))}
+        </ul>
       </LegalSection>
 
       <LegalSection heading="4. Payment">
@@ -71,8 +71,14 @@ export default function TermsPage() {
 
       <LegalSection heading="6. Timelines and revisions">
         <p>
-          Estimated timelines (Starter 1–2 weeks, Business 3–4 weeks, E-Commerce 4–6 weeks) start
-          when we receive your deposit and the content we need. Delays in content or feedback
+          Estimated timelines (
+          {PACKAGES.map((pkg, i) => (
+            <span key={pkg.id}>
+              {pkg.name.replace(" Site", "")} {pkg.deliveryTime}
+              {i < PACKAGES.length - 1 ? ", " : ""}
+            </span>
+          ))}
+          ) start when we receive your deposit and the content we need. Delays in content or feedback
           extend the timeline. Each project includes 2 rounds of revisions, each submitted as one
           consolidated list. Further revisions are quoted separately. If we don&rsquo;t hear from
           you for 30 days, the project is paused, and restarting may need a new timeline.

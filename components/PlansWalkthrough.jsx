@@ -12,7 +12,7 @@ import {
   ExpandIcon,
   CompressIcon,
 } from "./icons";
-import { PACKAGES, HOW_IT_WORKS, SITE } from "@/lib/content";
+import { PACKAGES, HOW_IT_WORKS, SITE, PRICING_PROMISE } from "@/lib/content";
 import { useQuoteForm } from "./QuoteFormProvider";
 
 // Expands a package's own `features` list for comparison purposes only —
@@ -87,6 +87,11 @@ function PlanSlide({ pkg }) {
           <span className="font-display text-4xl text-ink dark:text-ivory">{pkg.price}</span>
           <span className="ml-1.5 text-sm text-ink/45 dark:text-ivory/45">{pkg.priceNote}</span>
         </div>
+        {pkg.deliveryTime && (
+          <p className="mt-1 text-xs text-ink/45 dark:text-ivory/45">
+            Delivery: {pkg.deliveryTime}
+          </p>
+        )}
       </div>
 
       <ul className="mx-auto mt-8 w-full max-w-sm flex-1 space-y-3">
@@ -101,13 +106,21 @@ function PlanSlide({ pkg }) {
         ))}
       </ul>
 
-      <div className="mt-6 flex justify-center">
+      <p className="mx-auto text-center text-xs font-medium uppercase tracking-wide text-brass/80">
+        {PRICING_PROMISE}
+      </p>
+
+      <div className="mt-6 flex flex-col items-center gap-3">
         <Button
           onClick={() => openQuoteForm({ packageId: pkg.id })}
           variant={pkg.highlight ? "primary" : "secondary"}
         >
           Get this plan
         </Button>
+        <WhatsAppButton
+          variant="inline"
+          message={`Hi, I'd like to ask about the ${pkg.name} (${pkg.price}).`}
+        />
       </div>
     </div>
   );

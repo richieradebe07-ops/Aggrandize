@@ -1,5 +1,6 @@
 import ContactForm from "@/components/ContactForm";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import WhatsAppQRCode from "@/components/WhatsAppQRCode";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import TrustBadges from "@/components/TrustBadges";
 import { pageMetadata } from "@/lib/seo";
@@ -44,6 +45,12 @@ export default async function ContactPage({ searchParams }) {
             </p>
             <div className="mt-4">
               <WhatsAppButton variant="button" />
+            </div>
+            <div className="mt-6 flex items-center gap-3">
+              <WhatsAppQRCode message="Hi Aggrandize Web Co., I'd like to find out more." />
+              <p className="text-xs text-ink/50 dark:text-ivory/50">
+                Or scan with your phone&rsquo;s camera to open WhatsApp directly.
+              </p>
             </div>
           </RevealOnScroll>
         </div>

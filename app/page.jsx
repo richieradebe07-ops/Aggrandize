@@ -22,6 +22,7 @@ import {
   PACKAGES,
   FOUNDING_OFFER,
   FOUNDING_SPOTS_REMAINING,
+  PRICING_PROMISE,
 } from "@/lib/content";
 
 export default function HomePage() {
@@ -124,6 +125,9 @@ export default function HomePage() {
             </h2>
             <p className="mt-3 text-ink/60 dark:text-ivory/60">
               Straightforward packages with no hidden fees.
+            </p>
+            <p className="mt-2 text-sm font-semibold uppercase tracking-wide text-brass">
+              {PRICING_PROMISE}
             </p>
           </RevealOnScroll>
 
