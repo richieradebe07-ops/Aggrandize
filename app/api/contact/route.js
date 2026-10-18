@@ -5,6 +5,7 @@ import { PACKAGE_INTEREST_OPTIONS } from "@/lib/content";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const VALID_PACKAGE_INTERESTS = new Set(PACKAGE_INTEREST_OPTIONS.map((o) => o.value));
+const VALID_REQUEST_TYPES = new Set(["quote", "mockup"]);
 
 function badRequest(message) {
   return NextResponse.json({ error: message }, { status: 400 });
@@ -34,6 +35,7 @@ export async function POST(request) {
     email,
     phone,
     projectDetails,
+    requestType,
     consent,
     company, // honeypot
   } = payload || {};
@@ -68,6 +70,9 @@ export async function POST(request) {
   if (packageInterest && !VALID_PACKAGE_INTERESTS.has(packageInterest)) {
     return badRequest("Invalid package interest.");
   }
+  if (requestType && !VALID_REQUEST_TYPES.has(requestType)) {
+    return badRequest("Invalid request type.");
+  }
   if (consent !== true) {
     return badRequest("You must agree to the Privacy Policy to submit this form.");
   }
@@ -79,6 +84,7 @@ export async function POST(request) {
     email: email.trim(),
     phone: typeof phone === "string" ? phone.trim() : "",
     projectDetails: projectDetails.trim(),
+    requestType: VALID_REQUEST_TYPES.has(requestType) ? requestType : "quote",
   });
 
   if (!result.sent) {

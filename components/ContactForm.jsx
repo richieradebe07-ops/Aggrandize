@@ -8,7 +8,12 @@ import { PACKAGE_INTEREST_OPTIONS, SITE } from "@/lib/content";
 // Posts to /api/contact, which emails both the submitter (a short
 // confirmation) and the studio inbox (a full alert) — no submission
 // storage, just notifications, same pattern as the "Ask a question" widget.
-export default function ContactForm({ initialPackage = "" }) {
+//
+// `requestType` ("quote" | "mockup") is set by the caller, not the visitor —
+// the Free Mockup CTA (components/FreeMockupOffer.jsx) renders this same
+// form with requestType="mockup" so the owner alert reads differently
+// without needing a second form or route.
+export default function ContactForm({ initialPackage = "", requestType = "quote" }) {
   const [status, setStatus] = useState("idle"); // idle | submitting | sent | error
   const [errorMessage, setErrorMessage] = useState("");
   const validInitialPackage = PACKAGE_INTEREST_OPTIONS.some((o) => o.value === initialPackage)
@@ -46,7 +51,7 @@ export default function ContactForm({ initialPackage = "" }) {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, requestType }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "Something went wrong. Please try again.");
@@ -60,10 +65,13 @@ export default function ContactForm({ initialPackage = "" }) {
   if (status === "sent") {
     return (
       <div className="rounded-2xl border border-brass/30 bg-brass/5 p-8 text-center">
-        <h3 className="font-display text-2xl text-ink dark:text-ivory">Request received</h3>
+        <h3 className="font-display text-2xl text-ink dark:text-ivory">
+          {requestType === "mockup" ? "Mockup request received" : "Request received"}
+        </h3>
         <p className="mt-2 text-sm text-ink/65 dark:text-ivory/65">
           Thanks, {values.name.split(" ")[0] || "there"} — check your inbox for a
-          confirmation, and we&rsquo;ll reply with next steps within 24 hours. If
+          confirmation, and we&rsquo;ll reply with{" "}
+          {requestType === "mockup" ? "your free mockup" : "next steps"} within 24 hours. If
           it&rsquo;s urgent, message us directly on WhatsApp.
         </p>
       </div>
@@ -72,6 +80,10 @@ export default function ContactForm({ initialPackage = "" }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      {/* Not a visitor-facing field — set by the caller via the
+          `requestType` prop (see above), submitted as-is. */}
+      <input type="hidden" name="requestType" value={requestType} />
+
       {/* Honeypot — hidden from sighted and keyboard users, left for bots
           that blindly fill every field. Not display:none/visibility:hidden,
           which some bots skip; off-screen positioning instead. */}
@@ -216,7 +228,11 @@ export default function ContactForm({ initialPackage = "" }) {
         disabled={!canSubmit || status === "submitting"}
         className="w-full sm:w-auto sm:px-10"
       >
-        {status === "submitting" ? "Sending…" : "Request a quote"}
+        {status === "submitting"
+          ? "Sending…"
+          : requestType === "mockup"
+            ? "Request my free mockup"
+            : "Request a quote"}
       </Button>
 
       <p className="text-xs text-ink/40 dark:text-ivory/40">
