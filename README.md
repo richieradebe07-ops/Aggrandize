@@ -67,14 +67,14 @@ code changes needed) once real values are filled in.
 
 - `FOUNDING_SPOTS_REMAINING` — the single number gating the homepage banner, the Services page's Founding Client section (including whether its "Claim your spot" button renders at all), and whether the Founding Client offer choice appears in the Get Started checkout. No backend; just update the number down to 0 once spots are gone and all three hide automatically.
 - `PACKAGES`, `ADD_ONS`, `MAINTENANCE_PLANS` — pricing and package details.
-- `PROJECTS` — case studies shown on the homepage and `/work`. Replace the placeholder entries (OKUHLE, Braai & Bake, RL Paws Co) as each project is ready.
+- `PROJECTS` — case studies shown on the homepage and `/work`. Currently just OKUHLE; add further entries here as each new project goes live.
 - `FAQS`, `TRUST_POINTS` — homepage copy.
 - `SITE` — WhatsApp number, email, slogan, value proposition.
 - `SOCIAL_LINKS` — Instagram and Facebook, both live; each entry's `href` and `ariaLabel` are read directly by the footer and folded into `LocalBusinessSchema`'s `sameAs`. There's no LinkedIn entry (no account yet) — add one the same way once it exists rather than pointing it at "#".
 - `COMPARISON_TABLE` — the `/compare` page's rows. The Aggrandize starting-price cell reads `getPackage("starter").price` directly rather than a hardcoded figure, and never mentions the Founding Client rate (temporary/limited) — keep it that way if you edit this.
 - `FOUNDER` — the homepage "Meet the founder" teaser. `photo` points at `public/founder.jpg`; set it to a falsy value instead of deleting the field to fall back to an ivory/brass initials circle (`FOUNDER.initials`) rather than a broken image.
 - `TESTIMONIALS` — empty (`[]`) until real client testimonials exist. Add `{ quote, clientName, businessName }` entries and the homepage carousel picks them up automatically; leaving it empty renders nothing (not a broken empty carousel).
-- `TRUST_BADGES` — the small "POPIA Compliant / Secure & SSL Protected / Proudly Pietermaritzburg" row shown in the footer and on the Get Started/Contact forms.
+- `TRUST_BADGES` — the small row of demonstrably-true trust signals shown in the footer and on the Get Started/Contact forms. Keep these to claims that are actually true today — no compliance badges we can't substantiate.
 
 ## Dark mode
 

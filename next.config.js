@@ -34,6 +34,15 @@ const nextConfig = {
   outputFileTracingIncludes: {
     "/api/pricing-pdf": ["./node_modules/pdfkit/js/data/**"],
   },
+  // Braai & Bake and RL Paws Co were removed from lib/content.js's PROJECTS
+  // (never launched) — permanently redirect their old case-study URLs to
+  // /work instead of letting them 404, in case either was shared or indexed.
+  async redirects() {
+    return [
+      { source: "/work/braai-and-bake", destination: "/work", permanent: true },
+      { source: "/work/rl-paws-co", destination: "/work", permanent: true },
+    ];
+  },
 };
 
 module.exports = nextConfig;
