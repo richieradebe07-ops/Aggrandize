@@ -37,10 +37,20 @@ export default async function CaseStudyPage({ params }) {
           &larr; All work
         </Link>
 
-        {project.status === "in-progress" && (
-          <span className="mt-6 inline-block text-xs font-medium uppercase tracking-wide text-brass">
-            In progress
-          </span>
+        {project.isDemo ? (
+          <div className="mt-6 rounded-lg border border-ink/15 bg-ink/[0.03] px-4 py-3 text-sm text-ink/70 dark:border-ivory/20 dark:bg-ivory/[0.04] dark:text-ivory/70">
+            <span className="font-medium uppercase tracking-wide text-ink/50 dark:text-ivory/50">
+              Demo project
+            </span>{" "}
+            — this is not an actual client. It was built to show what we can do, not to
+            claim a real client relationship or outcome.
+          </div>
+        ) : (
+          project.status === "in-progress" && (
+            <span className="mt-6 inline-block text-xs font-medium uppercase tracking-wide text-brass">
+              In progress
+            </span>
+          )
         )}
 
         {project.logo && (
@@ -72,7 +82,7 @@ export default async function CaseStudyPage({ params }) {
           </a>
         ) : (
           <span className="mt-5 inline-block text-xs font-medium uppercase tracking-wide text-ink/40 dark:text-ivory/40">
-            Launching Soon
+            {project.isDemo ? "Concept demo — no live site" : "Launching Soon"}
           </span>
         )}
 

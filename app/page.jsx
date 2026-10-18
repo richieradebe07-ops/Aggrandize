@@ -8,6 +8,7 @@ import PackageCard from "@/components/PackageCard";
 import AccordionItem from "@/components/AccordionItem";
 import ChanceChart from "@/components/ChanceChart";
 import FounderTeaser from "@/components/FounderTeaser";
+import SpeedProof from "@/components/SpeedProof";
 import TestimonialsCarousel from "@/components/TestimonialsCarousel";
 import LocalBusinessSchema from "@/components/LocalBusinessSchema";
 import FAQSchema from "@/components/FAQSchema";
@@ -87,22 +88,19 @@ export default function HomePage() {
               Recent work
             </h2>
             <p className="mt-3 text-ink/60 dark:text-ivory/60">
-              Our first published case study — more are on the way as each
-              new project launches.
+              A published client case study, plus a demo showing what we can
+              build — more case studies on the way as each new project
+              launches.
             </p>
           </RevealOnScroll>
 
-          <div className="mx-auto mt-12 max-w-xl">
-            {PROJECTS.map((project) => (
-              <RevealOnScroll key={project.slug} variant="tech">
-                <ProjectCard project={project} featured />
+          <div className="mx-auto mt-12 grid max-w-3xl gap-8 sm:grid-cols-2">
+            {PROJECTS.map((project, i) => (
+              <RevealOnScroll key={project.slug} delay={i * 100} variant="tech">
+                <ProjectCard project={project} />
               </RevealOnScroll>
             ))}
           </div>
-
-          <p className="mx-auto mt-8 max-w-sm text-center text-sm text-ink/50 dark:text-ivory/50">
-            More case studies coming as projects launch.
-          </p>
 
           <div className="mt-6 text-center">
             <Link
@@ -205,6 +203,25 @@ export default function HomePage() {
               </RevealOnScroll>
             ))}
           </div>
+        </div>
+      </section>
+
+      <SectionDivider />
+
+      <section className="px-5 py-16 sm:px-8 sm:py-24">
+        <div className="mx-auto max-w-content">
+          <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
+            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+              Built for speed
+            </h2>
+            <p className="mt-3 text-ink/60 dark:text-ivory/60">
+              A fast site isn&rsquo;t a nice-to-have — it&rsquo;s what keeps visitors
+              from leaving before they see what you offer.
+            </p>
+          </RevealOnScroll>
+          <RevealOnScroll variant="tech" delay={100} className="mt-10">
+            <SpeedProof />
+          </RevealOnScroll>
         </div>
       </section>
 

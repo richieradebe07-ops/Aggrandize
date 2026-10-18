@@ -24,10 +24,16 @@ export default function ProjectCard({ project, featured = false }) {
           </span>
         </div>
         <div className={featured ? "p-8 pb-5" : "p-6 pb-4"}>
-          {project.status === "in-progress" && (
-            <span className="mb-2 inline-block text-xs font-medium uppercase tracking-wide text-brass">
-              In progress
+          {project.isDemo ? (
+            <span className="mb-2 inline-block rounded-full border border-ink/15 px-2.5 py-0.5 text-xs font-medium uppercase tracking-wide text-ink/50 dark:border-ivory/20 dark:text-ivory/50">
+              Demo project — not an actual client
             </span>
+          ) : (
+            project.status === "in-progress" && (
+              <span className="mb-2 inline-block text-xs font-medium uppercase tracking-wide text-brass">
+                In progress
+              </span>
+            )
           )}
           <h3 className={`font-display text-ink dark:text-ivory ${featured ? "text-2xl" : "text-xl"}`}>
             {project.name}
@@ -55,7 +61,7 @@ export default function ProjectCard({ project, featured = false }) {
           </a>
         ) : (
           <span className="text-xs font-medium uppercase tracking-wide text-ink/40 dark:text-ivory/40">
-            Launching Soon
+            {project.isDemo ? "Concept demo — no live site" : "Launching Soon"}
           </span>
         )}
       </div>
