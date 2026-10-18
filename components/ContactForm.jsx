@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Button from "./Button";
+import WhatsAppButton from "./WhatsAppButton";
 import { PACKAGE_INTEREST_OPTIONS, SITE } from "@/lib/content";
 
 // Posts to /api/contact, which emails both the submitter (a short
@@ -69,11 +70,15 @@ export default function ContactForm({ initialPackage = "", requestType = "quote"
           {requestType === "mockup" ? "Mockup request received" : "Request received"}
         </h3>
         <p className="mt-2 text-sm text-ink/65 dark:text-ivory/65">
-          Thanks, {values.name.split(" ")[0] || "there"} — check your inbox for a
-          confirmation, and we&rsquo;ll reply with{" "}
-          {requestType === "mockup" ? "your free mockup" : "next steps"} within 24 hours. If
-          it&rsquo;s urgent, message us directly on WhatsApp.
+          Thanks, we&rsquo;ve emailed you a confirmation and will reply within 24 hours.
         </p>
+        <div className="mt-5 flex justify-center">
+          <WhatsAppButton
+            variant="button"
+            message="Hi Aggrandize Web Co, I just sent a request on your website and have a question."
+            label="Have a quick question? Chat to us on WhatsApp"
+          />
+        </div>
       </div>
     );
   }

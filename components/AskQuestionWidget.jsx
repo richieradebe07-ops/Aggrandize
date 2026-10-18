@@ -6,9 +6,9 @@ import { ChatIcon, CloseIcon } from "./icons";
 import { useCookieBannerVisible } from "./CookieConsent";
 
 // A secondary, lower-key floating option next to the WhatsApp button, for
-// visitors who'd rather not leave the site or don't use WhatsApp. Deliberately
-// smaller and more subdued than WhatsApp — that stays the primary, more
-// prominent channel. Submits to /api/ask, which emails the studio the same
+// visitors who'd rather not leave the site or don't use WhatsApp. Both are
+// secondary "quick question" channels — the quote form is the primary way to
+// reach the studio. Submits to /api/ask, which emails the studio the same
 // way the Get Started flow does.
 export default function AskQuestionWidget() {
   const [open, setOpen] = useState(false);

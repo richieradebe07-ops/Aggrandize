@@ -312,14 +312,14 @@ export default function HomePage() {
             </p>
           )}
           <p className="mx-auto mt-4 max-w-md text-ink/65 dark:text-ivory/65">
-            Message us on WhatsApp for the fastest reply, or head to the
-            contact page to send a brief.
+            Send us a brief and we&rsquo;ll reply with next steps within 24
+            hours.
           </p>
-          <div className="mx-auto mt-8 flex max-w-sm flex-col gap-4 sm:flex-row">
-            <WhatsAppButton variant="button" className="flex-1" />
-            <Button href="/contact" variant="secondary" className="flex-1">
+          <div className="mx-auto mt-8 flex max-w-sm flex-col items-center gap-3">
+            <Button href="/contact" className="w-full">
               Contact us
             </Button>
+            <WhatsAppButton variant="button" label="WhatsApp a question" />
           </div>
         </div>
       </section>

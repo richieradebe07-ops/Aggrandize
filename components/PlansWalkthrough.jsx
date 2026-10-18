@@ -110,17 +110,17 @@ function PlanSlide({ pkg }) {
         {PRICING_PROMISE}
       </p>
 
-      <div className="mt-6 flex flex-col items-center gap-3">
+      <div className="mt-6 flex flex-col items-center gap-2">
         <Button
           onClick={() => openQuoteForm({ packageId: pkg.id })}
           variant={pkg.highlight ? "primary" : "secondary"}
         >
           Get this plan
         </Button>
-        <WhatsAppButton
-          variant="inline"
-          message={`Hi, I'd like to ask about the ${pkg.name} (${pkg.price}).`}
-        />
+        <p className="text-xs text-ink/50 dark:text-ivory/50">
+          Quick question first?{" "}
+          <WhatsAppButton variant="inline" className="text-xs" />
+        </p>
       </div>
     </div>
   );
@@ -224,11 +224,11 @@ function FinalCtaSlide() {
       <p className="mx-auto mt-3 max-w-sm text-ink/60 dark:text-ivory/60">
         Tell us about your business and we&rsquo;ll point you to the right plan.
       </p>
-      <div className="mx-auto mt-8 flex w-full max-w-sm flex-col gap-4 sm:flex-row">
-        <Button onClick={() => openQuoteForm({})} className="flex-1">
+      <div className="mx-auto mt-8 flex w-full max-w-sm flex-col items-center gap-3">
+        <Button onClick={() => openQuoteForm({})} className="w-full">
           Request a quote
         </Button>
-        <WhatsAppButton variant="button" className="flex-1" />
+        <WhatsAppButton variant="button" label="WhatsApp a question" />
       </div>
     </div>
   );

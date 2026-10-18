@@ -3,6 +3,7 @@ import WhatsAppButton from "@/components/WhatsAppButton";
 import WhatsAppQRCode from "@/components/WhatsAppQRCode";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import TrustBadges from "@/components/TrustBadges";
+import { SITE } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -28,31 +29,38 @@ export default async function ContactPage({ searchParams }) {
           </p>
         </RevealOnScroll>
 
-        <div className="mt-12 grid gap-10 sm:grid-cols-[1fr_auto_1fr]">
+        <div className="mt-12">
           <RevealOnScroll>
             <ContactForm initialPackage={initialPackage} />
           </RevealOnScroll>
 
-          <div className="hidden w-px bg-ink/10 dark:bg-ivory/10 sm:block" aria-hidden="true" />
-          <div className="block h-px w-full bg-ink/10 dark:bg-ivory/10 sm:hidden" aria-hidden="true" />
+          <p className="mt-6 text-center text-sm text-ink/60 dark:text-ivory/60">
+            Or email us directly at{" "}
+            <a
+              href={`mailto:${SITE.email}`}
+              className="font-medium text-ink underline-offset-2 hover:underline dark:text-ivory"
+            >
+              {SITE.email}
+            </a>
+          </p>
+        </div>
 
-          <RevealOnScroll delay={100} className="flex flex-col justify-center">
-            <h2 className="font-display text-xl text-ink dark:text-ivory">
-              Prefer to chat directly?
-            </h2>
-            <p className="mt-2 text-sm text-ink/60 dark:text-ivory/60">
-              Message us on WhatsApp for the fastest response.
+        <div className="mt-10 border-t border-ink/10 pt-8 text-center dark:border-ivory/10">
+          <h2 className="font-display text-base text-ink dark:text-ivory">
+            For quick questions
+          </h2>
+          <p className="mt-1 text-sm text-ink/55 dark:text-ivory/55">
+            Not ready for a full brief? Send us a quick WhatsApp message instead.
+          </p>
+          <div className="mt-4 flex justify-center">
+            <WhatsAppButton variant="button" />
+          </div>
+          <div className="mx-auto mt-6 flex max-w-xs items-center gap-3">
+            <WhatsAppQRCode message="Hi Aggrandize Web Co., I'd like to find out more." />
+            <p className="text-xs text-ink/50 dark:text-ivory/50">
+              Or scan with your phone&rsquo;s camera to open WhatsApp directly.
             </p>
-            <div className="mt-4">
-              <WhatsAppButton variant="button" />
-            </div>
-            <div className="mt-6 flex items-center gap-3">
-              <WhatsAppQRCode message="Hi Aggrandize Web Co., I'd like to find out more." />
-              <p className="text-xs text-ink/50 dark:text-ivory/50">
-                Or scan with your phone&rsquo;s camera to open WhatsApp directly.
-              </p>
-            </div>
-          </RevealOnScroll>
+          </div>
         </div>
 
         <TrustBadges className="mt-16 justify-center border-t border-ink/10 pt-8 dark:border-ivory/10" />

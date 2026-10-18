@@ -77,15 +77,11 @@ export default async function LocalAreaPage({ params }) {
             </Link>
             , or get in touch directly.
           </p>
-          <div className="mx-auto mt-6 flex max-w-sm flex-col gap-3 sm:flex-row">
-            <Button href="/contact" className="flex-1">
+          <div className="mx-auto mt-6 flex max-w-sm flex-col items-center gap-3">
+            <Button href="/contact" className="w-full">
               Request a quote
             </Button>
-            <WhatsAppButton
-              variant="button"
-              className="flex-1"
-              message={`Hi, I run a business in ${area.name} and I'm looking for a website.`}
-            />
+            <WhatsAppButton variant="button" label="WhatsApp a question" />
           </div>
         </RevealOnScroll>
 

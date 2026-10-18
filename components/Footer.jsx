@@ -69,15 +69,15 @@ export default function Footer() {
             </h3>
             <ul className="mt-4 space-y-3">
               <li>
-                <WhatsAppButton variant="inline" />
-              </li>
-              <li>
                 <a
                   href={`mailto:${SITE.email}`}
                   className="text-sm text-ink/75 transition-colors hover:text-brass dark:text-ivory/75"
                 >
                   {SITE.email}
                 </a>
+              </li>
+              <li>
+                <WhatsAppButton variant="inline" />
               </li>
               <li className="text-sm text-ink/60 dark:text-ivory/60">{SITE.location}</li>
             </ul>
