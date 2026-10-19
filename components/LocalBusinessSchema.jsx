@@ -1,4 +1,4 @@
-import { SITE, SOCIAL_LINKS, LOCAL_AREAS } from "@/lib/content";
+import { SITE, SOCIAL_LINKS, LOCAL_AREAS, GBP_URL } from "@/lib/content";
 
 // schema.org LocalBusiness JSON-LD for local SEO — helps the site itself
 // rank for "web designer Pietermaritzburg"-style searches. Rendered once,
@@ -15,8 +15,9 @@ export default function LocalBusinessSchema() {
     telephone: `+${SITE.whatsappNumber}`,
     url: SITE.url,
     // Reads straight from SOCIAL_LINKS (the same data the footer renders)
-    // so a new live profile only ever needs adding in one place.
-    sameAs: SOCIAL_LINKS.filter((s) => s.live).map((s) => s.href),
+    // so a new live profile only ever needs adding in one place, plus the
+    // Google Business Profile once GBP_URL is set (empty until then).
+    sameAs: [...SOCIAL_LINKS.filter((s) => s.live).map((s) => s.href), ...(GBP_URL ? [GBP_URL] : [])],
     address: {
       "@type": "PostalAddress",
       addressLocality: "Pietermaritzburg",

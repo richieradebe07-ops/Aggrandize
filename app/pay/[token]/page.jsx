@@ -32,7 +32,7 @@ export default async function PaymentLinkPage({ params }) {
     return (
       <section className="px-5 py-24 sm:px-8 sm:py-32">
         <PaymentsComingSoon
-          message="Online payments are opening soon. Get in touch and we’ll arrange payment directly."
+          message="We’re setting up online payments. Get in touch and we’ll email you secure payment details (EFT)."
           ctaHref="/contact"
           ctaLabel="Contact us"
         />

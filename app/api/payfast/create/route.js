@@ -8,6 +8,7 @@ import {
   buildLinkReference,
   PAYFAST_PROCESS_URL,
 } from "@/lib/payfast";
+import { isHoneypotFilled } from "@/lib/honeypot";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const VALID_PAYMENT_TYPES = new Set(["deposit", "balance", "full"]);
@@ -55,7 +56,7 @@ export async function POST(request) {
   // Honeypot: real visitors never see or fill this field (see
   // PayForm.jsx / PaymentLinkCheckout.jsx) — a filled value means a bot.
   // Report a harmless shape without building a real PayFast request.
-  if (typeof company === "string" && company.trim()) {
+  if (isHoneypotFilled(company)) {
     return NextResponse.json({ actionUrl: null, paymentFields: {} });
   }
 

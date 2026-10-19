@@ -10,6 +10,7 @@ import {
 import { COMPANY } from "@/lib/company";
 import { createSubmission } from "@/lib/submissions";
 import { buildPaymentFields, PAYFAST_PROCESS_URL } from "@/lib/payfast";
+import { isHoneypotFilled } from "@/lib/honeypot";
 
 function siteOrigin(request) {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
@@ -48,7 +49,7 @@ export async function POST(request) {
   // Honeypot: real visitors never see or fill this field (see
   // GetStartedForm.jsx) — a filled value means a bot. Report success
   // without actually creating a submission or redirecting to payment.
-  if (typeof company === "string" && company.trim()) {
+  if (isHoneypotFilled(company)) {
     return NextResponse.json({ submissionId: id, actionUrl: null, paymentFields: {} });
   }
 

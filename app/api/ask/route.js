@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { sendQuickQuestionNotification } from "@/lib/email";
+import { isHoneypotFilled } from "@/lib/honeypot";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -23,7 +24,7 @@ export async function POST(request) {
   // Honeypot: real visitors never see or fill this field (see
   // AskQuestionWidget.jsx) — a filled value means a bot. Report success
   // without actually sending anything, so the bot has no signal to adapt on.
-  if (typeof company === "string" && company.trim()) {
+  if (isHoneypotFilled(company)) {
     return NextResponse.json({ ok: true });
   }
 

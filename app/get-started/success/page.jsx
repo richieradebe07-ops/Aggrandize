@@ -2,6 +2,7 @@ import SectionDivider from "@/components/SectionDivider";
 import PaymentSuccessCheck from "@/components/PaymentSuccessCheck";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import Button from "@/components/Button";
+import GoogleReviewLink from "@/components/GoogleReviewLink";
 import { getSubmission } from "@/lib/submissions";
 import { pageMetadata } from "@/lib/seo";
 
@@ -47,9 +48,10 @@ export default async function GetStartedSuccessPage({ searchParams }) {
             </p>
           )}
         </RevealOnScroll>
-        <Button href="/" className="mt-8">
-          Back to home
-        </Button>
+        <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
+          <Button href="/">Back to home</Button>
+          {confirmed && <GoogleReviewLink variant="button" />}
+        </div>
       </div>
     </section>
   );

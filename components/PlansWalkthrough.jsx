@@ -9,46 +9,18 @@ import {
   ArrowLeftIcon,
   ArrowRightIcon,
   CheckIcon,
-  MinusIcon,
   ExpandIcon,
   CompressIcon,
 } from "./icons";
-import { PACKAGES, HOW_IT_WORKS, SITE, PRICING_PROMISE } from "@/lib/content";
+import {
+  PACKAGES,
+  PACKAGE_FEATURE_MATRIX,
+  matrixCellText,
+  HOW_IT_WORKS,
+  SITE,
+  PRICING_PROMISE,
+} from "@/lib/content";
 import { useQuoteForm } from "./QuoteFormProvider";
-
-// Expands a package's own `features` list for comparison purposes only —
-// the E-Commerce package's feature list literally says "Everything in
-// Business Site" (lib/content.js), so that one line is swapped for
-// Business's actual feature strings here. Nothing is invented: every row
-// that ends up in the comparison table is a feature string that already
-// exists verbatim on some package in PACKAGES.
-function expandFeatures(pkg) {
-  const business = PACKAGES.find((p) => p.id === "business");
-  return pkg.features.flatMap((feature) =>
-    feature === "Everything in Business Site" && business ? business.features : [feature]
-  );
-}
-
-// Builds the comparison matrix straight from PACKAGES — one row per unique
-// feature string (in first-seen order across the real packages), ticked
-// for whichever package(s) actually list it.
-function buildComparisonRows() {
-  const expanded = PACKAGES.map((pkg) => ({ id: pkg.id, features: expandFeatures(pkg) }));
-  const order = [];
-  const seen = new Set();
-  expanded.forEach(({ features }) => {
-    features.forEach((feature) => {
-      if (!seen.has(feature)) {
-        seen.add(feature);
-        order.push(feature);
-      }
-    });
-  });
-  return order.map((label) => ({
-    label,
-    packageIds: expanded.filter((p) => p.features.includes(label)).map((p) => p.id),
-  }));
-}
 
 const SLIDE_MIN_HEIGHT = "min-h-[460px] sm:min-h-[500px]";
 const SWIPE_THRESHOLD_PX = 50;
@@ -128,7 +100,7 @@ function PlanSlide({ pkg }) {
   );
 }
 
-function ComparisonSlide({ rows }) {
+function ComparisonSlide() {
   return (
     <div className={`flex flex-1 flex-col ${SLIDE_MIN_HEIGHT}`}>
       <h2 className="text-center font-display text-3xl text-ink dark:text-ivory">
@@ -159,7 +131,7 @@ function ComparisonSlide({ rows }) {
             </tr>
           </thead>
           <tbody>
-            {rows.map((row) => (
+            {PACKAGE_FEATURE_MATRIX.map((row) => (
               <tr key={row.label} className="border-b border-ink/5 dark:border-ivory/5">
                 <th
                   scope="row"
@@ -167,21 +139,32 @@ function ComparisonSlide({ rows }) {
                 >
                   {row.label}
                 </th>
-                {PACKAGES.map((pkg) => (
-                  <td
-                    key={pkg.id}
-                    className={`py-2.5 px-2 text-center ${pkg.highlight ? "bg-brass/5" : ""}`}
-                  >
-                    {row.packageIds.includes(pkg.id) ? (
-                      <CheckIcon className="mx-auto h-4 w-4 text-brass" />
-                    ) : (
-                      <MinusIcon className="mx-auto h-4 w-4 text-ink/25 dark:text-ivory/25" />
-                    )}
-                    <span className="sr-only">
-                      {row.packageIds.includes(pkg.id) ? "Included" : "Not included"}
-                    </span>
-                  </td>
-                ))}
+                {PACKAGES.map((pkg) => {
+                  const value = row.values[pkg.id];
+                  return (
+                    <td
+                      key={pkg.id}
+                      className={`py-2.5 px-2 text-center text-xs ${pkg.highlight ? "bg-brass/5" : ""}`}
+                    >
+                      {value === true ? (
+                        <>
+                          <CheckIcon className="mx-auto h-4 w-4 text-brass" />
+                          <span className="sr-only">Included</span>
+                        </>
+                      ) : (
+                        <span
+                          className={
+                            value
+                              ? "text-ink/80 dark:text-ivory/80"
+                              : "text-ink/25 dark:text-ivory/25"
+                          }
+                        >
+                          {matrixCellText(value)}
+                        </span>
+                      )}
+                    </td>
+                  );
+                })}
               </tr>
             ))}
           </tbody>
@@ -246,12 +229,10 @@ function FinalCtaSlide() {
 // already handled globally (app/globals.css zeroes transition-duration for
 // everyone when it's set), so no extra handling is needed here.
 export default function PlansWalkthrough() {
-  const comparisonRows = buildComparisonRows();
-
   const slides = [
     { label: "Intro", content: <IntroSlide /> },
     ...PACKAGES.map((pkg) => ({ label: pkg.name, content: <PlanSlide key={pkg.id} pkg={pkg} /> })),
-    { label: "Compare", content: <ComparisonSlide rows={comparisonRows} /> },
+    { label: "Compare", content: <ComparisonSlide /> },
     { label: "How it works", content: <HowItWorksSlide /> },
     { label: "Get started", content: <FinalCtaSlide /> },
   ];

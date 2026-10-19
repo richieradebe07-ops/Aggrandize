@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { sendContactNotification } from "@/lib/email";
 import { checkRateLimit } from "@/lib/rateLimit";
 import { PACKAGE_INTEREST_OPTIONS } from "@/lib/content";
+import { isHoneypotFilled } from "@/lib/honeypot";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const VALID_PACKAGE_INTERESTS = new Set(PACKAGE_INTEREST_OPTIONS.map((o) => o.value));
@@ -43,7 +44,7 @@ export async function POST(request) {
   // Honeypot: real visitors never see or fill this field (see
   // ContactForm.jsx) — a filled value means a bot. Report success without
   // actually sending anything, so the bot has no signal to adapt on.
-  if (typeof company === "string" && company.trim()) {
+  if (isHoneypotFilled(company)) {
     return NextResponse.json({ ok: true });
   }
 

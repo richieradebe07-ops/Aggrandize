@@ -18,16 +18,10 @@ export function useQuoteForm() {
   return ctx;
 }
 
-// The quote form's own dropdown is intentionally looser than PACKAGES —
-// Starter / Business / Custom / Not sure, not a 1:1 mirror of every real
-// package id — so there's no exact "ecommerce" option. E-Commerce is the
-// most bespoke/custom-handled package on the site (its own copy calls it
-// an "introductory rate" for "first 1–2 clients"), so it maps to "custom"
-// here; anything else unrecognized falls through to ContactForm's own
-// "unsure" default.
+// The quote form's dropdown mirrors every real PACKAGES id directly; anything
+// unrecognized falls through to ContactForm's own "unsure" default.
 function mapPackageIdToQuoteInterest(packageId) {
   if (PACKAGE_INTEREST_OPTIONS.some((o) => o.value === packageId)) return packageId;
-  if (packageId === "ecommerce") return "custom";
   return "";
 }
 

@@ -67,10 +67,12 @@ export default function TermsPage() {
 
       <LegalSection heading="4. Payment">
         <p>
-          Work begins once your deposit is received through PayFast. Standard plan: 50% deposit,
-          50% on completion. The Three-Part Split and Monthly Instalment plans follow the
-          percentages shown at checkout. The final balance must be paid before the site is launched
-          on your domain and before ownership is transferred. Late payments may pause work.
+          Work begins once your deposit has cleared in our account (EFT) or been received through
+          PayFast. Standard plan: 50% deposit, 50% on completion. The Three-Part Split and Monthly
+          Instalment plans follow the percentages shown at checkout. The final balance must be paid
+          before the site is launched on your domain and before ownership is transferred. Late
+          payments may pause work. For EFT, banking details are sent to you by email with your
+          proposal, never published on the site.
         </p>
         <p>
           You can also pay a deposit, your final balance, or your full plan price directly at{" "}

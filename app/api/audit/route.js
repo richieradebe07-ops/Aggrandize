@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { sendAuditNotification } from "@/lib/email";
 import { checkRateLimit } from "@/lib/rateLimit";
+import { isHoneypotFilled } from "@/lib/honeypot";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -33,7 +34,7 @@ export async function POST(request) {
 
   const { name, email, business, url, company } = payload || {}; // `company` is the honeypot
 
-  if (typeof company === "string" && company.trim()) {
+  if (isHoneypotFilled(company)) {
     return NextResponse.json({ ok: true });
   }
 

@@ -1,5 +1,13 @@
 import PDFDocument from "pdfkit";
-import { PACKAGES, ADD_ONS, MAINTENANCE_PLANS, MAINTENANCE_NOTE, SITE } from "@/lib/content";
+import {
+  PACKAGES,
+  PACKAGE_FEATURE_MATRIX,
+  matrixCellText,
+  ADD_ONS,
+  MAINTENANCE_PLANS,
+  MAINTENANCE_NOTE,
+  SITE,
+} from "@/lib/content";
 
 // Requires Node (pdfkit isn't edge-compatible).
 export const runtime = "nodejs";
@@ -40,6 +48,18 @@ export async function GET() {
       doc.fillColor(INK).font("Helvetica").fontSize(10).text(`•  ${feature}`, { indent: 12 });
     });
     doc.moveDown(0.6);
+  });
+
+  doc.moveDown(0.4);
+  doc.fillColor(INK).font("Helvetica-Bold").fontSize(15).text("Compare at a glance");
+  doc.moveDown(0.3);
+  PACKAGE_FEATURE_MATRIX.forEach((row) => {
+    const cells = PACKAGES.map((pkg) => `${pkg.name}: ${matrixCellText(row.values[pkg.id])}`).join(
+      "   •   "
+    );
+    doc.fillColor(INK).font("Helvetica-Bold").fontSize(10).text(row.label);
+    doc.fillColor(MUTED).font("Helvetica").fontSize(9.5).text(cells, { indent: 12 });
+    doc.moveDown(0.25);
   });
 
   doc.moveDown(0.4);
