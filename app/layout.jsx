@@ -3,6 +3,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import MobileStickyBar from "@/components/MobileStickyBar";
 import AskQuestionWidget from "@/components/AskQuestionWidget";
 import CookieConsent from "@/components/CookieConsent";
 import SiteAnalytics from "@/components/SiteAnalytics";
@@ -76,6 +77,7 @@ export default function RootLayout({ children }) {
           </main>
           <Footer />
           <WhatsAppButton />
+          <MobileStickyBar />
           <AskQuestionWidget />
           <SiteAnalytics />
         </CookieConsent>

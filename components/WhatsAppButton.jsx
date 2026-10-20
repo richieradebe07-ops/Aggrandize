@@ -38,7 +38,10 @@ export default function WhatsAppButton({
         rel="noopener noreferrer"
         aria-label="Quick question? WhatsApp us"
         title="Quick question? WhatsApp us"
-        className={`fixed right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 bg-ivory/90 text-ink/70 shadow-md backdrop-blur transition-[transform,bottom,color] hover:scale-105 hover:border-brass hover:text-brass focus:outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory dark:border-ivory/20 dark:bg-ink/80 dark:text-ivory/70 dark:focus-visible:ring-offset-ink sm:h-12 sm:w-12 ${
+        // Hidden below `sm:` — MobileStickyBar.jsx is the small-screen
+        // replacement (its own WhatsApp action, paired with "Free mockup"),
+        // so the two never show at once or collide.
+        className={`fixed right-5 z-40 hidden h-11 w-11 items-center justify-center rounded-full border border-ink/15 bg-ivory/90 text-ink/70 shadow-md backdrop-blur transition-[transform,bottom,color] hover:scale-105 hover:border-brass hover:text-brass focus:outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory dark:border-ivory/20 dark:bg-ink/80 dark:text-ivory/70 dark:focus-visible:ring-offset-ink sm:flex sm:h-12 sm:w-12 ${
           bannerVisible ? "bottom-40 sm:bottom-24" : "bottom-5"
         }`}
       >

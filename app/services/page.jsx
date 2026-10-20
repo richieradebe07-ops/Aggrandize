@@ -10,6 +10,7 @@ import PlansWalkthrough from "@/components/PlansWalkthrough";
 import QuoteFormProvider from "@/components/QuoteFormProvider";
 import EmbeddedQuoteForm from "@/components/EmbeddedQuoteForm";
 import FreeMockupOffer from "@/components/FreeMockupOffer";
+import CostEstimator from "@/components/CostEstimator";
 import { DownloadIcon } from "@/components/icons";
 import {
   PACKAGES,
@@ -192,6 +193,12 @@ export default function ServicesPage() {
         <p className="mx-auto mt-4 max-w-2xl text-center text-xs leading-relaxed text-ink/45 dark:text-ivory/45">
           {SMALL_EDIT_DEFINITION}
         </p>
+
+        <SectionDivider className="my-16" />
+
+        <RevealOnScroll variant="tech">
+          <CostEstimator />
+        </RevealOnScroll>
 
         <SectionDivider className="my-16" />
 

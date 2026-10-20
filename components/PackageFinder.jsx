@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import {
   PACKAGE_FINDER_QUESTIONS,
   getRecommendedPackage,
@@ -146,6 +147,13 @@ export default function PackageFinder({ open, onClose }) {
             <Button onClick={goToGetStarted} className="mt-8 w-full">
               Get Started
             </Button>
+            <Link
+              href={`/contact?package=${recommended.id}&requestType=quote`}
+              onClick={onClose}
+              className="mt-3 block w-full text-center text-sm text-ink/60 underline underline-offset-4 hover:text-ink dark:text-ivory/60 dark:hover:text-ivory"
+            >
+              Not ready? Request a quote instead
+            </Link>
             <button
               type="button"
               onClick={() => setStep(0)}

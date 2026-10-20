@@ -16,8 +16,9 @@ export default function EmbeddedQuoteForm({ id = "quote-form", title = "Request 
       <h2 className="text-center font-display text-3xl text-ink dark:text-ivory">{title}</h2>
       <div className="mx-auto mt-8 max-w-xl">
         <ContactForm
-          key={`${selection.packageInterest}-${selection.requestType}`}
+          key={`${selection.packageInterest}-${selection.requestType}-${selection.message}`}
           initialPackage={selection.packageInterest}
+          initialMessage={selection.message}
           requestType={selection.requestType}
         />
       </div>

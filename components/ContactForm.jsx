@@ -15,7 +15,12 @@ import { getDemo } from "@/lib/demos";
 // the Free Mockup CTA (components/FreeMockupOffer.jsx) renders this same
 // form with requestType="mockup" so the owner alert reads differently
 // without needing a second form or route.
-export default function ContactForm({ initialPackage = "", initialIndustry = "", requestType = "quote" }) {
+export default function ContactForm({
+  initialPackage = "",
+  initialIndustry = "",
+  initialMessage = "",
+  requestType = "quote",
+}) {
   const [status, setStatus] = useState("idle"); // idle | submitting | sent | error
   const [errorMessage, setErrorMessage] = useState("");
   const validInitialPackage = PACKAGE_INTEREST_OPTIONS.some((o) => o.value === initialPackage)
@@ -34,9 +39,11 @@ export default function ContactForm({ initialPackage = "", initialIndustry = "",
     packageInterest: validInitialPackage,
     email: "",
     phone: "",
-    projectDetails: validIndustry
-      ? `I'd like a free mockup for my ${demo.name} business, like your demo.`
-      : "",
+    projectDetails: initialMessage
+      ? initialMessage
+      : validIndustry
+        ? `I'd like a free mockup for my ${demo.name} business, like your demo.`
+        : "",
     consent: false,
     // Honeypot: real visitors never see or fill this field (see the
     // visually-hidden input below), so a filled value means a bot. Checked

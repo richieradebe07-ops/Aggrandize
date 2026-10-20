@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Hero from "@/components/Hero";
 import FoundingBanner from "@/components/FoundingBanner";
+import ProcessTimeline from "@/components/ProcessTimeline";
 import SectionDivider from "@/components/SectionDivider";
 import RevealOnScroll from "@/components/RevealOnScroll";
 import ProjectCard from "@/components/ProjectCard";
@@ -58,23 +59,7 @@ export default function HomePage() {
             </p>
           </RevealOnScroll>
 
-          <div className="mt-12 grid gap-8 sm:grid-cols-3 lg:grid-cols-5">
-            {HOW_IT_WORKS.map((step, i) => (
-              <RevealOnScroll key={step.title} delay={i * 80} variant="tech">
-                <div className="text-center">
-                  <div className="mx-auto flex h-9 w-9 items-center justify-center rounded-full border border-brass/40 font-display text-sm text-brass">
-                    {i + 1}
-                  </div>
-                  <h3 className="mt-3 font-display text-lg text-ink dark:text-ivory">
-                    {step.title}
-                  </h3>
-                  <p className="mt-1.5 text-sm leading-relaxed text-ink/60 dark:text-ivory/60">
-                    {step.description}
-                  </p>
-                </div>
-              </RevealOnScroll>
-            ))}
-          </div>
+          <ProcessTimeline steps={HOW_IT_WORKS} />
         </div>
       </section>
 

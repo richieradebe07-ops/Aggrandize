@@ -67,7 +67,10 @@ export default function AskQuestionWidget() {
         onClick={() => setOpen(true)}
         aria-label="Ask a question"
         className={`fixed right-5 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-ink/15 bg-ivory text-ink/70 shadow-md transition-[transform,bottom] hover:scale-105 hover:border-brass hover:text-brass focus:outline-none focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-ivory dark:border-ivory/20 dark:bg-ink dark:text-ivory/70 dark:focus-visible:ring-offset-ink ${
-          bannerVisible ? "bottom-[232px] sm:bottom-[176px]" : "bottom-[92px] sm:bottom-[100px]"
+          // Mobile offsets (below `sm:`) clear MobileStickyBar.jsx, which
+          // replaces the floating WhatsApp button on small screens — not
+          // that button's own (now `sm:`-only) position.
+          bannerVisible ? "bottom-[244px] sm:bottom-[176px]" : "bottom-[104px] sm:bottom-[100px]"
         }`}
       >
         <ChatIcon className="h-5 w-5" />

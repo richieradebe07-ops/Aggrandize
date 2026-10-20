@@ -31,8 +31,8 @@ export default function Card({
       : "border-ink/10 bg-white/60 dark:border-ivory/10 dark:bg-ivory/5",
     hoverLift &&
       (highlighted
-        ? "hover:-translate-y-1 hover:shadow-xl hover:shadow-brass/20"
-        : "hover:-translate-y-1 hover:shadow-lg hover:shadow-ink/5 dark:hover:shadow-black/20"),
+        ? "hover:-translate-y-1 hover:shadow-xl hover:shadow-brass/20 active:translate-y-0 active:shadow-md"
+        : "hover:-translate-y-1 hover:shadow-lg hover:shadow-ink/5 active:translate-y-0 active:shadow-sm dark:hover:shadow-black/20"),
     padded && "p-7",
     className,
   ]

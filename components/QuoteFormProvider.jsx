@@ -26,14 +26,16 @@ function mapPackageIdToQuoteInterest(packageId) {
 }
 
 export default function QuoteFormProvider({ children }) {
-  const [selection, setSelection] = useState({ packageInterest: "", requestType: "quote" });
+  const [selection, setSelection] = useState({ packageInterest: "", requestType: "quote", message: "" });
   const formRef = useRef(null);
 
   // `packageId` is a real PACKAGES id (or omitted) — translated to the
   // quote form's own vocabulary here, once, so every caller (Walkthrough,
-  // Free Mockup offer, anything else later) can just pass the id it knows.
-  function openQuoteForm({ packageId = "", requestType = "quote" } = {}) {
-    setSelection({ packageInterest: mapPackageIdToQuoteInterest(packageId), requestType });
+  // Free Mockup offer, the cost estimator) can just pass the id it knows.
+  // `message`, when given, seeds the form's project-details text (e.g. the
+  // cost estimator's own selection summary) instead of the generic default.
+  function openQuoteForm({ packageId = "", requestType = "quote", message = "" } = {}) {
+    setSelection({ packageInterest: mapPackageIdToQuoteInterest(packageId), requestType, message });
     // Deferred a tick so this also works when called during a slide
     // transition (the target is always already mounted — it just isn't
     // conditionally rendered — so this is purely to let the state update

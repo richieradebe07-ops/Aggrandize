@@ -22,7 +22,7 @@ import Link from "next/link";
 //             adjust width or padding for a specific placement).
 //   ...rest   forwarded to the underlying element (onClick, aria-*, etc.).
 const BASE_CLASSES =
-  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:translate-y-0 disabled:opacity-40";
+  "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] disabled:cursor-not-allowed disabled:translate-y-0 disabled:opacity-40";
 
 const VARIANT_CLASSES = {
   primary:

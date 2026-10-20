@@ -26,6 +26,19 @@
     transition-duration: 0.001ms !important;
     transition-delay: 0s !important;
   }
+
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+}
+
+/* Page-transition overlay (app/template.jsx) shouldn't swallow clicks made
+   mid-animation. */
+::view-transition {
+  pointer-events: none;
 }
 
 :focus-visible {
