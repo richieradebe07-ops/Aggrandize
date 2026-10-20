@@ -10,38 +10,48 @@ export default function FounderTeaser() {
   return (
     <RevealOnScroll
       variant="tech"
-      className="mx-auto flex max-w-3xl flex-col items-center gap-6 text-center sm:flex-row sm:items-start sm:text-left"
+      className="mx-auto max-w-3xl rounded-2xl border border-ink/10 bg-white/60 p-8 dark:border-ivory/10 dark:bg-ivory/5 sm:p-10"
     >
-      {FOUNDER.photo ? (
-        <Image
-          src={FOUNDER.photo}
-          alt={`${FOUNDER.name}, founder of ${SITE.name}`}
-          width={112}
-          height={112}
-          className="h-28 w-28 flex-shrink-0 rounded-full object-cover ring-1 ring-ink/10 dark:ring-ivory/15"
-        />
-      ) : (
-        <div
-          aria-hidden="true"
-          className="flex h-28 w-28 flex-shrink-0 items-center justify-center rounded-full bg-ivory font-display text-2xl font-semibold text-brass ring-1 ring-brass/30 dark:bg-ink"
-        >
-          {FOUNDER.initials}
+      <div className="flex flex-col items-center gap-6 text-center sm:flex-row sm:items-start sm:text-left">
+        {FOUNDER.photo ? (
+          <Image
+            src={FOUNDER.photo}
+            alt={`${FOUNDER.name}, founder of ${SITE.name}`}
+            width={112}
+            height={112}
+            className="h-28 w-28 flex-shrink-0 rounded-full object-cover ring-1 ring-ink/10 dark:ring-ivory/15"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            className="flex h-28 w-28 flex-shrink-0 items-center justify-center rounded-full bg-ivory font-display text-2xl font-semibold text-brass ring-1 ring-brass/30 dark:bg-ink"
+          >
+            {FOUNDER.initials}
+          </div>
+        )}
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-brass">
+            Meet the founder
+          </p>
+          <p className="mt-2 font-display text-xl text-ink dark:text-ivory">
+            {FOUNDER.name}
+          </p>
+          <p className="mt-1 text-sm font-medium text-ink/50 dark:text-ivory/50">
+            {FOUNDER.role}
+          </p>
         </div>
-      )}
-      <div>
-        <h2 className="font-display text-2xl text-ink dark:text-ivory">
-          Meet the founder
-        </h2>
-        <p className="mt-3 font-display text-lg text-ink dark:text-ivory">
-          {FOUNDER.name}
-        </p>
-        <p className="mt-1 text-sm font-medium uppercase tracking-wide text-brass">
-          {FOUNDER.role}
-        </p>
-        <p className="mt-3 max-w-md text-sm leading-relaxed text-ink/70 dark:text-ivory/70">
+      </div>
+      <blockquote className="relative mt-6 border-l-2 border-brass pl-6 sm:ml-[7.5rem]">
+        <span
+          aria-hidden="true"
+          className="absolute -left-1 -top-3 font-display text-5xl text-brass/30"
+        >
+          &ldquo;
+        </span>
+        <p className="font-display text-lg italic leading-relaxed text-ink dark:text-ivory">
           {FOUNDER.bio}
         </p>
-      </div>
+      </blockquote>
     </RevealOnScroll>
   );
 }

@@ -2,7 +2,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import SectionDivider from "@/components/SectionDivider";
+import RevealOnScroll from "@/components/RevealOnScroll";
 import Button from "@/components/Button";
+import DeviceFrameShowcase from "@/components/DeviceFrameShowcase";
 import { ArrowUpRightIcon } from "@/components/icons";
 import { PROJECTS } from "@/lib/content";
 import { pageMetadata } from "@/lib/seo";
@@ -86,40 +88,66 @@ export default async function CaseStudyPage({ params }) {
           </span>
         )}
 
-        <div className="mt-10 flex aspect-video items-center justify-center rounded-2xl bg-ink/5 dark:bg-ivory/5">
-          <span className="font-display text-3xl text-ink/25 dark:text-ivory/25">
-            {project.name}
-          </span>
-        </div>
+        <RevealOnScroll variant="tech" className="mt-10">
+          <DeviceFrameShowcase
+            projectName={project.name}
+            screenshots={project.screenshots}
+          />
+        </RevealOnScroll>
 
         <SectionDivider className="my-12" />
 
         <div className="space-y-10">
-          <section>
+          <RevealOnScroll as="section" variant="tech">
             <h2 className="font-display text-2xl text-ink dark:text-ivory">The problem</h2>
             <p className="mt-3 leading-relaxed text-ink/70 dark:text-ivory/70">{project.problem}</p>
-          </section>
-          <section>
+          </RevealOnScroll>
+          <RevealOnScroll as="section" variant="tech">
             <h2 className="font-display text-2xl text-ink dark:text-ivory">What was built</h2>
             <p className="mt-3 leading-relaxed text-ink/70 dark:text-ivory/70">
               {project.whatWasBuilt}
             </p>
-          </section>
-          <section>
+          </RevealOnScroll>
+          <RevealOnScroll as="section" variant="tech">
             <h2 className="font-display text-2xl text-ink dark:text-ivory">The result</h2>
             <p className="mt-3 leading-relaxed text-ink/70 dark:text-ivory/70">{project.result}</p>
-          </section>
+          </RevealOnScroll>
+
+          {project.metrics?.length > 0 && (
+            <RevealOnScroll as="section" variant="tech">
+              <h2 className="font-display text-2xl text-ink dark:text-ivory">In numbers</h2>
+              <div className="mt-4 grid gap-4 sm:grid-cols-3">
+                {project.metrics.map((metric) => (
+                  <div
+                    key={metric.label}
+                    className="rounded-xl border border-ink/10 bg-ink/[0.03] p-5 text-center dark:border-ivory/10 dark:bg-ivory/[0.04]"
+                  >
+                    <p className="font-display text-3xl text-brass">{metric.value}</p>
+                    <p className="mt-1.5 text-sm text-ink/60 dark:text-ivory/60">{metric.label}</p>
+                  </div>
+                ))}
+              </div>
+            </RevealOnScroll>
+          )}
 
           {project.testimonial?.quote && (
-            <section>
-              <blockquote className="border-l-2 border-brass pl-5 font-display text-xl italic leading-relaxed text-ink dark:text-ivory">
-                &ldquo;{project.testimonial.quote}&rdquo;
+            <RevealOnScroll as="section" variant="tech">
+              <blockquote className="relative border-l-2 border-brass pl-6">
+                <span
+                  aria-hidden="true"
+                  className="absolute -left-1 -top-2 font-display text-5xl text-brass/30"
+                >
+                  &ldquo;
+                </span>
+                <p className="font-display text-xl italic leading-relaxed text-ink dark:text-ivory">
+                  {project.testimonial.quote}
+                </p>
               </blockquote>
-              <p className="mt-3 text-sm text-ink/50 dark:text-ivory/50">
+              <p className="mt-3 pl-6 text-sm text-ink/50 dark:text-ivory/50">
                 {project.testimonial.clientName}
                 {project.testimonial.businessName ? `, ${project.testimonial.businessName}` : ""}
               </p>
-            </section>
+            </RevealOnScroll>
           )}
         </div>
 
