@@ -5,7 +5,7 @@ import Logo from "./Logo";
 import WhatsAppButton from "./WhatsAppButton";
 import GoogleReviewLink from "./GoogleReviewLink";
 import TrustBadges from "./TrustBadges";
-import { NAV_LINKS, SITE, SOCIAL_LINKS, LOCAL_AREAS } from "@/lib/content";
+import { NAV_LINKS, SITE, SOCIAL_LINKS, LOCAL_AREAS, GBP_REVIEW_URL } from "@/lib/content";
 import { COMPANY, REGISTRATION_NUMBER_IS_PLACEHOLDER } from "@/lib/company";
 import { InstagramIcon, FacebookIcon } from "./icons";
 
@@ -81,9 +81,11 @@ export default function Footer() {
                 <WhatsAppButton variant="inline" />
               </li>
               <li className="text-sm text-ink/60 dark:text-ivory/60">{SITE.location}</li>
-              <li>
-                <GoogleReviewLink />
-              </li>
+              {GBP_REVIEW_URL && (
+                <li>
+                  <GoogleReviewLink />
+                </li>
+              )}
             </ul>
           </div>
 
