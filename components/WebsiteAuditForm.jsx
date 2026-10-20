@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Button from "./Button";
+import Spinner from "./Spinner";
 import { SITE } from "@/lib/content";
 
 // Posts to /api/audit — no automated scoring anywhere in this flow, just a
@@ -158,6 +159,7 @@ export default function WebsiteAuditForm() {
       )}
 
       <Button type="submit" disabled={!canSubmit || status === "submitting"} className="w-full sm:w-auto sm:px-10">
+        {status === "submitting" && <Spinner />}
         {status === "submitting" ? "Sending…" : "Get my free audit"}
       </Button>
 

@@ -14,6 +14,7 @@ import {
 import { PAYMENTS_ENABLED } from "@/lib/payfast";
 import ImageUploader from "./ImageUploader";
 import Button from "./Button";
+import Spinner from "./Spinner";
 
 // Deliberately not Number.toLocaleString: Node's SSR pass and the browser
 // can have different ICU data for "en-ZA", producing different separators
@@ -517,6 +518,7 @@ export default function GetStartedForm({ initialPackage, initialData, initialFou
         )}
 
         <Button type="submit" disabled={!canSubmit} className="w-full sm:w-auto sm:px-10">
+          {status === "submitting" && <Spinner />}
           {status === "submitting"
             ? PAYMENTS_ENABLED
               ? "Redirecting to payment…"

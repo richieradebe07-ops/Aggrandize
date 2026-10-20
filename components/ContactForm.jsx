@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Button from "./Button";
+import Spinner from "./Spinner";
 import WhatsAppButton from "./WhatsAppButton";
 import { PACKAGE_INTEREST_OPTIONS, SITE } from "@/lib/content";
 import { getDemo } from "@/lib/demos";
@@ -250,6 +251,7 @@ export default function ContactForm({
         disabled={!canSubmit || status === "submitting"}
         className="w-full sm:w-auto sm:px-10"
       >
+        {status === "submitting" && <Spinner />}
         {status === "submitting"
           ? "Sending…"
           : requestType === "mockup"

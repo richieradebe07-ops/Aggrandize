@@ -32,9 +32,11 @@ export async function loadPlayfairFont() {
 }
 
 // Shared JSX tree for the site's Open Graph / Twitter Card image — used by
-// both app/opengraph-image.jsx and app/twitter-image.jsx so the two stay
-// identical without duplicating the markup.
-export function OgImageContent() {
+// both app/opengraph-image.jsx and app/twitter-image.jsx, and by each
+// route's own opengraph-image.jsx, so every page's social card carries the
+// same brand marks (swoosh, serif wordmark, palette) with its own title.
+// `title` replaces the wordmark line; `subtitle` replaces the slogan line.
+export function OgImageContent({ title, subtitle } = {}) {
   return (
     <div
       style={{
@@ -58,46 +60,114 @@ export function OgImageContent() {
         <circle cx="150" cy="8" r="3" fill="#A9823C" />
       </svg>
 
-      <div
-        style={{
-          marginTop: 18,
-          fontSize: 92,
-          fontWeight: 600,
-          color: "#1B1A17",
-          fontFamily: "Playfair Display, Georgia, serif",
-        }}
-      >
-        {SITE.name.replace(" Web Co.", "")}
-      </div>
-
-      <div style={{ display: "flex", alignItems: "center", marginTop: 6, marginBottom: 30 }}>
-        <div style={{ width: 44, height: 1, backgroundColor: "rgba(169,130,60,0.6)" }} />
+      {title ? (
+        // satori renders a bare <>...</> fragment as its own implicit
+        // row-flex box, which broke the intended vertical stack here — an
+        // explicit column div avoids that.
         <div
           style={{
-            margin: "0 16px",
-            fontSize: 22,
-            letterSpacing: 8,
-            color: "rgba(27,26,23,0.65)",
-            fontFamily: "Arial, Helvetica, sans-serif",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            width: "100%",
           }}
         >
-          WEB CO
+          <div
+            style={{
+              marginTop: 22,
+              fontSize: 22,
+              letterSpacing: 6,
+              color: "rgba(169,130,60,0.9)",
+              fontFamily: "Arial, Helvetica, sans-serif",
+            }}
+          >
+            {SITE.name.toUpperCase()}
+          </div>
+          <div
+            style={{
+              marginTop: 14,
+              maxWidth: 980,
+              fontSize: 68,
+              fontWeight: 600,
+              textAlign: "center",
+              color: "#1B1A17",
+              fontFamily: "Playfair Display, Georgia, serif",
+            }}
+          >
+            {title}
+          </div>
+          {subtitle && (
+            <div
+              style={{
+                marginTop: 18,
+                maxWidth: 820,
+                fontSize: 28,
+                textAlign: "center",
+                color: "rgba(27,26,23,0.65)",
+                fontFamily: "Playfair Display, Georgia, serif",
+                fontStyle: "italic",
+              }}
+            >
+              {subtitle}
+            </div>
+          )}
         </div>
-        <div style={{ width: 44, height: 1, backgroundColor: "rgba(169,130,60,0.6)" }} />
-      </div>
+      ) : (
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+          <div
+            style={{
+              marginTop: 18,
+              fontSize: 92,
+              fontWeight: 600,
+              color: "#1B1A17",
+              fontFamily: "Playfair Display, Georgia, serif",
+            }}
+          >
+            {SITE.name.replace(" Web Co.", "")}
+          </div>
 
-      <div
-        style={{
-          fontSize: 32,
-          fontStyle: "italic",
-          color: "rgba(27,26,23,0.75)",
-          fontFamily: "Playfair Display, Georgia, serif",
-        }}
-      >
-        {SITE.slogan}
-      </div>
+          <div style={{ display: "flex", alignItems: "center", marginTop: 6, marginBottom: 30 }}>
+            <div style={{ width: 44, height: 1, backgroundColor: "rgba(169,130,60,0.6)" }} />
+            <div
+              style={{
+                margin: "0 16px",
+                fontSize: 22,
+                letterSpacing: 8,
+                color: "rgba(27,26,23,0.65)",
+                fontFamily: "Arial, Helvetica, sans-serif",
+              }}
+            >
+              WEB CO
+            </div>
+            <div style={{ width: 44, height: 1, backgroundColor: "rgba(169,130,60,0.6)" }} />
+          </div>
+
+          <div
+            style={{
+              fontSize: 32,
+              fontStyle: "italic",
+              color: "rgba(27,26,23,0.75)",
+              fontFamily: "Playfair Display, Georgia, serif",
+            }}
+          >
+            {SITE.slogan}
+          </div>
+        </div>
+      )}
     </div>
   );
+}
+
+// Shared by every route's opengraph-image.jsx / twitter-image.jsx pair, so
+// adding a page-specific social card is one small file per convention
+// instead of re-deriving the ImageResponse/font-loading boilerplate.
+export async function buildOgImageResponse({ title, subtitle } = {}) {
+  const { ImageResponse } = await import("next/og");
+  const fontData = await loadPlayfairFont();
+  const options = fontData
+    ? { ...OG_IMAGE_SIZE, fonts: [{ name: "Playfair Display", data: fontData, style: "normal", weight: 600 }] }
+    : { ...OG_IMAGE_SIZE };
+  return new ImageResponse(<OgImageContent title={title} subtitle={subtitle} />, options);
 }
 
 export const OG_IMAGE_SIZE = { width: 1200, height: 630 };

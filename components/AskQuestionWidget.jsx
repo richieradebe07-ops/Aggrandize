@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Button from "./Button";
+import Spinner from "./Spinner";
 import { ChatIcon, CloseIcon } from "./icons";
 import { useCookieBannerVisible } from "./CookieConsent";
 
@@ -179,6 +180,7 @@ export default function AskQuestionWidget() {
                   </p>
                 )}
                 <Button type="submit" disabled={status === "submitting"} className="w-full">
+                  {status === "submitting" && <Spinner />}
                   {status === "submitting" ? "Sending…" : "Send question"}
                 </Button>
               </form>
