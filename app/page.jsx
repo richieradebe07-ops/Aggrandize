@@ -169,15 +169,7 @@ export default function HomePage() {
 
       <section className="px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-content">
-          <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
-            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
-              See it in your industry
-            </h2>
-            <p className="mt-3 text-ink/60 dark:text-ivory/60">
-              A look at what a site could look like for a business like yours.
-            </p>
-          </RevealOnScroll>
-          <RevealOnScroll variant="tech" delay={100} className="mt-10">
+          <RevealOnScroll variant="tech">
             <IndustryShowcase />
           </RevealOnScroll>
         </div>

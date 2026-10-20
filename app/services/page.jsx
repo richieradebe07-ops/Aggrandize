@@ -51,7 +51,12 @@ export default function ServicesPage() {
                 <Link href="/#work" className="underline hover:text-brass">
                   See our work
                 </Link>{" "}
-                or get in touch and we&rsquo;ll help you decide.
+                or get in touch and we&rsquo;ll help you decide. Not sure what yours would look
+                like?{" "}
+                <Link href="/industries" className="underline hover:text-brass">
+                  See demos by industry
+                </Link>
+                .
               </p>
               <a
                 href="/api/pricing-pdf"

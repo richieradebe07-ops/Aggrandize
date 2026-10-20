@@ -5,6 +5,7 @@ import Link from "next/link";
 import Button from "./Button";
 import WhatsAppButton from "./WhatsAppButton";
 import { PACKAGE_INTEREST_OPTIONS, SITE } from "@/lib/content";
+import { getDemo } from "@/lib/demos";
 
 // Posts to /api/contact, which emails both the submitter (a short
 // confirmation) and the studio inbox (a full alert) — no submission
@@ -14,19 +15,28 @@ import { PACKAGE_INTEREST_OPTIONS, SITE } from "@/lib/content";
 // the Free Mockup CTA (components/FreeMockupOffer.jsx) renders this same
 // form with requestType="mockup" so the owner alert reads differently
 // without needing a second form or route.
-export default function ContactForm({ initialPackage = "", requestType = "quote" }) {
+export default function ContactForm({ initialPackage = "", initialIndustry = "", requestType = "quote" }) {
   const [status, setStatus] = useState("idle"); // idle | submitting | sent | error
   const [errorMessage, setErrorMessage] = useState("");
   const validInitialPackage = PACKAGE_INTEREST_OPTIONS.some((o) => o.value === initialPackage)
     ? initialPackage
     : "unsure";
+  // Only known /industries slugs are kept — an industry name never surfaces
+  // in the UI, but it's carried through as a hidden field so the owner
+  // alert email can show which industry a lead came from (see
+  // lib/emailTemplates.js's buildOwnerAlertEmail). A matching demo also
+  // seeds the project details message below, as a starting point to edit.
+  const demo = getDemo(initialIndustry);
+  const validIndustry = demo && !demo.externalHref ? initialIndustry : "";
   const [values, setValues] = useState({
     name: "",
     business: "",
     packageInterest: validInitialPackage,
     email: "",
     phone: "",
-    projectDetails: "",
+    projectDetails: validIndustry
+      ? `I'd like a free mockup for my ${demo.name} business, like your demo.`
+      : "",
     consent: false,
     // Honeypot: real visitors never see or fill this field (see the
     // visually-hidden input below), so a filled value means a bot. Checked
@@ -52,7 +62,7 @@ export default function ContactForm({ initialPackage = "", requestType = "quote"
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...values, requestType }),
+        body: JSON.stringify({ ...values, requestType, industry: validIndustry }),
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || "Something went wrong. Please try again.");

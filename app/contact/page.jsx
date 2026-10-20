@@ -1,3 +1,4 @@
+import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import WhatsAppQRCode from "@/components/WhatsAppQRCode";
@@ -15,6 +16,8 @@ export const metadata = pageMetadata({
 export default async function ContactPage({ searchParams }) {
   const resolvedSearchParams = await searchParams;
   const initialPackage = resolvedSearchParams?.package || "";
+  const initialIndustry = resolvedSearchParams?.industry || "";
+  const requestType = resolvedSearchParams?.requestType === "mockup" ? "mockup" : "quote";
 
   return (
     <section className="px-5 py-16 sm:px-8 sm:py-24">
@@ -27,11 +30,22 @@ export default async function ContactPage({ searchParams }) {
             Tell us a bit about your business and what you need — we&rsquo;ll
             reply within one business day.
           </p>
+          <p className="mt-2 text-sm text-ink/50 dark:text-ivory/50">
+            Not sure what yours would look like?{" "}
+            <Link href="/industries" className="underline hover:text-brass">
+              See demos by industry
+            </Link>
+            .
+          </p>
         </RevealOnScroll>
 
         <div className="mt-12">
           <RevealOnScroll>
-            <ContactForm initialPackage={initialPackage} />
+            <ContactForm
+              initialPackage={initialPackage}
+              initialIndustry={initialIndustry}
+              requestType={requestType}
+            />
           </RevealOnScroll>
 
           <p className="mt-6 text-center text-sm text-ink/60 dark:text-ivory/60">

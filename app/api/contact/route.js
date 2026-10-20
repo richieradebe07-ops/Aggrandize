@@ -3,6 +3,7 @@ import { sendContactNotification } from "@/lib/email";
 import { checkRateLimit } from "@/lib/rateLimit";
 import { PACKAGE_INTEREST_OPTIONS } from "@/lib/content";
 import { isHoneypotFilled } from "@/lib/honeypot";
+import { getDemo } from "@/lib/demos";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const VALID_PACKAGE_INTERESTS = new Set(PACKAGE_INTEREST_OPTIONS.map((o) => o.value));
@@ -38,6 +39,7 @@ export async function POST(request) {
     projectDetails,
     requestType,
     consent,
+    industry, // optional /industries slug, from ?industry= — see ContactForm.jsx
     company, // honeypot
   } = payload || {};
 
@@ -78,6 +80,12 @@ export async function POST(request) {
     return badRequest("You must agree to the Privacy Policy to submit this form.");
   }
 
+  // An unknown or garbage `industry` value (a stale link, a hand-edited
+  // URL) is silently dropped rather than rejected — it's a nice-to-have for
+  // lead tracking, never a reason to fail a real submission.
+  const industryDemo = typeof industry === "string" ? getDemo(industry) : null;
+  const industryName = industryDemo && !industryDemo.externalHref ? industryDemo.name : null;
+
   const result = await sendContactNotification({
     name: name.trim(),
     business: typeof business === "string" ? business.trim() : "",
@@ -86,6 +94,7 @@ export async function POST(request) {
     phone: typeof phone === "string" ? phone.trim() : "",
     projectDetails: projectDetails.trim(),
     requestType: VALID_REQUEST_TYPES.has(requestType) ? requestType : "quote",
+    industry: industryName,
   });
 
   if (!result.sent) {

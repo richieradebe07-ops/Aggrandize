@@ -7,6 +7,7 @@ import { SITE, PROJECTS, LOCAL_AREAS } from "@/lib/content";
 const STATIC_PATHS = [
   { path: "/", priority: 1, changeFrequency: "weekly" },
   { path: "/work", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/industries", priority: 0.8, changeFrequency: "weekly" },
   { path: "/services", priority: 0.9, changeFrequency: "weekly" },
   { path: "/compare", priority: 0.7, changeFrequency: "monthly" },
   { path: "/audit", priority: 0.6, changeFrequency: "monthly" },
