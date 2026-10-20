@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Flourish from "./Flourish";
+import HeroFlourishDraw from "./HeroFlourishDraw";
 
 const SIZES = {
   sm: {
@@ -29,12 +30,16 @@ const SIZES = {
 // "Aggrandize", and "WEB CO" in tracked small caps flanked by thin rules.
 // Swap this for the real logo SVG/PNG assets once provided — the markup
 // below approximates their layout so no other code needs to change.
-export default function Logo({ size = "md", href = "/", className = "" }) {
+export default function Logo({ size = "md", href = "/", className = "", animated = false }) {
   const s = SIZES[size];
+  // `animated` draws the flourish on with stroke-dashoffset instead of
+  // rendering it instantly — opt-in (Hero.jsx only) so the header/footer
+  // logo and every SectionDivider stay plain, hook-free server markup.
+  const FlourishEl = animated ? HeroFlourishDraw : Flourish;
 
   const mark = (
     <div className={`flex flex-col items-center ${className}`}>
-      <Flourish className={`${s.flourish} text-brass mb-1`} />
+      <FlourishEl className={`${s.flourish} text-brass mb-1`} />
       <span
         className={`font-display font-semibold text-ink leading-none dark:text-ivory ${s.name}`}
       >

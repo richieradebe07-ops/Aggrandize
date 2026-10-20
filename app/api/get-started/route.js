@@ -8,9 +8,10 @@ import {
   SITE,
 } from "@/lib/content";
 import { COMPANY } from "@/lib/company";
-import { createSubmission } from "@/lib/submissions";
-import { buildPaymentFields, PAYFAST_PROCESS_URL } from "@/lib/payfast";
+import { createSubmission, getSubmissionBlobUrl } from "@/lib/submissions";
+import { buildPaymentFields, PAYFAST_PROCESS_URL, PAYMENTS_ENABLED } from "@/lib/payfast";
 import { isHoneypotFilled } from "@/lib/honeypot";
+import { sendEftPendingNotification } from "@/lib/email";
 
 function siteOrigin(request) {
   if (process.env.NEXT_PUBLIC_SITE_URL) return process.env.NEXT_PUBLIC_SITE_URL;
@@ -94,6 +95,8 @@ export async function POST(request) {
   if (!pricing) return badRequest("Could not calculate pricing.");
 
   try {
+    const pkg = PACKAGES.find((p) => p.id === packageId);
+
     const submission = await createSubmission(id, {
       package: packageId,
       addOns,
@@ -122,10 +125,36 @@ export async function POST(request) {
         policiesLastUpdated: COMPANY.policiesLastUpdated,
         ip: request.headers.get("x-forwarded-for") || null,
       },
+      // While payments aren't live, there's no PayFast flow to pend on —
+      // mark this explicitly so the success page (and anyone reading the
+      // stored JSON) can tell "awaiting a manual EFT" apart from "PayFast
+      // redirect not yet confirmed".
+      ...(PAYMENTS_ENABLED
+        ? {}
+        : { status: "awaiting_eft", payment: { status: "EFT_PENDING", pfPaymentId: null, amountGross: null, itnReceivedAt: null } }),
     });
 
+    // Online payments aren't verified yet — never build a real PayFast
+    // request or promise one (see PaymentsComingSoon.jsx and the /get-started
+    // page copy). Alert the studio to send EFT banking details by email
+    // instead, and tell the client the same without including real banking
+    // details here.
+    if (!PAYMENTS_ENABLED) {
+      const reviewUrl = await getSubmissionBlobUrl(submission.id);
+      await sendEftPendingNotification({
+        businessName: business.name,
+        contactName: contact.name,
+        email: contact.email,
+        phone: contact.phone,
+        packageName: pkg.name,
+        depositDue: pricing.depositDue,
+        total: pricing.total,
+        reviewUrl,
+      });
+      return NextResponse.json({ submissionId: submission.id, actionUrl: null, paymentFields: {} });
+    }
+
     const origin = siteOrigin(request);
-    const pkg = PACKAGES.find((p) => p.id === packageId);
 
     const paymentFields = buildPaymentFields({
       returnUrl: `${origin}/get-started/success?ref=${submission.id}`,

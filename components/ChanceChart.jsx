@@ -128,7 +128,7 @@ export default function ChanceChart() {
   return (
     <div ref={ref}>
       <div className="mx-auto max-w-xl text-center">
-        <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+        <h2 className="font-display text-display-md text-ink dark:text-ivory">
           {CHANCE_CHART.heading}
         </h2>
       </div>

@@ -93,19 +93,19 @@ export default function Footer() {
             <h3 className="font-body text-sm font-semibold uppercase tracking-wide text-ink/50 dark:text-ivory/50">
               Follow
             </h3>
-            <ul className="mt-4 flex gap-3">
+            <ul className="mt-4 flex flex-col gap-2.5">
               {SOCIAL_LINKS.map((social) => {
                 const Icon = SOCIAL_ICON[social.name];
                 return (
                   <li key={social.name}>
                     <a
                       href={social.href}
-                      aria-label={social.ariaLabel}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-ink/15 text-ink/60 transition-colors hover:border-brass hover:text-brass dark:border-ivory/20 dark:text-ivory/60"
+                      className="flex items-center gap-2 text-sm text-ink/70 transition-colors hover:text-brass dark:text-ivory/70"
                     >
-                      <Icon />
+                      <Icon className="h-4 w-4 flex-shrink-0" />
+                      {social.name}
                     </a>
                   </li>
                 );

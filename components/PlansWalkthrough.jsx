@@ -31,7 +31,7 @@ function IntroSlide() {
       <span className="text-xs font-semibold uppercase tracking-wide text-brass">
         Plans walkthrough
       </span>
-      <h2 className="mt-3 font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+      <h2 className="mt-3 font-display text-display-md text-ink dark:text-ivory">
         What you get with {SITE.name}
       </h2>
       <p className="mx-auto mt-4 max-w-sm text-ink/60 dark:text-ivory/60">{SITE.valueProp}</p>
@@ -203,7 +203,7 @@ function FinalCtaSlide() {
     <div
       className={`flex flex-1 flex-col items-center justify-center text-center ${SLIDE_MIN_HEIGHT}`}
     >
-      <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+      <h2 className="font-display text-display-md text-ink dark:text-ivory">
         Ready to get started?
       </h2>
       <p className="mx-auto mt-3 max-w-sm text-ink/60 dark:text-ivory/60">

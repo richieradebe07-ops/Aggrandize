@@ -4,6 +4,7 @@ import { useState } from "react";
 import Logo from "./Logo";
 import PackageFinder from "./PackageFinder";
 import AmbientBackdrop from "./AmbientBackdrop";
+import GrainTexture from "./GrainTexture";
 import Button from "./Button";
 import { SITE } from "@/lib/content";
 
@@ -13,9 +14,10 @@ export default function Hero() {
   return (
     <section className="relative overflow-hidden px-5 pb-16 pt-16 text-center sm:px-8 sm:pb-24 sm:pt-24">
       <AmbientBackdrop />
+      <GrainTexture id="hero-grain" />
 
       <div className="relative z-10 mx-auto max-w-2xl">
-        <Logo size="lg" href={null} />
+        <Logo size="lg" href={null} animated />
 
         <p className="mt-8 font-display text-xl italic text-ink/80 dark:text-ivory/80 sm:text-2xl">
           {SITE.slogan}

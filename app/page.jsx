@@ -50,7 +50,7 @@ export default function HomePage() {
       <section className="px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-content">
           <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
-            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+            <h2 className="font-display text-display-md text-ink dark:text-ivory">
               How it works
             </h2>
             <p className="mt-3 text-ink/60 dark:text-ivory/60">
@@ -87,7 +87,7 @@ export default function HomePage() {
             variant="tech"
             className="mx-auto max-w-xl text-center"
           >
-            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+            <h2 className="font-display text-display-md text-ink dark:text-ivory">
               Recent work
             </h2>
             <p className="mt-3 text-ink/60 dark:text-ivory/60">
@@ -121,7 +121,7 @@ export default function HomePage() {
       <section className="px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-content">
           <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
-            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+            <h2 className="font-display text-display-md text-ink dark:text-ivory">
               Services & Pricing
             </h2>
             <p className="mt-3 text-ink/60 dark:text-ivory/60">
@@ -193,7 +193,7 @@ export default function HomePage() {
       <section className="bg-ink/[0.03] px-5 py-16 dark:bg-ivory/[0.04] sm:px-8 sm:py-24">
         <div className="mx-auto max-w-content">
           <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
-            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+            <h2 className="font-display text-display-md text-ink dark:text-ivory">
               Why work with an independent studio
             </h2>
             <p className="mt-3 text-ink/60 dark:text-ivory/60">
@@ -227,7 +227,7 @@ export default function HomePage() {
       <section className="px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-content">
           <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
-            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+            <h2 className="font-display text-display-md text-ink dark:text-ivory">
               Built for speed
             </h2>
             <p className="mt-3 text-ink/60 dark:text-ivory/60">
@@ -254,7 +254,7 @@ export default function HomePage() {
       <section className="px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-2xl">
           <RevealOnScroll variant="tech" className="text-center">
-            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+            <h2 className="font-display text-display-md text-ink dark:text-ivory">
               Common questions
             </h2>
           </RevealOnScroll>
@@ -276,7 +276,7 @@ export default function HomePage() {
       <section className="px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-content">
           <RevealOnScroll variant="tech" className="mx-auto max-w-xl text-center">
-            <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+            <h2 className="font-display text-display-md text-ink dark:text-ivory">
               Keep it running smoothly
             </h2>
             <p className="mt-3 text-ink/60 dark:text-ivory/60">
@@ -294,7 +294,7 @@ export default function HomePage() {
 
       <section className="px-5 py-16 sm:px-8 sm:py-24">
         <div className="mx-auto max-w-2xl rounded-2xl border border-brass/40 bg-brass/5 p-8 text-center sm:p-12">
-          <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+          <h2 className="font-display text-display-md text-ink dark:text-ivory">
             Ready to get started?
           </h2>
           {FOUNDING_SPOTS_REMAINING > 0 && (

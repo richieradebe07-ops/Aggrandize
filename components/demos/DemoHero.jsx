@@ -25,7 +25,7 @@ export default function DemoHero({ business, tagline, intro, motif, heroCta }) {
         className="pointer-events-none absolute left-1/2 top-0 -z-10 h-72 w-72 -translate-x-1/2 rounded-full bg-[rgba(var(--demo-accent-rgb),0.18)] blur-3xl"
       />
       <DemoMotif motif={motif} className="mx-auto h-14 w-14 text-[rgb(var(--demo-accent-rgb))]" />
-      <h1 className="mt-5 font-display text-4xl text-ink dark:text-ivory sm:text-5xl">{business}</h1>
+      <h1 className="mt-5 font-display text-display-lg text-ink dark:text-ivory">{business}</h1>
       <p className="mt-3 text-lg font-medium text-[rgb(var(--demo-accent-rgb))]">{tagline}</p>
       <p className="mx-auto mt-4 max-w-xl text-ink/70 dark:text-ivory/70">{intro}</p>
       {heroCta && (

@@ -35,7 +35,7 @@ export default function FreeMockupOffer() {
       <span className="text-xs font-semibold uppercase tracking-wide text-brass">
         Free, no obligation
       </span>
-      <h2 className="mt-3 font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+      <h2 className="mt-3 font-display text-display-md text-ink dark:text-ivory">
         See your homepage design first
       </h2>
       <p className="mx-auto mt-3 max-w-md text-ink/60 dark:text-ivory/60">

@@ -23,6 +23,16 @@ module.exports = {
       maxWidth: {
         content: "1200px",
       },
+      // Fluid display headings — same min/max pixel sizes as the
+      // `text-4xl ... sm:text-5xl` / `text-3xl ... sm:text-4xl` pairs they
+      // replace (so nothing changes at the extremes of the viewport), but
+      // scale smoothly in between instead of jumping at the `sm` breakpoint.
+      // Extends (doesn't replace) Tailwind's own scale — text-sm, text-xl
+      // etc. are unaffected.
+      fontSize: {
+        "display-md": ["clamp(1.875rem, 1.4rem + 2.14vw, 2.25rem)", { lineHeight: "1.2" }],
+        "display-lg": ["clamp(2.25rem, 1.29rem + 4.29vw, 3rem)", { lineHeight: "1.1" }],
+      },
       keyframes: {
         reveal: {
           "0%": { opacity: "0", transform: "translateY(16px)" },

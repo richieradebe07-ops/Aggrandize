@@ -35,7 +35,7 @@ export default function Header() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
-            className="inline-flex items-center justify-center rounded-md p-2 text-ink dark:text-ivory"
+            className="inline-flex items-center justify-center rounded-lg p-2 text-ink dark:text-ivory"
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? "Close menu" : "Open menu"}

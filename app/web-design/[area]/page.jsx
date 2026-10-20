@@ -39,7 +39,7 @@ export default async function LocalAreaPage({ params }) {
             <span className="text-xs font-semibold uppercase tracking-wide text-brass">
               Serving {area.name}
             </span>
-            <h1 className="mt-3 font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
+            <h1 className="mt-3 font-display text-display-lg text-ink dark:text-ivory">
               {area.heading}
             </h1>
             <p className="mx-auto mt-4 max-w-md text-ink/60 dark:text-ivory/60">{area.intro}</p>

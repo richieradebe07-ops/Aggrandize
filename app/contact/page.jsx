@@ -23,7 +23,7 @@ export default async function ContactPage({ searchParams }) {
     <section className="px-5 py-16 sm:px-8 sm:py-24">
       <div className="mx-auto max-w-2xl">
         <RevealOnScroll className="text-center">
-          <h1 className="font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
+          <h1 className="font-display text-display-lg text-ink dark:text-ivory">
             Let&rsquo;s talk
           </h1>
           <p className="mt-4 text-ink/60 dark:text-ivory/60">

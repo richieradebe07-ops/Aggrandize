@@ -26,7 +26,7 @@ export default function IndustryShowcase() {
   return (
     <div>
       <div className="mx-auto max-w-xl text-center">
-        <h2 className="font-display text-3xl text-ink dark:text-ivory sm:text-4xl">
+        <h2 className="font-display text-display-md text-ink dark:text-ivory">
           See it in your industry
         </h2>
         <p className="mt-3 text-ink/60 dark:text-ivory/60">

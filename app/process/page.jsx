@@ -15,7 +15,7 @@ export default function ProcessPage() {
   return (
     <section className="px-5 py-24 text-center sm:px-8 sm:py-32">
       <div className="mx-auto max-w-xl">
-        <h1 className="font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
+        <h1 className="font-display text-display-lg text-ink dark:text-ivory">
           Our Process
         </h1>
         <SectionDivider className="my-6" />

@@ -21,7 +21,7 @@ export default async function GetStartedCancelledPage({ searchParams }) {
     <section className="px-5 py-24 text-center sm:px-8 sm:py-32">
       <div className="mx-auto max-w-lg">
         <RevealOnScroll variant="tech">
-          <h1 className="font-display text-4xl text-ink dark:text-ivory sm:text-5xl">Payment cancelled</h1>
+          <h1 className="font-display text-display-lg text-ink dark:text-ivory">Payment cancelled</h1>
           <SectionDivider className="my-6" />
           <p className="text-ink/70 dark:text-ivory/70">
             No charge was made. Your brief is saved — pick up right where you left off whenever

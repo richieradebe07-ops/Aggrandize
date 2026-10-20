@@ -65,7 +65,7 @@ export default async function CaseStudyPage({ params }) {
           </div>
         )}
 
-        <h1 className="mt-3 font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
+        <h1 className="mt-3 font-display text-display-lg text-ink dark:text-ivory">
           {project.name}
         </h1>
         <p className="mt-3 text-lg text-ink/60 dark:text-ivory/60">{project.tagline}</p>

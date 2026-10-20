@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   PACKAGES,
@@ -10,6 +11,7 @@ import {
   FOUNDING_OFFER,
   FOUNDING_SPOTS_REMAINING,
 } from "@/lib/content";
+import { PAYMENTS_ENABLED } from "@/lib/payfast";
 import ImageUploader from "./ImageUploader";
 import Button from "./Button";
 
@@ -28,6 +30,7 @@ function newSubmissionId() {
 }
 
 export default function GetStartedForm({ initialPackage, initialData, initialFoundingIntent }) {
+  const router = useRouter();
   const [submissionId] = useState(() => initialData?.id || newSubmissionId());
 
   const [packageId, setPackageId] = useState(
@@ -165,6 +168,15 @@ export default function GetStartedForm({ initialPackage, initialData, initialFou
       }
       if (!res.ok) {
         throw new Error(data.error || "Something went wrong. Please try again.");
+      }
+
+      // No actionUrl means either the honeypot quietly faked success, or
+      // (far more often) payments aren't live yet and this brief is being
+      // handled by EFT instead — either way there's no PayFast page to
+      // redirect to, so just go straight to the thank-you page.
+      if (!data.actionUrl) {
+        router.push(`/get-started/success?ref=${data.submissionId}`);
+        return;
       }
 
       // Build and auto-submit a real form POST to PayFast's hosted payment
@@ -505,7 +517,13 @@ export default function GetStartedForm({ initialPackage, initialData, initialFou
         )}
 
         <Button type="submit" disabled={!canSubmit} className="w-full sm:w-auto sm:px-10">
-          {status === "submitting" ? "Redirecting to payment…" : "Continue to Payment"}
+          {status === "submitting"
+            ? PAYMENTS_ENABLED
+              ? "Redirecting to payment…"
+              : "Sending…"
+            : PAYMENTS_ENABLED
+              ? "Continue to Payment"
+              : "Send my request"}
         </Button>
       </div>
 
@@ -568,7 +586,7 @@ export default function GetStartedForm({ initialPackage, initialData, initialFou
           </dl>
         )}
         <p className="mt-4 text-xs leading-relaxed text-ink/45 dark:text-ivory/45">
-          Paid securely via PayFast.
+          {PAYMENTS_ENABLED ? "Paid securely via PayFast." : "We'll email you EFT details."}
         </p>
       </aside>
     </form>

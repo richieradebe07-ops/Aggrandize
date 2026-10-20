@@ -70,7 +70,7 @@ export default function IndustriesPage() {
         <div className="relative mt-8 overflow-hidden rounded-3xl py-8">
           <AmbientBackdrop />
           <RevealOnScroll variant="tech" className="relative z-10 mx-auto max-w-2xl text-center">
-            <h1 className="font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
+            <h1 className="font-display text-display-lg text-ink dark:text-ivory">
               Websites for local businesses, by industry
             </h1>
             <p className="mt-4 text-ink/60 dark:text-ivory/60">

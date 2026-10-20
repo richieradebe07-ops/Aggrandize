@@ -30,7 +30,7 @@ export default async function GetStartedPage({ searchParams }) {
     <section className="px-5 py-16 sm:px-8 sm:py-24">
       <div className="mx-auto max-w-3xl">
         <RevealOnScroll variant="tech">
-          <h1 className="font-display text-4xl text-ink dark:text-ivory sm:text-5xl">Let&rsquo;s brief your project</h1>
+          <h1 className="font-display text-display-lg text-ink dark:text-ivory">Let&rsquo;s brief your project</h1>
           <p className="mt-4 max-w-xl text-ink/60 dark:text-ivory/60">
             Fill in the details below, then secure your spot with a deposit. We&rsquo;ll review
             everything and be in touch to kick things off.

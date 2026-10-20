@@ -17,7 +17,7 @@ export default function WorkPage() {
     <section className="px-5 py-16 sm:px-8 sm:py-24">
       <div className="mx-auto max-w-content">
         <RevealOnScroll className="mx-auto max-w-xl text-center">
-          <h1 className="font-display text-4xl text-ink dark:text-ivory sm:text-5xl">Our Work</h1>
+          <h1 className="font-display text-display-lg text-ink dark:text-ivory">Our Work</h1>
           <p className="mt-4 text-ink/60 dark:text-ivory/60">
             A published client case study, plus a demo project showing what
             we can build — more case studies coming as projects launch.

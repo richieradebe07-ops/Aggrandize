@@ -29,7 +29,7 @@ export default function PaySuccessPage() {
         <PayFastTestBanner />
         <PaymentSuccessCheck />
         <RevealOnScroll variant="tech">
-          <h1 className="mt-6 font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
+          <h1 className="mt-6 font-display text-display-lg text-ink dark:text-ivory">
             Thank you
           </h1>
           <SectionDivider className="my-6" />

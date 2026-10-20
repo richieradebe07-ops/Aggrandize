@@ -46,7 +46,7 @@ export default async function PaymentLinkPage({ params }) {
         <PayFastTestBanner />
 
         <RevealOnScroll className="text-center">
-          <h1 className="font-display text-4xl text-ink dark:text-ivory sm:text-5xl">
+          <h1 className="font-display text-display-lg text-ink dark:text-ivory">
             Pay online
           </h1>
           <p className="mt-4 text-ink/60 dark:text-ivory/60">{link.description}</p>

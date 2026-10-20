@@ -27,18 +27,27 @@ export default async function GetStartedSuccessPage({ searchParams }) {
   const ref = Array.isArray(params.ref) ? params.ref[0] : params.ref;
   const submission = ref ? await getSubmission(ref) : null;
   const confirmed = submission?.payment?.status === "COMPLETE";
+  // Set by app/api/get-started/route.js while NEXT_PUBLIC_PAYMENTS_ENABLED
+  // is false — no PayFast flow ran at all, so there's nothing to "confirm"
+  // the way the fallback message below implies.
+  const eftPending = submission?.payment?.status === "EFT_PENDING";
 
   return (
     <section className="px-5 py-24 text-center sm:px-8 sm:py-32">
       <div className="mx-auto max-w-lg">
         <PaymentSuccessCheck />
         <RevealOnScroll variant="tech">
-          <h1 className="mt-6 font-display text-4xl text-ink dark:text-ivory sm:text-5xl">Thank you</h1>
+          <h1 className="mt-6 font-display text-display-lg text-ink dark:text-ivory">Thank you</h1>
           <SectionDivider className="my-6" />
           {confirmed ? (
             <p className="text-ink/70 dark:text-ivory/70">
               We&rsquo;ve received your deposit and brief. We&rsquo;ll be in touch within 1&ndash;2
               business days to kick things off.
+            </p>
+          ) : eftPending ? (
+            <p className="text-ink/70 dark:text-ivory/70">
+              We&rsquo;ve received your brief. We&rsquo;ll email you our banking details (EFT) so
+              you can secure your spot — work begins once the deposit has cleared.
             </p>
           ) : (
             <p className="text-ink/70 dark:text-ivory/70">
