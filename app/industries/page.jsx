@@ -15,6 +15,7 @@ export const metadata = pageMetadata({
   description:
     "See what a website could look like for your type of business — concept demos by industry, from salons to trades to retail.",
   path: "/industries",
+  ogImagePath: "/industries/opengraph-image",
 });
 
 const HUB_FAQS = [

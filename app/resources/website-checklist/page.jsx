@@ -13,8 +13,9 @@ export const metadata = {
   ...pageMetadata({
     title: "10 Things Your Small Business Website Needs",
     description:
-      "A practical checklist for small business owners in South Africa: what a website actually needs to bring in enquiries, from clear pricing to a working contact form.",
+      "A practical checklist for small business owners: what a website needs to bring in enquiries, from clear pricing to a working contact form.",
     path: "/resources/website-checklist",
+    ogImagePath: "/resources/website-checklist/opengraph-image",
   }),
   robots: { index: false, follow: false },
 };

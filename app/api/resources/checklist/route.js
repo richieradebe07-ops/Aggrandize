@@ -51,6 +51,7 @@ export async function POST(request) {
     name: name.trim(),
     email: email.trim(),
     checklistUrl,
+    page: request.headers.get("referer") || null,
   });
 
   if (!result.sent) {

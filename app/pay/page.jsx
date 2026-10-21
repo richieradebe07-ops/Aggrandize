@@ -9,7 +9,9 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Pay Online",
-  description: "Pay a deposit, final balance, or full plan price securely via PayFast.",
+  description: PAYMENTS_ENABLED
+    ? "Pay a deposit, final balance, or full plan price securely via PayFast."
+    : "Online payments are coming soon. Request a quote and we'll email you EFT banking details.",
   path: "/pay",
 });
 

@@ -150,6 +150,7 @@ export async function POST(request) {
         depositDue: pricing.depositDue,
         total: pricing.total,
         reviewUrl,
+        page: request.headers.get("referer") || null,
       });
       return NextResponse.json({ submissionId: submission.id, actionUrl: null, paymentFields: {} });
     }

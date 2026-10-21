@@ -21,6 +21,7 @@ export async function generateMetadata({ params }) {
     title: project.name,
     description: project.summary,
     path: `/work/${project.slug}`,
+    ogImagePath: `/work/${project.slug}/opengraph-image`,
   });
 }
 

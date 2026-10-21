@@ -5,6 +5,7 @@ export const metadata = pageMetadata({
   title: "About",
   description: "The story behind Aggrandize Web Co.",
   path: "/about",
+  ogImagePath: "/about/opengraph-image",
 });
 
 // Phase 2 — route reserved, content to follow (founder story,

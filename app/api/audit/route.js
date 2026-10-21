@@ -32,7 +32,7 @@ export async function POST(request) {
     return badRequest("Invalid JSON body.");
   }
 
-  const { name, email, business, url, company } = payload || {}; // `company` is the honeypot
+  const { name, email, phone, business, url, company } = payload || {}; // `company` is the honeypot
 
   if (isHoneypotFilled(company)) {
     return NextResponse.json({ ok: true });
@@ -64,8 +64,10 @@ export async function POST(request) {
   const result = await sendAuditNotification({
     name: name.trim(),
     email: email.trim(),
+    phone: typeof phone === "string" ? phone.trim() : "",
     business: typeof business === "string" ? business.trim() : "",
     websiteUrl,
+    page: request.headers.get("referer") || null,
   });
 
   if (!result.sent) {

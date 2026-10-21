@@ -15,6 +15,7 @@ export default function WebsiteAuditForm() {
   const [values, setValues] = useState({
     name: "",
     email: "",
+    phone: "",
     business: "",
     url: "",
     consent: false,
@@ -119,6 +120,20 @@ export default function WebsiteAuditForm() {
           required
           value={values.email}
           onChange={update("email")}
+          className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="audit-phone" className="mb-1.5 block text-sm font-medium text-ink dark:text-ivory">
+          Phone <span className="text-ink/40 dark:text-ivory/40">(optional)</span>
+        </label>
+        <input
+          id="audit-phone"
+          name="phone"
+          type="tel"
+          value={values.phone}
+          onChange={update("phone")}
           className="w-full rounded-lg border border-ink/15 bg-white px-4 py-3 text-sm text-ink focus:border-brass focus:outline-none focus:ring-1 focus:ring-brass dark:border-ivory/20 dark:bg-ivory/5 dark:text-ivory"
         />
       </div>

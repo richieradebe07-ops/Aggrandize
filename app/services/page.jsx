@@ -30,6 +30,7 @@ export const metadata = pageMetadata({
   description:
     "Website packages, add-ons, and maintenance plans from Aggrandize Web Co.",
   path: "/services",
+  ogImagePath: "/services/opengraph-image",
 });
 
 export default function ServicesPage() {

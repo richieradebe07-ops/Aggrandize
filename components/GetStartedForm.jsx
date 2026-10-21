@@ -588,7 +588,9 @@ export default function GetStartedForm({ initialPackage, initialData, initialFou
           </dl>
         )}
         <p className="mt-4 text-xs leading-relaxed text-ink/45 dark:text-ivory/45">
-          {PAYMENTS_ENABLED ? "Paid securely via PayFast." : "We'll email you EFT details."}
+          {PAYMENTS_ENABLED
+            ? "Paid securely via PayFast."
+            : "We'll email you EFT details after we've agreed the scope."}
         </p>
       </aside>
     </form>

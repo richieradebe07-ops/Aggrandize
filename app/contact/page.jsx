@@ -11,6 +11,7 @@ export const metadata = pageMetadata({
   title: "Contact",
   description: "Get in touch with Aggrandize Web Co. to start your project.",
   path: "/contact",
+  ogImagePath: "/contact/opengraph-image",
 });
 
 export default async function ContactPage({ searchParams }) {

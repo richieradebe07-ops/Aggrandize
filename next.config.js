@@ -41,6 +41,14 @@ const nextConfig = {
     return [
       { source: "/work/braai-and-bake", destination: "/work", permanent: true },
       { source: "/work/rl-paws-co", destination: "/work", permanent: true },
+      // The fictional bakery demo was renamed from "Braai & Bake" to
+      // "Hearth & Crumb" because a real business called Braai & Bake
+      // trades in Scottsville — redirect the old slug rather than 404.
+      {
+        source: "/work/braai-and-bake-demo",
+        destination: "/work/hearth-and-crumb-demo",
+        permanent: true,
+      },
       // Vercel's own default project domain serves the exact same
       // deployment as the real www domain (it's just another alias), so
       // anyone who lands on it directly (an old bookmark, a stale shared

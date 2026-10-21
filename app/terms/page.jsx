@@ -8,6 +8,7 @@ import {
   SMALL_EDIT_DEFINITION,
 } from "@/lib/content";
 import { COMPANY } from "@/lib/company";
+import { PAYMENTS_ENABLED } from "@/lib/paymentsFlag";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -66,31 +67,52 @@ export default function TermsPage() {
       </LegalSection>
 
       <LegalSection heading="4. Payment">
-        <p>
-          Work begins once your deposit has cleared in our account (EFT) or been received through
-          PayFast. Standard plan: 50% deposit, 50% on completion. The Three-Part Split and Monthly
-          Instalment plans follow the percentages shown at checkout. The final balance must be paid
-          before the site is launched on your domain and before ownership is transferred. Late
-          payments may pause work. For EFT, banking details are sent to you by email with your
-          proposal, never published on the site.
-        </p>
-        <p>
-          You can also pay a deposit, your final balance, or your full plan price directly at{" "}
-          <Link href="/pay" className="underline hover:text-brass">
-            aggrandizeweb.co.za/pay
-          </Link>
-          , outside the full Get Started brief — for example to settle a balance once your site is
-          ready to launch. All PayFast payments on this site, whether through Get Started,{" "}
-          <Link href="/pay" className="underline hover:text-brass">
-            /pay
-          </Link>
-          , or a payment link we send you directly, are covered by these terms and by our{" "}
-          <Link href="/refunds" className="underline hover:text-brass">
-            Refund Policy
-          </Link>
-          . Payments are processed securely by PayFast — we never see or store your card or bank
-          details.
-        </p>
+        {PAYMENTS_ENABLED ? (
+          <>
+            <p>
+              Work begins once your deposit has cleared in our account (EFT) or been received
+              through PayFast. Standard plan: 50% deposit, 50% on completion. The Three-Part Split
+              and Monthly Instalment plans follow the percentages shown at checkout. The final
+              balance must be paid before the site is launched on your domain and before ownership
+              is transferred. Late payments may pause work. For EFT, banking details are sent to
+              you by email with your proposal, never published on the site.
+            </p>
+            <p>
+              You can also pay a deposit, your final balance, or your full plan price directly at{" "}
+              <Link href="/pay" className="underline hover:text-brass">
+                aggrandizeweb.co.za/pay
+              </Link>
+              , outside the full Get Started brief — for example to settle a balance once your
+              site is ready to launch. All PayFast payments on this site, whether through Get
+              Started,{" "}
+              <Link href="/pay" className="underline hover:text-brass">
+                /pay
+              </Link>
+              , or a payment link we send you directly, are covered by these terms and by our{" "}
+              <Link href="/refunds" className="underline hover:text-brass">
+                Refund Policy
+              </Link>
+              . Payments are processed securely by PayFast — we never see or store your card or
+              bank details.
+            </p>
+          </>
+        ) : (
+          <p>
+            Online card payment via PayFast is coming soon. For now, all deposits and balances are
+            paid by EFT: once we&rsquo;ve agreed your scope and price, banking details are sent to
+            you by email with your proposal — never published on the site, and never requested by
+            any other channel. Standard plan: 50% deposit, 50% on completion. The Three-Part Split
+            and Monthly Instalment plans follow the percentages shown at checkout. Work begins only
+            once your deposit has cleared in our account. The final balance must be paid before the
+            site is launched on your domain and before ownership is transferred. Late payments may
+            pause work. Once PayFast is enabled, this section will also cover paying by card,
+            covered by the same{" "}
+            <Link href="/refunds" className="underline hover:text-brass">
+              Refund Policy
+            </Link>
+            .
+          </p>
+        )}
       </LegalSection>
 
       <LegalSection heading="5. Your responsibilities">

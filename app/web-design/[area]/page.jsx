@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
   if (!area) return {};
   return pageMetadata({
     title: area.heading,
-    description: area.intro,
+    description: area.metaDescription || area.intro,
     path: `/web-design/${area.slug}`,
   });
 }

@@ -42,6 +42,7 @@ export async function POST(request) {
     name: name.trim(),
     email: email.trim(),
     question: question.trim(),
+    page: request.headers.get("referer") || null,
   });
 
   if (!result.sent) {

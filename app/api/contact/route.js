@@ -95,6 +95,7 @@ export async function POST(request) {
     projectDetails: projectDetails.trim(),
     requestType: VALID_REQUEST_TYPES.has(requestType) ? requestType : "quote",
     industry: industryName,
+    page: request.headers.get("referer") || null,
   });
 
   if (!result.sent) {
